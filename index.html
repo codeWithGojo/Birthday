@@ -465,7 +465,12 @@
       width: 6px; height: 6px; border-radius: 50%;
       background: #ff6b35; opacity: 0;
     }
-    .candle.blown .flame { opacity: 0; transform: translateX(-50%) scaleY(0.2); }
+    .candle.blown .flame {
+      opacity: 0;
+      transform: translateX(-50%) scaleY(0.15) scaleX(0.6);
+      animation: none;
+      transition: opacity 0.25s ease, transform 0.3s ease;
+    }
     .candle.blown .ember { opacity: 1; animation: emberFade 2s ease-out forwards .15s; }
     @keyframes emberFade {
       0% { opacity: 1; transform: translateX(-50%) scale(1); }
