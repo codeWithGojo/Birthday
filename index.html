@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Victory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fdf8f4;
+      --blush: #f8e9e6;
+      --rose: #e8c4c0;
+      --deep-rose: #c9898a;
+      --warm-brown: #5c4a42;
+      --soft-gold: #d4b08c;
+      --paper: #fffdf9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: linear-gradient(160deg, #fdf8f4 0%, #f9ebe8 40%, #f5e0dc 100%);
+      color: var(--warm-brown);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Soft floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+      animation: float 18s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 320px; height: 320px;
+      background: #f0c6c2;
+      top: -80px; left: -60px;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 280px; height: 280px;
+      background: #e8d4c8;
+      bottom: 10%; right: -40px;
+      animation-delay: -6s;
+    }
+    .orb-3 {
+      width: 200px; height: 200px;
+      background: #f5d5d0;
+      top: 45%; left: 15%;
+      animation-delay: -12s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, -40px); }
+    }
+
+    /* Tiny floating hearts */
+    .heart {
+      position: fixed;
+      font-size: 14px;
+      color: var(--deep-rose);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 1;
+      animation: rise 12s linear infinite;
+    }
+    @keyframes rise {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== LANDING ===== */
+    #landing {
+      text-align: center;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    #landing.hidden {
+      opacity: 0;
+      transform: translateY(-30px);
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .photo-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 32px;
+    }
+
+    .photo-frame {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(255, 253, 249, 0.9);
+      box-shadow: 
+        0 12px 40px rgba(201, 137, 138, 0.25),
+        0 0 0 12px rgba(232, 196, 192, 0.2);
+      position: relative;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      filter: saturate(0.95) contrast(1.02);
+    }
+
+    .photo-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232, 196, 192, 0.4) 0%, transparent 70%);
+      z-index: -1;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: clamp(2.1rem, 6vw, 2.8rem);
+      color: var(--warm-brown);
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--deep-rose);
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+
+    .open-btn {
+      background: linear-gradient(135deg, #e8c4c0, #d4a5a3);
+      color: #fff;
+      border: none;
+      padding: 16px 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(201, 137, 138, 0.3);
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .open-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(201, 137, 138, 0.4);
+    }
+
+    .open-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .open-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .open-btn:hover::after {
+      transform: translateX(100%);
+    }
+
+    /* ===== LETTER ===== */
+    #letter {
+      display: none;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    #letter.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .letter-card {
+      background: var(--paper);
+      border-radius: 20px;
+      padding: 48px 40px 40px;
+      box-shadow: 
+        0 20px 60px rgba(92, 74, 66, 0.08),
+        0 4px 16px rgba(201, 137, 138, 0.1);
+      border: 1px solid rgba(232, 196, 192, 0.4);
+      position: relative;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .letter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 30px;
+      right: 30px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .letter-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .letter-header .small-photo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 20%;
+      border: 3px solid var(--blush);
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(201, 137, 138, 0.2);
+    }
+
+    .letter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--warm-brown);
+      margin-bottom: 4px;
+    }
+
+    .letter-date {
+      font-size: 0.95rem;
+      color: var(--deep-rose);
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    .letter-body {
+      font-size: 1.22rem;
+      line-height: 1.75;
+      color: var(--warm-brown);
+      text-align: left;
+    }
+
+    .letter-body p {
+      margin-bottom: 1.35em;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .letter-body p.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .letter-body .name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: var(--deep-rose);
+      margin-bottom: 1.1em;
+    }
+
+    .letter-body .love {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--deep-rose);
+      margin-top: 1.6em;
+      margin-bottom: 0.4em;
+    }
+
+    .letter-body .closing {
+      font-style: italic;
+      opacity: 0.9;
+      margin-top: 1.8em;
+    }
+
+    /* Music control */
+    .music-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 253, 249, 0.92);
+      border: 1.5px solid var(--rose);
+      box-shadow: 0 6px 20px rgba(201, 137, 138, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .music-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 28px rgba(201, 137, 138, 0.35);
+    }
+
+    .music-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--deep-rose);
+    }
+
+    .music-btn.playing {
+      background: var(--deep-rose);
+      border-color: var(--deep-rose);
+    }
+
+    .music-btn.playing svg {
+      fill: #fff;
+    }
+
+    /* Hidden YouTube player */
+    #yt-player {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .music-label {
+      position: fixed;
+      bottom: 36px;
+      right: 92px;
+      font-size: 0.85rem;
+      color: var(--deep-rose);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .music-btn:hover + .music-label,
+    .music-btn.playing + .music-label {
+      opacity: 0.85;
+    }
+
+    /* Back button */
+    .back-btn {
+      display: none;
+      margin: 32px auto 0;
+      background: transparent;
+      border: 1.5px solid var(--rose);
+      color: var(--deep-rose);
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--blush);
+    }
+
+    #letter.visible .back-btn {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      .letter-card {
+        padding: 36px 24px 32px;
+      }
+      .letter-body {
+        font-size: 1.12rem;
+      }
+      .photo-wrap {
+        width: 180px;
+        height: 180px;
+      }
+      .music-btn {
+        bottom: 20px;
+        right: 20px;
+      }
+      .music-label {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Soft background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Floating hearts (generated by JS) -->
+  <div id="hearts"></div>
+
+  <div class="container">
+    <!-- LANDING -->
+    <div id="landing">
+      <div class="photo-wrap">
+        <div class="photo-glow"></div>
+        <div class="photo-frame">
+          <img src="victory.jpg" alt="Victory" />
+        </div>
+      </div>
+
+      <h1>Happy Birthday,<br>Victory</h1>
+      <p class="subtitle">a little something from the heart</p>
+
+      <button class="open-btn" id="openBtn">Open your letter</button>
+    </div>
+
+    <!-- LETTER -->
+    <div id="letter">
+      <div class="letter-card">
+        <div class="letter-header">
+          <img src="victory.jpg" class="small-photo" alt="" />
+          <div class="letter-title">For you</div>
+          <div class="letter-date">October 13</div>
+        </div>
+
+        <div class="letter-body" id="letterBody">
+          <p class="name">Happy birthday, Amarachiiiii</p>
+          <p>I don't say this enough, but the moments we've shared all this time have meant more to me than you probably know.</p>
+          <p>I know things haven't always been easy between us, and I don't take it for granted that you've let me back into your life the way you have.</p>
+          <p>I just want today to be good for you. You deserve the peace, the joy, happiness and the people who show up for you the way you deserve. I hope this year brings you all the things you've been quietly hoping for.</p>
+          <p class="love">I love you.</p>
+          <p class="closing">Happy birthday. I mean every word of this.</p>
+        </div>
+      </div>
+
+      <button class="back-btn" id="backBtn">← back</button>
+    </div>
+  </div>
+
+  <!-- Music button -->
+  <button class="music-btn" id="musicBtn" title="Play Like I Want You">
+    <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  </button>
+  <span class="music-label">Like I Want You — Giveon</span>
+
+  <!-- Hidden YouTube -->
+  <div id="yt-player"></div>
+
+  <script>
+    // Floating hearts
+    const heartsContainer = document.getElementById('hearts');
+    for (let i = 0; i < 8; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '♡';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (10 + Math.random() * 8) + 's';
+      heart.style.animationDelay = (Math.random() * 12) + 's';
+      heart.style.fontSize = (12 + Math.random() * 10) + 'px';
+      heartsContainer.appendChild(heart);
+    }
+
+    // Open letter
+    const openBtn = document.getElementById('openBtn');
+    const landing = document.getElementById('landing');
+    const letter = document.getElementById('letter');
+    const backBtn = document.getElementById('backBtn');
+    const letterParas = document.querySelectorAll('#letterBody p');
+
+    openBtn.addEventListener('click', () => {
+      landing.classList.add('hidden');
+      setTimeout(() => {
+        letter.style.display = 'block';
+        // force reflow
+        letter.offsetHeight;
+        letter.classList.add('visible');
+
+        // stagger paragraph fade-in
+        letterParas.forEach((p, i) => {
+          setTimeout(() => p.classList.add('show'), 400 + i * 280);
+        });
+      }, 500);
+    });
+
+    backBtn.addEventListener('click', () => {
+      letter.classList.remove('visible');
+      letterParas.forEach(p => p.classList.remove('show'));
+      setTimeout(() => {
+        letter.style.display = 'none';
+        landing.classList.remove('hidden');
+      }, 700);
+    });
+
+    // YouTube player (Like I Want You - Official Audio)
+    let player;
+    let isPlaying = false;
+
+    // Load YouTube IFrame API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function() {
+      player = new YT.Player('yt-player', {
+        height: '1',
+        width: '1',
+        videoId: 'yNNMKN9BUmU',
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          modestbranding: 1,
+          rel: 0,
+          showinfo: 0
+        },
+        events: {
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.ENDED) {
+              isPlaying = false;
+              updateMusicUI();
+            }
+          }
+        }
+      });
+    };
+
+    const musicBtn = document.getElementById('musicBtn');
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+
+    function updateMusicUI() {
+      if (isPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        musicBtn.classList.add('playing');
+      } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        musicBtn.classList.remove('playing');
+      }
+    }
+
+    musicBtn.addEventListener('click', () => {
+      if (!player) return;
+      if (isPlaying) {
+        player.pauseVideo();
+        isPlaying = false;
+      } else {
+        player.playVideo();
+        isPlaying = true;
+      }
+      updateMusicUI();
+    });
+  </script>
+</body>
+</html>
