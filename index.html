@@ -477,6 +477,186 @@
     @media (prefers-reduced-motion: reduce) {
       *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     }
+  
+    /* ================= SCREEN ROUTER ================= */
+    .screen { display: none; width: 100%; }
+    .screen.active { display: block; animation: screenFadeIn 0.7s ease; }
+    @keyframes screenFadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    body.space-mode {
+      background: radial-gradient(ellipse 140% 90% at 50% -5%, #1c1f3d 0%, #0a0b17 55%, #030308 100%);
+      color: #eef0f8;
+    }
+    body.space-mode .ambient-bg, body.space-mode .noise-overlay { opacity: 0; }
+
+    /* twinkling starfield used behind space screens */
+    .twinkle { position: fixed; border-radius: 50%; background: #fff; pointer-events: none; z-index: 1; opacity: 0; }
+    .twinkle-anim { animation: twinkle ease-in-out infinite; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.95; } }
+
+    /* ================= INTRO SCREEN ================= */
+    .made-something {
+      font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--rose);
+      margin-bottom: 6px; opacity: 0; animation: heroRise 1s ease forwards 0.15s;
+    }
+    body.space-mode .made-something { color: #ffd6e0; }
+
+    /* ================= UNIVERSE HUB ================= */
+    #screenUniverse { text-align: center; padding-top: 10px; }
+    .universe-title {
+      font-family: 'Fredoka', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      font-size: clamp(1rem, 4.2vw, 1.3rem); color: #d8daf5; margin: 6px 0 30px; line-height: 1.6;
+      opacity: 0; animation: heroRise 1s ease forwards 0.2s;
+    }
+    .universe-title .universe-name {
+      display: block; font-size: clamp(1.9rem, 9vw, 3rem); margin-top: 4px;
+      background: linear-gradient(120deg, #ffd6e0 15%, #ffffff 45%, #b9c0ff 65%, #ffd6e0 90%);
+      background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: textShimmer 5s ease-in-out infinite;
+    }
+    .planet-field {
+      display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;
+      max-width: 380px; margin: 0 auto; opacity: 0; animation: heroRise 1s ease forwards 0.4s;
+    }
+    .planet {
+      width: 106px; height: 106px; border-radius: 50%; border: none; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      background:
+        radial-gradient(circle at 32% 26%, rgba(255,255,255,0.35), rgba(255,255,255,0.02) 55%),
+        linear-gradient(160deg, var(--planet-a, #5b6bd6), var(--planet-b, #2c2f5e));
+      box-shadow: 0 0 26px var(--planet-glow, rgba(120,140,255,0.5)), inset -8px -8px 16px rgba(0,0,0,0.35), inset 6px 6px 14px rgba(255,255,255,0.15);
+      color: #fff; font-family: 'Quicksand', sans-serif;
+      transition: transform 0.3s cubic-bezier(0.2,0.8,0.2,1);
+      animation: planetFloat 5s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .planet:active { transform: scale(0.92); }
+    @keyframes planetFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    .planet-emoji { font-size: 1.6rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .planet-label { font-size: 0.62rem; font-weight: 700; text-align: center; line-height: 1.2; letter-spacing: 0.02em; padding: 0 6px; }
+    .planet-memories  { --planet-a: #7eeccb; --planet-b: #1f7a63; --planet-glow: rgba(126,236,203,0.55); animation-delay: 0s; }
+    .planet-love       { --planet-a: #f7b8d0; --planet-b: #a24d76; --planet-glow: rgba(247,184,208,0.55); animation-delay: 0.4s; }
+    .planet-qualities  { --planet-a: #ffe08a; --planet-b: #b3831f; --planet-glow: rgba(255,224,138,0.55); animation-delay: 0.8s; }
+    .planet-moments    { --planet-a: #c9b6ff; --planet-b: #5b3fa0; --planet-glow: rgba(201,182,255,0.55); animation-delay: 1.2s; }
+    .planet-future     { --planet-a: #9fd3ff; --planet-b: #2f6fa8; --planet-glow: rgba(159,211,255,0.55); animation-delay: 1.6s; }
+
+    .universe-letter-btn {
+      margin: 40px auto 0; display: block;
+      background: linear-gradient(135deg, #ffd89a, #ff9a56);
+      border: none; color: #3a1e00; font-family: 'Quicksand', sans-serif; font-weight: 700;
+      padding: 14px 32px; border-radius: 50px; cursor: pointer; font-size: 0.95rem;
+      box-shadow: 0 0 30px rgba(255,180,100,0.5); transition: transform 0.3s ease;
+      opacity: 0; animation: heroRise 1s ease forwards 0.7s;
+    }
+    .universe-letter-btn:active { transform: scale(0.96); }
+
+    /* ================= SECTION SCREENS ================= */
+    .back-to-universe {
+      background: transparent; border: 1.5px solid var(--glass-border); color: var(--text-soft);
+      padding: 9px 22px; border-radius: 40px; font-family: 'Quicksand', sans-serif; font-size: 0.85rem;
+      cursor: pointer; margin-bottom: 22px; transition: all 0.3s ease;
+    }
+    .back-to-universe:hover { background: var(--surface-2); border-color: var(--rose); color: var(--rose-deep); }
+
+    .section-card {
+      background: linear-gradient(170deg, #ffffff 0%, var(--surface-2) 100%);
+      border-radius: 26px; padding: 38px 26px 34px; text-align: center;
+      box-shadow: 0 26px 60px var(--shadow-c), 0 0 0 1px var(--glass-border), inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    body.dark .section-card { background: linear-gradient(170deg, #23252e 0%, #1c1d24 100%); box-shadow: 0 26px 60px var(--shadow-c), 0 0 0 1px var(--glass-border), inset 0 1px 0 rgba(255,255,255,0.04); }
+    .section-icon { font-size: 2.2rem; margin-bottom: 6px; }
+    .section-title { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.4rem; color: var(--text); margin-bottom: 24px; }
+
+    .memory-photo {
+      width: 130px; height: 130px; border-radius: 50%; object-fit: cover; object-position: center 22%;
+      border: 4px solid #fff; box-shadow: 0 14px 34px var(--shadow-c); margin: 0 auto 24px; display: block;
+    }
+    body.dark .memory-photo { border-color: #2c2e38; }
+    .memory-list { text-align: left; }
+    .memory-list p {
+      font-family: 'Quicksand', sans-serif; font-size: 1.02rem; color: var(--text); line-height: 1.7;
+      padding: 14px 16px; margin-bottom: 12px; border-radius: 14px;
+      background: var(--surface-2); border: 1px solid var(--glass-border);
+      opacity: 0; transform: translateX(-10px); transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .memory-list p.show { opacity: 1; transform: translateX(0); }
+    .memory-caption { font-size: 0.82rem; color: var(--text-soft); font-style: italic; margin-top: -12px; margin-bottom: 22px; }
+
+    .quality-list { text-align: left; display: flex; flex-direction: column; gap: 12px; }
+    .quality-item {
+      display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 14px;
+      background: var(--surface-2); border: 1px solid var(--glass-border);
+      opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .quality-item.show { opacity: 1; transform: translateY(0); }
+    .quality-star { color: var(--flame-deep); font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .quality-text b { font-family: 'Quicksand', sans-serif; font-weight: 700; color: var(--rose-deep); display: block; margin-bottom: 2px; font-size: 0.95rem; }
+    .quality-text span { font-family: 'Quicksand', sans-serif; font-size: 0.92rem; color: var(--text-soft); line-height: 1.5; }
+
+    .future-text {
+      font-family: 'Quicksand', sans-serif; font-size: 1.05rem; color: var(--text); line-height: 1.85;
+      text-align: left; opacity: 0; transition: opacity 1s ease;
+    }
+    .future-text.show { opacity: 1; }
+
+    /* ================= FINAL SCREEN ================= */
+    #screenFinal { text-align: center; }
+    .final-heart { font-size: 3.4rem; opacity: 0; animation: heroRise 1s ease forwards 0.15s, heartbeatPulse 1.8s ease-in-out infinite 1.2s; }
+    @keyframes heartbeatPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+    .final-title {
+      font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(2rem, 8vw, 2.8rem);
+      margin: 14px 0 8px; opacity: 0; animation: heroRise 1s ease forwards 0.35s;
+      background: linear-gradient(120deg, var(--text) 25%, var(--rose) 50%, var(--text) 75%);
+      background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .final-sub {
+      font-family: 'Cormorant Garamond', 'Quicksand', sans-serif; font-style: italic; font-size: 1.1rem;
+      color: var(--text-soft); margin-bottom: 40px; opacity: 0; animation: heroRise 1s ease forwards 0.55s;
+    }
+    .hidden-unlock-wrap { margin-bottom: 34px; opacity: 0; animation: heroRise 1s ease forwards 0.75s; }
+    .unlock-btn {
+      background: linear-gradient(135deg, #ffffff, var(--surface-2)); border: 1px solid var(--glass-border);
+      color: var(--text); font-family: 'Quicksand', sans-serif; font-size: 0.88rem; font-weight: 600;
+      padding: 13px 28px; border-radius: 40px; cursor: pointer; box-shadow: 0 8px 22px var(--shadow-c);
+      -webkit-tap-highlight-color: transparent; transition: transform 0.2s ease;
+      position: relative; overflow: hidden;
+    }
+    .unlock-btn .unlock-fill {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+      background: var(--rose-glow); z-index: 0; transition: width linear;
+    }
+    .unlock-btn span { position: relative; z-index: 1; }
+    .unlock-btn.unlocked { border-color: var(--rose); }
+    .hidden-final-msg {
+      margin-top: 20px; font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--rose-deep);
+      line-height: 1.6; opacity: 0; max-height: 0; overflow: hidden;
+      transition: opacity 0.8s ease, max-height 0.8s ease, margin 0.8s ease;
+    }
+    .hidden-final-msg.show { opacity: 1; max-height: 200px; margin-top: 20px; }
+    .explore-again-btn {
+      background: transparent; border: 1.5px solid var(--glass-border); color: var(--text-soft);
+      padding: 11px 28px; border-radius: 40px; font-family: 'Quicksand', sans-serif; font-size: 0.88rem;
+      cursor: pointer; transition: all 0.3s ease;
+    }
+    .explore-again-btn:hover { background: var(--surface-2); border-color: var(--rose); color: var(--rose-deep); }
+
+    .letter-continue-btn {
+      margin: 30px auto 0; display: block; background: linear-gradient(135deg, #ffffff, var(--surface-2));
+      border: 1px solid var(--glass-border); color: var(--text); font-family: 'Quicksand', sans-serif;
+      font-weight: 600; font-size: 0.9rem; padding: 13px 30px; border-radius: 40px; cursor: pointer;
+      box-shadow: 0 8px 22px var(--shadow-c); opacity: 0; transition: opacity 0.8s ease;
+    }
+    .letter-continue-btn.show { opacity: 1; }
+
+    @media (max-width: 420px) {
+      .planet-field { max-width: 300px; gap: 16px; }
+      .planet { width: 90px; height: 90px; }
+      .planet-emoji { font-size: 1.35rem; }
+      .planet-label { font-size: 0.56rem; }
+      .section-card { padding: 30px 20px 28px; }
+      .memory-photo { width: 108px; height: 108px; }
+    }
+
   </style>
 </head>
 <body>
@@ -490,11 +670,14 @@
   <div class="noise-overlay"></div>
   <div id="particles"></div>
   <div id="fallingStars"></div>
+  <div id="twinkleStars"></div>
   <div id="floatHearts"></div>
   <div class="burst" id="burst"></div>
 
   <div class="main-wrap">
-    <div id="landing">
+
+    <!-- SCREEN: intro -->
+    <div class="screen active" id="screenIntro">
       <div class="hero-photo-wrap" id="photoWrap">
         <div class="hero-photo-aura"></div>
         <div class="hero-photo-ring"></div>
@@ -503,12 +686,140 @@
         </div>
         <div class="hero-tap-hint">tap me</div>
       </div>
+      <p class="made-something">I made something for you...</p>
       <h1 class="hero-title">Happy Birthday,<br>Victory</h1>
       <p class="hero-subtitle">a love letter from across the world 🤍</p>
-      <button class="open-btn" id="openBtn">Open your letter</button>
+      <button class="open-btn" id="openBtn">Continue</button>
     </div>
 
-    <div id="letter">
+    <!-- SCREEN: universe hub -->
+    <div class="screen" id="screenUniverse">
+      <div class="universe-title">welcome to<span class="universe-name">Victory's Universe</span></div>
+      <div class="planet-field">
+        <button class="planet planet-memories" data-target="screenMemories" type="button">
+          <span class="planet-emoji">🌎</span><span class="planet-label">Memories</span>
+        </button>
+        <button class="planet planet-love" data-target="screenLove" type="button">
+          <span class="planet-emoji">🌙</span><span class="planet-label">Things I Love<br>About You</span>
+        </button>
+        <button class="planet planet-qualities" data-target="screenQualities" type="button">
+          <span class="planet-emoji">⭐</span><span class="planet-label">Your Best<br>Qualities</span>
+        </button>
+        <button class="planet planet-moments" data-target="screenMoments" type="button">
+          <span class="planet-emoji">🪐</span><span class="planet-label">Our Moments</span>
+        </button>
+        <button class="planet planet-future" data-target="screenFuture" type="button">
+          <span class="planet-emoji">🚀</span><span class="planet-label">Your Future</span>
+        </button>
+      </div>
+      <button class="universe-letter-btn" id="gotoLetterBtn" type="button">💌 open your letter</button>
+    </div>
+
+    <!-- SCREEN: memories -->
+    <div class="screen" id="screenMemories">
+      <button class="back-to-universe" data-back type="button">← universe</button>
+      <div class="section-card">
+        <div class="section-icon">🌎</div>
+        <h2 class="section-title">Memories</h2>
+        <img src="victory.jpg" class="memory-photo" alt="Victory" />
+        <div class="memory-caption">this is still one of my favorite pictures of you</div>
+        <div class="memory-list" id="memoryList">
+          <p>Every random voice note you've sent me, out of nowhere, for no reason at all</p>
+          <p>Every simple "goodnight" that somehow meant more than it should have</p>
+          <p>Every call that ran way longer than either of us planned for</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: love (wheel) -->
+    <div class="screen" id="screenLove">
+      <button class="back-to-universe" data-back type="button">← universe</button>
+      <div class="section-card">
+        <div class="section-icon">🌙</div>
+        <h2 class="section-title">Things I Love About You</h2>
+        <div class="wheel-outer">
+          <div class="wheel-pointer">▼</div>
+          <div class="wheel-wrap" id="diceWrap">
+            <svg id="wheelSvg" class="wheel-svg" viewBox="0 0 220 220"></svg>
+            <div class="wheel-hub">♥</div>
+          </div>
+        </div>
+        <div class="dice-result" id="diceResult"></div>
+        <div class="dice-hint">tap the wheel to spin</div>
+      </div>
+    </div>
+
+    <!-- SCREEN: qualities -->
+    <div class="screen" id="screenQualities">
+      <button class="back-to-universe" data-back type="button">← universe</button>
+      <div class="section-card">
+        <div class="section-icon">⭐</div>
+        <h2 class="section-title">Your Best Qualities</h2>
+        <div class="quality-list" id="qualityList">
+          <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Honest</b><span>Even when it would be easier not to be.</span></div></div>
+          <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Resilient</b><span>You keep going no matter what gets thrown at you.</span></div></div>
+          <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Warm</b><span>People feel safe just being around you.</span></div></div>
+          <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Loyal</b><span>You show up for the people you actually care about.</span></div></div>
+          <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Growth-minded</b><span>Always working on becoming a better version of yourself.</span></div></div>
+          <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Big-hearted</b><span>You give more than you probably even realize.</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: moments (globe + counter) -->
+    <div class="screen" id="screenMoments">
+      <button class="back-to-universe" data-back type="button">← universe</button>
+      <div class="section-card">
+        <div class="section-icon">🪐</div>
+        <h2 class="section-title">Our Moments</h2>
+        <div class="globe-wrap">
+          <svg class="globe-svg" viewBox="0 0 260 260">
+            <defs>
+              <radialGradient id="globeGrad" cx="50%" cy="40%">
+                <stop offset="0%" stop-color="rgba(201,137,138,0.14)"/>
+                <stop offset="100%" stop-color="rgba(201,137,138,0)"/>
+              </radialGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <circle cx="130" cy="130" r="92" fill="url(#globeGrad)" opacity="0.6"/>
+            <circle cx="130" cy="130" r="90" fill="none" stroke="var(--silver)" stroke-width="1" opacity="0.6"/>
+            <ellipse cx="130" cy="130" rx="90" ry="28" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.45"/>
+            <ellipse cx="130" cy="130" rx="78" ry="46" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.4"/>
+            <ellipse cx="130" cy="130" rx="46" ry="78" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.4"/>
+            <ellipse cx="130" cy="130" rx="28" ry="90" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.4"/>
+            <path class="globe-connection-line" d="M 80 90 Q 130 56 180 152" fill="none" stroke="var(--rose)" stroke-width="2" filter="url(#glow)" stroke-linecap="round"/>
+            <circle cx="80" cy="90" r="5" fill="var(--flame)" class="globe-pulse" filter="url(#glow)"/>
+            <text x="80" y="77" text-anchor="middle" class="globe-tag">Russia</text>
+            <circle cx="180" cy="152" r="5" fill="var(--rose)" class="globe-pulse" filter="url(#glow)"/>
+            <text x="180" y="174" text-anchor="middle" class="globe-tag">Nigeria</text>
+            <text font-size="15" fill="var(--rose-deep)">
+              <animateMotion dur="3.4s" repeatCount="indefinite" path="M 80 90 Q 130 56 180 152" rotate="auto"/>
+              ✈
+            </text>
+            <text x="130" y="135" text-anchor="middle" font-size="18" fill="var(--rose)" opacity="0.85">♥</text>
+          </svg>
+        </div>
+        <div class="globe-distance">the love I have for you knows no distance</div>
+
+        <div class="time-together" id="timeTogether" style="opacity:1; transform:none;">
+          <div class="tt-label">we've known each other for</div>
+          <div class="tt-count" id="ttCount">calculating…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: future -->
+    <div class="screen" id="screenFuture">
+      <button class="back-to-universe" data-back type="button">← universe</button>
+      <div class="section-card">
+        <div class="section-icon">🚀</div>
+        <h2 class="section-title">Your Future</h2>
+        <p class="future-text" id="futureText">I don't know everything that's ahead for you, but I hope it's good. I hope the work pays off, literally and otherwise. I hope you get the peace you've been chasing, the recognition you deserve, and people around you who see exactly how much you carry and still show up soft anyway.<br><br>Whatever it ends up looking like — I hope I get to see at least some of it, even from wherever I am.</p>
+      </div>
+    </div>
+
+    <!-- SCREEN: letter -->
+    <div class="screen" id="screenLetter">
       <div class="letter-card" id="letterCard">
         <div class="card-sweep"></div>
         <div class="letter-header">
@@ -533,43 +844,6 @@
           <div class="scroll-arrow">↓</div>
         </div>
 
-        <div class="globe-section" id="globeSection">
-          <div class="globe-label">from my world to yours</div>
-          <div class="globe-wrap">
-            <svg class="globe-svg" viewBox="0 0 260 260">
-              <defs>
-                <radialGradient id="globeGrad" cx="50%" cy="40%">
-                  <stop offset="0%" stop-color="rgba(201,137,138,0.14)"/>
-                  <stop offset="100%" stop-color="rgba(201,137,138,0)"/>
-                </radialGradient>
-                <filter id="glow"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-              <circle cx="130" cy="130" r="92" fill="url(#globeGrad)" opacity="0.6"/>
-              <circle cx="130" cy="130" r="90" fill="none" stroke="var(--silver)" stroke-width="1" opacity="0.6"/>
-              <ellipse cx="130" cy="130" rx="90" ry="28" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.45"/>
-              <ellipse cx="130" cy="130" rx="78" ry="46" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.4"/>
-              <ellipse cx="130" cy="130" rx="46" ry="78" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.4"/>
-              <ellipse cx="130" cy="130" rx="28" ry="90" fill="none" stroke="var(--silver)" stroke-width="0.5" opacity="0.4"/>
-              <path class="globe-connection-line" d="M 80 90 Q 130 56 180 152" fill="none" stroke="var(--rose)" stroke-width="2" filter="url(#glow)" stroke-linecap="round"/>
-              <circle cx="80" cy="90" r="5" fill="var(--flame)" class="globe-pulse" filter="url(#glow)"/>
-              <text x="80" y="77" text-anchor="middle" class="globe-tag">Russia</text>
-              <circle cx="180" cy="152" r="5" fill="var(--rose)" class="globe-pulse" filter="url(#glow)"/>
-              <text x="180" y="174" text-anchor="middle" class="globe-tag">Nigeria</text>
-              <text font-size="15" fill="var(--rose-deep)">
-                <animateMotion dur="3.4s" repeatCount="indefinite" path="M 80 90 Q 130 56 180 152" rotate="auto"/>
-                ✈
-              </text>
-              <text x="130" y="135" text-anchor="middle" font-size="18" fill="var(--rose)" opacity="0.85">♥</text>
-            </svg>
-          </div>
-          <div class="globe-distance">the love I have for you knows no distance</div>
-        </div>
-
-        <div class="time-together" id="timeTogether">
-          <div class="tt-label">we've known each other for</div>
-          <div class="tt-count" id="ttCount">calculating…</div>
-        </div>
-
         <div class="love-slider-wrap" id="sliderWrap">
           <div class="love-slider-label">how much do I love you?</div>
           <div class="slider-row">
@@ -582,19 +856,6 @@
           </div>
         </div>
         <div class="secret-msg" id="secretMsg">you found it… I still get lost in your eyes.</div>
-
-        <div class="wheel-section" id="diceSection">
-          <div class="dice-label">spin the wheel · discover why I appreciate you</div>
-          <div class="wheel-outer">
-            <div class="wheel-pointer">▼</div>
-            <div class="wheel-wrap" id="diceWrap">
-              <svg id="wheelSvg" class="wheel-svg" viewBox="0 0 220 220"></svg>
-              <div class="wheel-hub">♥</div>
-            </div>
-          </div>
-          <div class="dice-result" id="diceResult"></div>
-          <div class="dice-hint">tap the wheel to spin</div>
-        </div>
 
         <div class="wish-zone" id="wishZone">
           <div class="wish-label">one more thing — make a wish</div>
@@ -624,10 +885,24 @@
           </div>
 
           <div class="come-back" id="comeBack">come back next year. I'll still be here.</div>
+          <button class="letter-continue-btn" id="letterContinueBtn" type="button">continue →</button>
         </div>
       </div>
-      <button class="back-btn" id="backBtn">← back</button>
+      <button class="back-btn" id="backBtn" data-back>← universe</button>
     </div>
+
+    <!-- SCREEN: final -->
+    <div class="screen" id="screenFinal">
+      <div class="final-heart">❤️</div>
+      <h1 class="final-title">Happy Birthday</h1>
+      <p class="final-sub">I hope today felt like everything you deserve.</p>
+      <div class="hidden-unlock-wrap">
+        <button class="unlock-btn" id="unlockBtn" type="button"><div class="unlock-fill" id="unlockFill"></div><span>hold to unlock one more thing</span></button>
+        <div class="hidden-final-msg" id="hiddenFinalMsg">Whatever happens with us — I'm glad you exist. Genuinely. Happy birthday, amarachiii. 🤍</div>
+      </div>
+      <button class="explore-again-btn" id="exploreAgainBtn" type="button">explore the universe again</button>
+    </div>
+
   </div>
 
   <div class="controls">
@@ -737,21 +1012,66 @@
       photoFrame._t = setTimeout(() => { hint.style.opacity = '0'; }, 1800);
     });
 
-    const openBtn = document.getElementById('openBtn');
-    const landing = document.getElementById('landing');
-    const letter = document.getElementById('letter');
-    const letterCard = document.getElementById('letterCard');
-    const backBtn = document.getElementById('backBtn');
-    const letterParas = document.querySelectorAll('#letterBody p');
+    // ===== screen router =====
+    const screens = document.querySelectorAll('.screen');
+    const spaceScreenIds = ['screenIntro', 'screenUniverse'];
+    function showScreen(id) {
+      screens.forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      const isSpace = spaceScreenIds.includes(id);
+      document.body.classList.toggle('space-mode', isSpace);
+      starsActive = isSpace;
+      clearInterval(starInterval);
+      if (isSpace) starInterval = setInterval(spawnStar, 450);
+      twinkleActive = isSpace;
+      if (id === 'screenMemories') revealList('memoryList', 'p');
+      if (id === 'screenQualities') revealList('qualityList', '.quality-item');
+      if (id === 'screenFuture') setTimeout(() => document.getElementById('futureText').classList.add('show'), 200);
+    }
+    function revealList(containerId, selector) {
+      const items = document.querySelectorAll('#' + containerId + ' ' + selector);
+      items.forEach(el => el.classList.remove('show'));
+      items.forEach((el, i) => setTimeout(() => el.classList.add('show'), 150 + i * 200));
+    }
+
+    document.querySelectorAll('.planet').forEach(btn => {
+      btn.addEventListener('click', () => showScreen(btn.getAttribute('data-target')));
+    });
+    document.querySelectorAll('[data-back]').forEach(btn => {
+      btn.addEventListener('click', () => showScreen('screenUniverse'));
+    });
+
+    // ===== twinkling starfield for space screens =====
+    const twinkleContainer = document.getElementById('twinkleStars');
+    let twinkleActive = false;
+    for (let i = 0; i < 60; i++) {
+      const t = document.createElement('div');
+      t.className = 'twinkle twinkle-anim';
+      const size = 1 + Math.random() * 2;
+      t.style.width = size + 'px'; t.style.height = size + 'px';
+      t.style.left = Math.random() * 100 + 'vw';
+      t.style.top = Math.random() * 100 + 'vh';
+      t.style.animationDuration = (2 + Math.random() * 3) + 's';
+      t.style.animationDelay = (Math.random() * 3) + 's';
+      twinkleContainer.appendChild(t);
+    }
+    function updateTwinkleVisibility() {
+      twinkleContainer.style.opacity = twinkleActive ? '1' : '0';
+      twinkleContainer.style.transition = 'opacity 1s ease';
+    }
+    setInterval(updateTwinkleVisibility, 300);
+
     const burst = document.getElementById('burst');
-    const wishZone = document.getElementById('wishZone');
+    const letterCard = document.getElementById('letterCard');
+    const letterParas = document.querySelectorAll('#letterBody p');
     const signature = document.getElementById('signature');
-    const sliderWrap = document.getElementById('sliderWrap');
-    const globeSection = document.getElementById('globeSection');
-    const diceSection = document.getElementById('diceSection');
-    const timeTogether = document.getElementById('timeTogether');
     const scrollCue = document.getElementById('scrollCue');
+    const sliderWrap = document.getElementById('sliderWrap');
+    const wishZone = document.getElementById('wishZone');
     let scrollCueTimeout = null;
+    let letterOpenedOnce = false;
     function hideScrollCue() { scrollCue.classList.remove('show'); }
 
     function spawnShards(cx, cy) {
@@ -797,20 +1117,43 @@
       });
     }
 
-    openBtn.addEventListener('click', async () => {
-      starsActive = false;
-      clearInterval(starInterval);
-      const rect = openBtn.getBoundingClientRect();
+    function resetLetter() {
+      letterCard.classList.remove('opening');
+      letterParas.forEach(p => { p.classList.remove('typing', 'sparkle'); p.textContent = p.getAttribute('data-text') || p.textContent; });
+      signature.classList.remove('show');
+      scrollCue.classList.remove('show');
+      clearTimeout(scrollCueTimeout);
+      sliderWrap.classList.remove('show');
+      wishZone.classList.remove('show');
+      document.getElementById('candle').classList.remove('blown');
+      document.getElementById('wishMsg').classList.remove('show');
+      document.getElementById('comeBack').classList.remove('show');
+      document.getElementById('letterContinueBtn').classList.remove('show');
+      voiceWish.classList.remove('show');
+      if (typeof isRecording !== 'undefined' && isRecording) stopRecording();
+      voicePlayback.style.display = 'none';
+      voiceBtn.style.display = 'flex';
+      voiceStatus.textContent = 'tap to record your wish';
+      voiceBars.classList.remove('active');
+      barEls.forEach(b => b.style.height = '4px');
+      document.getElementById('secretMsg').classList.remove('show');
+      heartContainer.innerHTML = '';
+      loveSlider.value = 0; sliderFill.style.width = '0%'; sliderFill.classList.remove('snapping');
+      sliderValue.textContent = '0'; sliderValue.classList.remove('maxed'); sliderHeart.classList.remove('pop');
+      letterOpenedOnce = false;
+    }
+
+    async function openLetterExperience(originEl) {
+      const rect = originEl.getBoundingClientRect();
       const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
       burst.style.setProperty('--bx', cx + 'px'); burst.style.setProperty('--by', cy + 'px');
       burst.classList.add('fire');
       spawnShards(cx, cy); spawnConfetti(cx, cy);
 
-      landing.classList.add('hidden');
       setTimeout(async () => {
-        letter.style.display = 'block';
-        letter.offsetHeight;
-        letter.classList.add('visible');
+        showScreen('screenLetter');
+        if (letterOpenedOnce) resetLetter();
+        letterOpenedOnce = true;
         letterCard.classList.add('opening');
         spawnFloatHearts();
 
@@ -827,52 +1170,63 @@
         window.addEventListener('scroll', hideScrollCue, { once: true, passive: true });
         clearTimeout(scrollCueTimeout);
         scrollCueTimeout = setTimeout(hideScrollCue, 5000);
-        setTimeout(() => globeSection.classList.add('show'), 300);
-        setTimeout(() => timeTogether.classList.add('show'), 500);
-        setTimeout(() => sliderWrap.classList.add('show'), 700);
-        setTimeout(() => diceSection.classList.add('show'), 900);
-        setTimeout(() => wishZone.classList.add('show'), 1200);
+        setTimeout(() => sliderWrap.classList.add('show'), 500);
+        setTimeout(() => wishZone.classList.add('show'), 900);
       }, 420);
 
       setTimeout(() => burst.classList.remove('fire'), 1100);
+    }
+
+    document.getElementById('openBtn').addEventListener('click', () => {
+      starsActive = false;
+      clearInterval(starInterval);
+      showScreen('screenUniverse');
     });
 
-    backBtn.addEventListener('click', () => {
-      letter.classList.remove('visible');
-      letterCard.classList.remove('opening');
-      letterParas.forEach(p => { p.classList.remove('typing', 'sparkle'); p.textContent = p.getAttribute('data-text') || p.textContent; });
-      signature.classList.remove('show');
-      scrollCue.classList.remove('show');
-      clearTimeout(scrollCueTimeout);
-      globeSection.classList.remove('show');
-      timeTogether.classList.remove('show');
-      sliderWrap.classList.remove('show');
-      diceSection.classList.remove('show');
-      wishZone.classList.remove('show');
-      document.getElementById('candle').classList.remove('blown');
-      document.getElementById('wishMsg').classList.remove('show');
-      document.getElementById('comeBack').classList.remove('show');
-      voiceWish.classList.remove('show');
-      if (isRecording) stopRecording();
-      voicePlayback.style.display = 'none';
-      voiceBtn.style.display = 'flex';
-      voiceStatus.textContent = 'tap to record your wish';
-      voiceBars.classList.remove('active');
-      barEls.forEach(b => b.style.height = '4px');
-      document.getElementById('secretMsg').classList.remove('show');
-      heartContainer.innerHTML = '';
-      loveSlider.value = 0; sliderFill.style.width = '0%'; sliderFill.classList.remove('snapping');
-      sliderValue.textContent = '0'; sliderValue.classList.remove('maxed'); sliderHeart.classList.remove('pop');
-      diceResult.classList.remove('show'); diceResult.innerHTML = '';
-      totalSpins = 0; wheelSvg.style.transition = 'none'; wheelSvg.style.transform = 'rotate(0deg)';
-      setTimeout(() => {
-        letter.style.display = 'none';
-        landing.classList.remove('hidden');
-        starsActive = true;
-        clearInterval(starInterval);
-        starInterval = setInterval(spawnStar, 450);
-      }, 700);
+    document.getElementById('gotoLetterBtn').addEventListener('click', (e) => {
+      openLetterExperience(e.currentTarget);
     });
+
+    document.getElementById('backBtn').addEventListener('click', () => {
+      resetLetter();
+      showScreen('screenUniverse');
+    });
+
+    document.getElementById('letterContinueBtn').addEventListener('click', () => {
+      showScreen('screenFinal');
+    });
+
+    document.getElementById('exploreAgainBtn').addEventListener('click', () => {
+      showScreen('screenUniverse');
+    });
+
+    // ===== final screen: hold-to-unlock hidden message =====
+    const unlockBtn = document.getElementById('unlockBtn');
+    const unlockFill = document.getElementById('unlockFill');
+    const hiddenFinalMsg = document.getElementById('hiddenFinalMsg');
+    let unlockTimer = null, unlockDone = false;
+    const UNLOCK_HOLD_MS = 1100;
+
+    function beginUnlock() {
+      if (unlockDone) return;
+      unlockFill.style.transition = `width ${UNLOCK_HOLD_MS}ms linear`;
+      unlockFill.style.width = '100%';
+      unlockTimer = setTimeout(() => {
+        unlockDone = true;
+        unlockBtn.classList.add('unlocked');
+        hiddenFinalMsg.classList.add('show');
+        if (navigator.vibrate) navigator.vibrate(35);
+      }, UNLOCK_HOLD_MS);
+    }
+    function cancelUnlock() {
+      if (unlockDone) return;
+      clearTimeout(unlockTimer);
+      unlockFill.style.transition = 'width 0.3s ease';
+      unlockFill.style.width = '0%';
+    }
+    unlockBtn.addEventListener('pointerdown', beginUnlock);
+    unlockBtn.addEventListener('pointerup', cancelUnlock);
+    unlockBtn.addEventListener('pointerleave', cancelUnlock);
 
     const loveSlider = document.getElementById('loveSlider');
     const sliderFill = document.getElementById('sliderFill');
@@ -1037,6 +1391,7 @@
       setTimeout(() => wishMsg.classList.add('show'), 800);
       setTimeout(() => voiceWish.classList.add('show'), 1300);
       setTimeout(() => comeBack.classList.add('show'), 2100);
+      setTimeout(() => document.getElementById('letterContinueBtn').classList.add('show'), 2600);
     });
 
     // ===== voice-recorded wish, with automatic "done speaking" detection =====
