@@ -4,6 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>For Victory — Happy Birthday</title>
+  <meta name="description" content="A little something from Favour, made with love." />
+  <meta name="theme-color" content="#0a0b17" />
+  <link rel="canonical" href="https://codewithgojo.github.io/Birthday/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Victory's Universe" />
+  <meta property="og:title" content="For Victory — Happy Birthday" />
+  <meta property="og:description" content="A little something from Favour, made with love." />
+  <meta property="og:url" content="https://codewithgojo.github.io/Birthday/" />
+  <meta property="og:image" content="https://codewithgojo.github.io/Birthday/victory-universe-preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="For Victory — Happy Birthday, a little something from Favour" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="For Victory — Happy Birthday" />
+  <meta name="twitter:description" content="A little something from Favour, made with love." />
+  <meta name="twitter:image" content="https://codewithgojo.github.io/Birthday/victory-universe-preview.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -599,6 +615,40 @@
     }
     .future-text.show { opacity: 1; }
 
+    .moments-timeline {
+      position: relative; margin: 30px 0 0; padding: 8px 0 0 22px; text-align: left;
+    }
+    .moments-timeline::before {
+      content: ''; position: absolute; left: 6px; top: 16px; bottom: 16px; width: 2px;
+      background: linear-gradient(var(--rose), var(--silver)); opacity: 0.65;
+    }
+    .moment-entry {
+      position: relative; padding: 0 0 24px 18px; opacity: 0; transform: translateY(10px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .moment-entry:last-child { padding-bottom: 0; }
+    .moment-entry.show { opacity: 1; transform: translateY(0); }
+    .moment-entry::before {
+      content: ''; position: absolute; left: -21px; top: 5px; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--rose); border: 3px solid var(--surface);
+      box-shadow: 0 0 0 2px var(--rose-glow);
+    }
+    .moment-date {
+      display: block; font-family: 'Quicksand', sans-serif; font-size: .7rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--rose-deep); margin-bottom: 4px;
+    }
+    .moment-entry h3 { font-family: 'Fredoka', sans-serif; font-size: 1rem; color: var(--text); margin: 0 0 5px; }
+    .moment-entry p { font-family: 'Quicksand', sans-serif; font-size: .88rem; line-height: 1.6; color: var(--text-soft); margin: 0; }
+    .timeline-ending { margin-top: 24px; color: var(--rose-deep); font-family: 'Caveat', cursive; font-size: 1.25rem; }
+
+    .skip-typing-btn {
+      display: block; margin: -8px 0 12px auto; padding: 8px 14px; border-radius: 999px;
+      border: 1px solid var(--glass-border); background: var(--surface-2); color: var(--text-soft);
+      font-family: 'Quicksand', sans-serif; font-size: .75rem; cursor: pointer;
+    }
+    .skip-typing-btn:hover { border-color: var(--rose); color: var(--rose-deep); }
+    .skip-typing-btn[hidden] { display: none; }
+
     /* ================= FINAL SCREEN ================= */
     #screenFinal { text-align: center; }
     .final-heart { font-size: 3.4rem; opacity: 0; animation: heroRise 1s ease forwards 0.15s, heartbeatPulse 1.8s ease-in-out infinite 1.2s; }
@@ -739,7 +789,7 @@
         <h2 class="section-title">Things I Love About You</h2>
         <div class="wheel-outer">
           <div class="wheel-pointer">▼</div>
-          <div class="wheel-wrap" id="diceWrap">
+          <div class="wheel-wrap" id="diceWrap" role="button" tabindex="0" aria-label="Spin the wheel to reveal something Favour loves about you">
             <svg id="wheelSvg" class="wheel-svg" viewBox="0 0 220 220"></svg>
             <div class="wheel-hub">♥</div>
           </div>
@@ -805,6 +855,30 @@
           <div class="tt-label">we've known each other for</div>
           <div class="tt-count" id="ttCount">calculating…</div>
         </div>
+
+        <div class="moments-timeline" id="momentsTimeline" aria-label="Our relationship timeline">
+          <article class="moment-entry">
+            <span class="moment-date">20 December 2022</span>
+            <h3>Where our story began</h3>
+            <p>The first page of everything that followed—the conversations, the laughter, and all the little things that slowly started to matter.</p>
+          </article>
+          <article class="moment-entry">
+            <span class="moment-date">The little rituals</span>
+            <h3>Calls, voice notes and goodnights</h3>
+            <p>Random voice notes, calls that lasted longer than planned, and simple “goodnight” messages that always meant more than they looked.</p>
+          </article>
+          <article class="moment-entry">
+            <span class="moment-date">Nigeria ↔ Russia</span>
+            <h3>Across the world, never forgotten</h3>
+            <p>Different countries and different clocks, but there were still moments when one message made the distance feel much smaller.</p>
+          </article>
+          <article class="moment-entry">
+            <span class="moment-date">The present chapter</span>
+            <h3>Finding our way back to conversation</h3>
+            <p>A softer chapter, taken one message at a time. No pressure—just gratitude for every honest conversation and every new memory still being written.</p>
+          </article>
+        </div>
+        <div class="timeline-ending">and our story is still being written…</div>
       </div>
     </div>
 
@@ -814,7 +888,7 @@
       <div class="section-card">
         <div class="section-icon">🚀</div>
         <h2 class="section-title">Your Future</h2>
-        <p class="future-text" id="futureText">I don't know everything that's ahead for you, but I hope it's good. I hope the work pays off, literally and otherwise. I hope you get the peace you've been chasing, the recognition you deserve, and people around you who see exactly how much you carry and still show up soft anyway.<br><br>Whatever it ends up looking like — I hope I get to see at least some of it, even from wherever I am.</p>
+        <p class="future-text" id="futureText">I don't know everything that's ahead for you, but I hope it's good. I hope the work pays off, literally and otherwise. I hope you get the peace you've been chasing, the recognition you deserve, and people around you who see exactly how much you carry and still show up soft anyway.<br><br>I hope this next chapter is full of moments that make you proud, people who meet you with the same care you give, and more happiness than you have had to ask for.</p>
       </div>
     </div>
 
@@ -822,8 +896,9 @@
     <div class="screen" id="screenLetter">
       <div class="letter-card" id="letterCard">
         <div class="card-sweep"></div>
+        <button class="skip-typing-btn" id="skipTypingBtn" type="button" hidden>show full letter</button>
         <div class="letter-header">
-          <img src="victory.jpg" class="letter-small-photo" id="letterPhoto" alt="" />
+          <img src="victory.jpg" class="letter-small-photo" id="letterPhoto" alt="Portrait of Victory" />
           <div class="letter-title">For you</div>
           <div class="letter-date">13th of October</div>
         </div>
@@ -833,7 +908,7 @@
           <p>I don't say this enough, but the moments we've shared all this time have meant more to me than you probably know. Something about you laughing at something dumb I said — it's quietly become one of my favorite parts of my day.</p>
           <p>I know things haven't always been easy between us, and I don't take it for granted that you've let me back into your life the way you have. Every conversation, every random voice note, every simple "goodnight" — I hold onto those more than you'd guess.</p>
           <p>I just want today to be everything good for you. You deserve the peace, the joy, the people who show up for you the way you deserve. I hope this year brings you all the things you've been quietly hoping for.</p>
-          <p class="love-line" id="loveLine">And if it's not too much to say... I love you. Maybe I never really stopped.</p>
+          <p class="love-line" id="loveLine">And if it's not too much to say... I love you. Today, I just hope you feel celebrated, seen, and deeply cared for.</p>
           <p class="closing">Happy birthday. I mean every word of this.</p>
         </div>
 
@@ -849,7 +924,7 @@
           <div class="slider-row">
             <div class="slider-track">
               <div class="slider-fill" id="sliderFill"></div>
-              <input type="range" id="loveSlider" min="0" max="100" value="0" />
+              <input type="range" id="loveSlider" min="0" max="100" value="0" aria-label="How much Favour loves you" />
             </div>
             <div class="slider-value" id="sliderValue">0</div>
             <div class="slider-heart" id="sliderHeart">♡</div>
@@ -859,7 +934,7 @@
 
         <div class="wish-zone" id="wishZone">
           <div class="wish-label">one more thing — make a wish</div>
-          <div class="candle" id="candle">
+          <div class="candle" id="candle" role="button" tabindex="0" aria-label="Blow out the birthday candle">
             <div class="flame"></div>
             <div class="ember"></div>
             <div class="wick"></div>
@@ -869,7 +944,7 @@
 
           <div class="voice-wish" id="voiceWish">
             <div class="voice-label">want to say it out loud instead?</div>
-            <button class="voice-btn" id="voiceBtn" type="button">
+            <button class="voice-btn" id="voiceBtn" type="button" aria-label="Record your birthday wish">
               <svg class="mic-icon" viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
             </button>
             <div class="voice-status" id="voiceStatus">tap to record your wish</div>
@@ -898,7 +973,7 @@
       <p class="final-sub">I hope today felt like everything you deserve.</p>
       <div class="hidden-unlock-wrap">
         <button class="unlock-btn" id="unlockBtn" type="button"><div class="unlock-fill" id="unlockFill"></div><span>hold to unlock one more thing</span></button>
-        <div class="hidden-final-msg" id="hiddenFinalMsg">Whatever happens with us — I'm glad you exist. Genuinely. Happy birthday, amarachiii. 🤍</div>
+        <div class="hidden-final-msg" id="hiddenFinalMsg">I'm glad you exist. Genuinely. Happy birthday, amarachiii. 🤍</div>
       </div>
       <button class="explore-again-btn" id="exploreAgainBtn" type="button">explore the universe again</button>
     </div>
@@ -914,12 +989,12 @@
         <div class="sp-progress"><div class="sp-bar" id="spBar"></div></div>
       </div>
       <div class="sp-eq" id="spEq"><i></i><i></i><i></i><i></i></div>
-      <button class="sp-btn" id="musicBtn" title="Play">
+      <button class="sp-btn" id="musicBtn" title="Play" aria-label="Play or pause Like I Want You by Giveon">
         <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
       </button>
     </div>
-    <button class="theme-btn" id="themeBtn" title="Toggle soft dark mode">
+    <button class="theme-btn" id="themeBtn" title="Toggle soft dark mode" aria-label="Toggle soft dark mode">
       <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
     </button>
   </div>
@@ -1019,7 +1094,14 @@
       screens.forEach(s => s.classList.remove('active'));
       const target = document.getElementById(id);
       target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      const resetPageScroll = () => {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
+      };
+      resetPageScroll();
+      requestAnimationFrame(resetPageScroll);
+      setTimeout(resetPageScroll, 60);
       const isSpace = spaceScreenIds.includes(id);
       document.body.classList.toggle('space-mode', isSpace);
       starsActive = isSpace;
@@ -1028,6 +1110,7 @@
       twinkleActive = isSpace;
       if (id === 'screenMemories') revealList('memoryList', 'p');
       if (id === 'screenQualities') revealList('qualityList', '.quality-item');
+      if (id === 'screenMoments') revealList('momentsTimeline', '.moment-entry');
       if (id === 'screenFuture') setTimeout(() => document.getElementById('futureText').classList.add('show'), 200);
     }
     function revealList(containerId, selector) {
@@ -1070,8 +1153,10 @@
     const scrollCue = document.getElementById('scrollCue');
     const sliderWrap = document.getElementById('sliderWrap');
     const wishZone = document.getElementById('wishZone');
+    const skipTypingBtn = document.getElementById('skipTypingBtn');
     let scrollCueTimeout = null;
     let letterOpenedOnce = false;
+    let skipTyping = false;
     function hideScrollCue() { scrollCue.classList.remove('show'); }
 
     function spawnShards(cx, cy) {
@@ -1111,6 +1196,12 @@
       return new Promise(resolve => {
         p.classList.add('typing'); p.textContent = ''; let i = 0;
         const timer = setInterval(() => {
+          if (skipTyping) {
+            p.textContent = text;
+            clearInterval(timer);
+            resolve();
+            return;
+          }
           p.textContent += text[i]; i++;
           if (i >= text.length) { clearInterval(timer); resolve(); }
         }, speed);
@@ -1119,6 +1210,8 @@
 
     function resetLetter() {
       letterCard.classList.remove('opening');
+      skipTyping = false;
+      skipTypingBtn.hidden = true;
       letterParas.forEach(p => { p.classList.remove('typing', 'sparkle'); p.textContent = p.getAttribute('data-text') || p.textContent; });
       signature.classList.remove('show');
       scrollCue.classList.remove('show');
@@ -1154,6 +1247,8 @@
         showScreen('screenLetter');
         if (letterOpenedOnce) resetLetter();
         letterOpenedOnce = true;
+        skipTyping = false;
+        skipTypingBtn.hidden = false;
         letterCard.classList.add('opening');
         spawnFloatHearts();
 
@@ -1164,6 +1259,8 @@
           await typeParagraph(p, original, p.classList.contains('name-line') ? 28 : 18);
           if (p.classList.contains('love-line')) p.classList.add('sparkle');
         }
+
+        skipTypingBtn.hidden = true;
 
         signature.classList.add('show');
         scrollCue.classList.add('show');
@@ -1185,6 +1282,15 @@
 
     document.getElementById('gotoLetterBtn').addEventListener('click', (e) => {
       openLetterExperience(e.currentTarget);
+    });
+
+    skipTypingBtn.addEventListener('click', () => {
+      skipTyping = true;
+      letterParas.forEach(p => {
+        const original = p.getAttribute('data-text');
+        if (original) p.textContent = original;
+      });
+      skipTypingBtn.hidden = true;
     });
 
     document.getElementById('backBtn').addEventListener('click', () => {
@@ -1361,12 +1467,18 @@
       }, 3200);
     }
     diceWrap.addEventListener('click', spinWheel);
+    diceWrap.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        spinWheel();
+      }
+    });
 
     const candle = document.getElementById('candle');
     const wishMsg = document.getElementById('wishMsg');
     const comeBack = document.getElementById('comeBack');
     let blown = false;
-    candle.addEventListener('click', () => {
+    function blowOutCandle() {
       if (blown) return; blown = true; candle.classList.add('blown');
       for (let i = 0; i < 5; i++) {
         const smoke = document.createElement('div');
@@ -1392,6 +1504,13 @@
       setTimeout(() => voiceWish.classList.add('show'), 1300);
       setTimeout(() => comeBack.classList.add('show'), 2100);
       setTimeout(() => document.getElementById('letterContinueBtn').classList.add('show'), 2600);
+    }
+    candle.addEventListener('click', blowOutCandle);
+    candle.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        blowOutCandle();
+      }
     });
 
     // ===== voice-recorded wish, with automatic "done speaking" detection =====
