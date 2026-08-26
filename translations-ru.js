@@ -229,7 +229,7 @@ function preserveNodeSpacing(original,replacement) {
 function translateTextNode(node) {
   if (!node || node.nodeType!==Node.TEXT_NODE || !normalizeLanguageText(node.nodeValue)) return;
   const parent=node.parentElement;
-  if (!parent || parent.closest('script,style,[lang="ru"],.leaflet-control-attribution')) return;
+  if (!parent || parent.closest('script,style,.leaflet-control-attribution')) return;
   if (currentLanguage==='en') {
     if (node.__victoryEnglish) node.nodeValue=node.__victoryEnglish;
     return;

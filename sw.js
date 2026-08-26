@@ -1,4 +1,4 @@
-const CACHE_NAME = 'victory-twenty-v1';
+const CACHE_NAME = 'victory-twenty-v2';
 const CORE_FILES = [
   './',
   './index.html',
