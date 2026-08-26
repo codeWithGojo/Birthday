@@ -1,0 +1,19 @@
+{
+  "name": "For Victory — Happy Birthday",
+  "short_name": "Victory",
+  "description": "A silver universe made for Victory's twentieth birthday.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#05060a",
+  "theme_color": "#0b0d14",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

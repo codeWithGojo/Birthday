@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Victory">
+  <defs>
+    <radialGradient id="space" cx="50%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#353b4a"/>
+      <stop offset="0.58" stop-color="#11141d"/>
+      <stop offset="1" stop-color="#05060a"/>
+    </radialGradient>
+    <clipPath id="portrait"><circle cx="256" cy="238" r="174"/></clipPath>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#space)"/>
+  <circle cx="70" cy="105" r="4" fill="#fff" opacity=".8"/>
+  <circle cx="432" cy="85" r="3" fill="#fff" opacity=".65"/>
+  <circle cx="447" cy="338" r="4" fill="#fff" opacity=".75"/>
+  <circle cx="60" cy="370" r="3" fill="#fff" opacity=".55"/>
+  <image href="victory.jpg" x="82" y="64" width="348" height="348" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait)"/>
+  <circle cx="256" cy="238" r="178" fill="none" stroke="#eef1f6" stroke-width="8" opacity=".9"/>
+  <path d="M98 424 C178 393 334 393 414 424" fill="none" stroke="#cbd1dc" stroke-width="3" opacity=".5"/>
+  <text x="256" y="466" text-anchor="middle" fill="#f8fafc" font-family="Georgia,serif" font-size="44" letter-spacing="12">VICTORY</text>
+</svg>
