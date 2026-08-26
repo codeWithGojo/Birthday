@@ -6,23 +6,30 @@
   <title>For Victory — Happy Birthday</title>
   <meta name="description" content="A little something from Favour, made with love." />
   <meta name="theme-color" content="#0a0b17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Victory's Universe" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="victory.jpg" />
   <link rel="canonical" href="https://codewithgojo.github.io/Birthday/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Victory's Universe" />
   <meta property="og:title" content="For Victory — Happy Birthday" />
   <meta property="og:description" content="A little something from Favour, made with love." />
   <meta property="og:url" content="https://codewithgojo.github.io/Birthday/" />
-  <meta property="og:image" content="https://codewithgojo.github.io/Birthday/victory-universe-preview.png" />
+  <meta property="og:image" content="https://codewithgojo.github.io/Birthday/victory.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="For Victory — Happy Birthday, a little something from Favour" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="For Victory — Happy Birthday" />
   <meta name="twitter:description" content="A little something from Favour, made with love." />
-  <meta name="twitter:image" content="https://codewithgojo.github.io/Birthday/victory-universe-preview.png" />
+  <meta name="twitter:image" content="https://codewithgojo.github.io/Birthday/victory.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
     :root {
       /* silver / pearl — light theme (default) */
@@ -1101,9 +1108,190 @@
       .final-action-btn { flex-basis: auto; width: 100%; }
     }
 
+    /* ===== 2026 PERSONAL EXPANSION ===== */
+    .experience-tools {
+      position: fixed; top: max(14px, env(safe-area-inset-top)); right: 14px; z-index: 120;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .tool-pill {
+      border: 1px solid rgba(255,255,255,.34); color: #f2f4f8;
+      background: rgba(12,14,25,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      min-height: 38px; padding: 8px 12px; border-radius: 999px; cursor: pointer;
+      font: 700 .68rem 'Quicksand',sans-serif; letter-spacing: .06em; box-shadow: 0 8px 22px rgba(0,0,0,.22);
+    }
+    body:not(.space-mode) .tool-pill { color: var(--text); background: rgba(255,255,255,.72); border-color: var(--glass-border); }
+    .tool-pill[aria-pressed="true"] { color: #1f2330; background: linear-gradient(135deg,#fff,#d9dee7); }
+    .drag-hint { margin: -4px auto 8px; color: rgba(224,228,245,.54); font-size: .61rem; letter-spacing: .04em; }
+    .planet.dragging { animation-play-state: paused; z-index: 20; cursor: grabbing; }
+    .planet.was-dragged .planet-sphere { box-shadow: 0 24px 30px -18px #000,0 0 50px var(--planet-glow),inset 15px 10px 18px rgba(255,255,255,.25),inset -20px -16px 28px rgba(0,0,0,.58); }
+    .meteor-btn { display:block; margin:10px auto 0; border:0; background:transparent; color:rgba(225,230,247,.66); font:600 .64rem 'Quicksand',sans-serif; cursor:pointer; padding:8px 12px; }
+    .name-meteor {
+      position:fixed; left:-45vw; top:18vh; z-index:180; pointer-events:none;
+      color:#fff; font:700 clamp(1.25rem,5vw,2.6rem) 'Caveat',cursive; letter-spacing:.08em;
+      text-shadow:0 0 8px #fff,0 0 24px #c8d2ff,0 0 52px #f5b8d1; opacity:0;
+    }
+    .name-meteor::before { content:''; position:absolute; width:220px; height:2px; right:92%; top:52%; background:linear-gradient(90deg,transparent,rgba(205,218,255,.7),#fff); box-shadow:0 0 16px #cbd8ff; }
+    .name-meteor.fly { animation:nameMeteor 3.4s cubic-bezier(.15,.55,.28,1) forwards; }
+    @keyframes nameMeteor { 0%{transform:translate3d(0,0,0) rotate(-9deg);opacity:0} 12%{opacity:1} 82%{opacity:1} 100%{transform:translate3d(150vw,34vh,0) rotate(-9deg);opacity:0} }
+
+    .feature-card {
+      margin-top:26px; padding:22px 18px; text-align:left; border-radius:20px;
+      border:1px solid var(--glass-border); background:rgba(255,255,255,.5); box-shadow:0 14px 34px rgba(53,57,70,.08);
+    }
+    body.dark .feature-card { background:rgba(255,255,255,.035); }
+    .feature-kicker { display:block; margin-bottom:6px; color:var(--silver-deep); font-size:.62rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+    .feature-title { margin:0 0 8px; color:var(--text); font:600 1.18rem 'Fredoka',sans-serif; }
+    .feature-copy { color:var(--text-soft); font-size:.86rem; line-height:1.67; }
+    .feature-copy + .feature-copy { margin-top:10px; }
+
+    .chat-recreation { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+    .chat-bubble { max-width:84%; padding:10px 13px; border-radius:16px; font-size:.83rem; line-height:1.45; box-shadow:0 8px 20px rgba(35,39,50,.08); }
+    .chat-bubble.victory { align-self:flex-start; background:var(--surface); border:1px solid var(--glass-border); border-bottom-left-radius:5px; }
+    .chat-bubble.favour { align-self:flex-end; background:linear-gradient(135deg,var(--blush),#f5e7e7); border-bottom-right-radius:5px; }
+    body.dark .chat-bubble.favour { background:#3a2e34; }
+    .chat-name { display:block; color:var(--rose-deep); font-size:.58rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; margin-bottom:3px; }
+    .chat-aside { align-self:center; color:var(--text-soft); font-size:.68rem; font-style:italic; text-align:center; padding:4px 12px; }
+
+    .first-met-letter { position:relative; overflow:hidden; }
+    .first-met-letter::after { content:'2023 → 2026'; position:absolute; right:-22px; top:18px; transform:rotate(8deg); color:rgba(166,107,109,.13); font:700 2.1rem 'Caveat',cursive; }
+    .first-met-quote { position:relative; z-index:1; color:var(--text); font:600 1.14rem/1.58 'Caveat',cursive; }
+
+    .small-wins-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:15px; }
+    .small-win { padding:14px 12px; border-radius:14px; background:var(--surface-2); border:1px solid var(--glass-border); }
+    .small-win b { display:block; margin-bottom:4px; color:var(--rose-deep); font-size:.78rem; }
+    .small-win span { display:block; color:var(--text-soft); font-size:.72rem; line-height:1.48; }
+    .surgeon-dream { background:linear-gradient(145deg,rgba(199,205,214,.2),rgba(201,137,138,.13)); }
+    .white-coat-line { display:flex; align-items:center; gap:12px; margin-top:14px; padding:14px; border-radius:14px; background:var(--surface); border:1px solid var(--glass-border); }
+    .white-coat-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:13px; background:#f5f7fa; color:#303541; font-size:1.35rem; box-shadow:0 7px 18px var(--shadow-c); }
+    .white-coat-line strong { display:block; font-size:.82rem; color:var(--text); }
+    .white-coat-line span { display:block; margin-top:2px; color:var(--text-soft); font-size:.7rem; }
+
+    .hug-card { text-align:center; }
+    .hug-btn { position:relative; isolation:isolate; overflow:hidden; width:100%; min-height:52px; border:1px solid rgba(201,137,138,.3); border-radius:999px; background:var(--surface); color:var(--text); cursor:pointer; font:700 .79rem 'Quicksand',sans-serif; }
+    .hug-fill { position:absolute; z-index:-1; inset:0 auto 0 0; width:0; background:linear-gradient(90deg,var(--blush),rgba(201,137,138,.48)); }
+    .hug-btn.holding .hug-fill { width:100%; transition:width 1.15s linear; }
+    .hug-overlay { position:fixed; inset:0; z-index:190; pointer-events:none; display:grid; place-items:center; opacity:0; background:radial-gradient(circle,rgba(255,214,214,.55),rgba(201,137,138,.2) 35%,transparent 72%); transition:opacity .6s ease; }
+    .hug-overlay.show { opacity:1; }
+    .hug-message { color:#fff; padding:18px 25px; border-radius:999px; background:rgba(72,42,49,.75); backdrop-filter:blur(10px); font:600 1.05rem 'Caveat',cursive; box-shadow:0 0 60px rgba(255,196,207,.7); transform:scale(.86); transition:transform .6s ease; }
+    .hug-overlay.show .hug-message { transform:scale(1); }
+
+    .dual-sky-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
+    .mini-sky { position:relative; overflow:hidden; min-height:180px; border-radius:18px; background:linear-gradient(#080b1c,#151b39); border:1px solid rgba(255,255,255,.12); }
+    .mini-sky canvas { display:block; width:100%; height:180px; }
+    .mini-sky-label { position:absolute; left:10px; right:10px; bottom:9px; display:flex; justify-content:space-between; align-items:end; color:#f5f7ff; font-size:.61rem; text-shadow:0 2px 8px #000; }
+    .mini-sky-label b { display:block; font-size:.72rem; }
+    .light-bridge { position:relative; height:44px; margin:4px 0 0; overflow:hidden; }
+    .light-bridge::before { content:''; position:absolute; left:7%; right:7%; top:22px; height:1px; background:linear-gradient(90deg,transparent,#e7efff 15%,#f8bfd1 50%,#e7efff 85%,transparent); box-shadow:0 0 10px #d8e2ff; }
+    .light-photon { position:absolute; top:16px; left:7%; width:12px; height:12px; border-radius:50%; background:#fff; box-shadow:0 0 10px #fff,0 0 28px #f4b7ce; animation:bridgePhoton 3.2s ease-in-out infinite; }
+    @keyframes bridgePhoton { 0%,100%{left:7%;transform:scale(.7)} 50%{left:89%;transform:scale(1.15)} }
+    .light-bridge-note { position:absolute; inset:0; display:grid; place-items:start center; color:var(--text-soft); font-size:.58rem; padding-top:1px; }
+
+    .story-map { height:290px; margin-top:15px; border-radius:18px; overflow:hidden; border:1px solid var(--glass-border); background:linear-gradient(145deg,#dfe4eb,#cfd6df); }
+    body.dark .story-map { background:#171b26; }
+    .leaflet-container { font-family:'Quicksand',sans-serif; }
+    .leaflet-popup-content-wrapper,.leaflet-popup-tip { background:#20232d; color:#f5f6f8; }
+    .map-memory-list { display:grid; gap:9px; margin-top:12px; }
+    .map-memory { padding:11px 12px; border:1px solid var(--glass-border); border-radius:13px; background:var(--surface-2); }
+    .map-memory b { color:var(--rose-deep); font-size:.76rem; }
+    .map-memory p { margin-top:3px; color:var(--text-soft); font-size:.71rem; line-height:1.46; }
+
+    .fortune-shell { text-align:center; }
+    .fortune-card { min-height:150px; display:grid; place-items:center; padding:24px 19px; margin:15px 0; border-radius:18px; color:#f8f8fb; background:radial-gradient(circle at 50% 20%,rgba(255,255,255,.12),transparent 42%),linear-gradient(145deg,#272b3a,#10131d); box-shadow:0 18px 36px rgba(12,14,24,.2); }
+    .fortune-card p { font:600 1.03rem/1.62 'Caveat',cursive; }
+    .fortune-btn,.handwriting-btn,.install-btn { border:1px solid var(--glass-border); border-radius:999px; padding:11px 18px; background:var(--surface); color:var(--text); cursor:pointer; font:700 .73rem 'Quicksand',sans-serif; }
+
+    .twenty-wishes { display:grid; gap:9px; margin-top:14px; }
+    .twenty-wish { display:flex; gap:10px; align-items:flex-start; padding:12px; border-radius:13px; border:1px solid var(--glass-border); background:var(--surface-2); }
+    .wish-number { flex:0 0 28px; width:28px; height:28px; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--rose-deep); font-size:.66rem; font-weight:800; }
+    .twenty-wish span:last-child { color:var(--text-soft); font-size:.76rem; line-height:1.52; }
+
+    .bucket-list { display:grid; gap:9px; margin-top:14px; }
+    .bucket-item { display:flex; gap:10px; align-items:flex-start; cursor:pointer; padding:11px 12px; border-radius:13px; background:var(--surface-2); border:1px solid var(--glass-border); }
+    .bucket-item input { margin-top:3px; accent-color:var(--rose-deep); }
+    .bucket-item span { color:var(--text-soft); font-size:.76rem; line-height:1.48; }
+    .bucket-item:has(input:checked) span { text-decoration:line-through; opacity:.58; }
+    .bucket-progress { margin-top:12px; color:var(--rose-deep); font-size:.7rem; font-weight:700; }
+
+    .then-now-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-top:14px; }
+    .era-letter { padding:15px; border-radius:15px; background:var(--surface-2); border:1px solid var(--glass-border); }
+    .era-letter b { color:var(--rose-deep); font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; }
+    .era-letter p { margin-top:7px; color:var(--text); font:600 .92rem/1.52 'Caveat',cursive; }
+    .build-timeline { margin-top:13px; border-left:2px solid var(--rose); padding-left:14px; }
+    .build-moment + .build-moment { margin-top:13px; }
+    .build-moment b { color:var(--rose-deep); font-size:.68rem; }
+    .build-moment p { color:var(--text-soft); font-size:.75rem; line-height:1.5; margin-top:3px; }
+
+    .reader-toggle { position:absolute; top:16px; right:18px; z-index:7; border:1px solid var(--glass-border); background:rgba(255,255,255,.68); color:var(--text); border-radius:999px; padding:8px 12px; cursor:pointer; font:700 .63rem 'Quicksand',sans-serif; }
+    body.dark .reader-toggle { background:rgba(25,27,34,.82); }
+    body.reader-mode { background:#f5f2ea !important; color:#222 !important; }
+    body.reader-mode .ambient-bg,body.reader-mode .noise-overlay,body.reader-mode #particles,body.reader-mode #floatHearts,body.reader-mode .room-glow,body.reader-mode .controls { display:none!important; }
+    body.reader-mode #screenLetter { width:min(100%,780px); }
+    body.reader-mode .letter-card { max-width:760px; padding:52px clamp(22px,6vw,68px); background:#fffdf8; box-shadow:0 18px 60px rgba(45,37,30,.14); }
+    body.reader-mode .letter-body p { opacity:1!important; transform:none!important; color:#26231f!important; font-size:1.04rem; line-height:1.82; }
+    body.reader-mode .letter-title,body.reader-mode .signature { color:#8a5458!important; }
+
+    .handwriting-card { text-align:center; overflow:hidden; }
+    .handwriting-canvas-wrap { position:relative; height:190px; margin:14px 0; border-radius:15px; overflow:hidden; background:#f7f5ef; border:1px solid rgba(50,52,60,.1); box-shadow:inset 0 0 26px rgba(30,32,40,.07); }
+    #handwritingCanvas { width:100%; height:100%; display:block; }
+    .handwriting-status { min-height:1.2em; margin-top:8px; color:var(--text-soft); font-size:.67rem; font-style:italic; }
+    #handwritingVoice { width:min(100%,300px); margin-top:10px; }
+
+    .silver-envelope-flight { position:fixed; inset:0; z-index:260; display:none; pointer-events:none; overflow:hidden; background:radial-gradient(circle at center,rgba(18,21,38,.4),rgba(3,4,10,.82)); }
+    .silver-envelope-flight.show { display:block; }
+    .flying-envelope { position:absolute; left:-120px; top:63%; width:86px; height:58px; border-radius:7px; background:linear-gradient(145deg,#fff,#bfc7d3); box-shadow:0 0 25px rgba(255,255,255,.65),0 0 70px rgba(190,204,255,.35); transform:rotate(-8deg); }
+    .flying-envelope::before { content:''; position:absolute; inset:0; clip-path:polygon(0 0,50% 58%,100% 0); background:linear-gradient(145deg,#e7ebf1,#fff); }
+    .flying-envelope::after { content:'F → V'; position:absolute; inset:0; display:grid; place-items:center; color:#5e6674; font:700 .7rem 'Caveat',cursive; }
+    .silver-envelope-flight.show .flying-envelope { animation:envelopeAcross 2.2s cubic-bezier(.2,.72,.23,1) forwards; }
+    .envelope-route-copy { position:absolute; left:50%; bottom:19%; transform:translateX(-50%); color:#eef2ff; font-size:.68rem; letter-spacing:.1em; white-space:nowrap; opacity:0; animation:envelopeCaption 2s ease .25s forwards; }
+    @keyframes envelopeAcross { 0%{left:-120px;top:68%;transform:rotate(-10deg) scale(.8)} 45%{top:28%;transform:rotate(5deg) scale(1.08)} 100%{left:calc(100% + 130px);top:43%;transform:rotate(13deg) scale(.8)} }
+    @keyframes envelopeCaption { 15%,75%{opacity:1} 100%{opacity:0} }
+
+    .newspaper { padding:0!important; overflow:hidden; background:#f5f0e6!important; color:#24211d!important; border-color:rgba(55,46,38,.22)!important; }
+    .newspaper-masthead { padding:17px 18px 10px; border-bottom:4px double #34302b; text-align:center; }
+    .newspaper-date { display:flex; justify-content:space-between; gap:10px; color:#575047; font:700 .55rem Georgia,serif; text-transform:uppercase; letter-spacing:.08em; }
+    .newspaper-name { margin:8px 0 2px; font:900 clamp(1.8rem,8vw,3.1rem) Georgia,serif; letter-spacing:-.05em; }
+    .newspaper-tag { font:italic .7rem Georgia,serif; }
+    .newspaper-body { padding:18px; }
+    .newspaper-headline { font:900 clamp(1.55rem,6.8vw,2.65rem)/.98 Georgia,serif; text-transform:uppercase; letter-spacing:-.035em; }
+    .newspaper-deck { margin:10px 0 15px; font:italic .86rem/1.45 Georgia,serif; color:#514a42; }
+    .newspaper-hero { width:100%; height:260px; object-fit:cover; object-position:center 23%; filter:grayscale(.35) contrast(1.04); border:1px solid #70685f; }
+    .newspaper-caption { font:.58rem/1.4 Georgia,serif; margin-top:4px; color:#625b52; }
+    .newspaper-columns { column-count:2; column-gap:20px; column-rule:1px solid #aaa197; margin-top:15px; font:.76rem/1.55 Georgia,serif; text-align:justify; }
+    .newspaper-columns p + p { margin-top:10px; }
+    .newspaper-columns p:first-child::first-letter { float:left; font-size:3rem; line-height:.77; padding:5px 5px 0 0; font-weight:900; }
+    .newspaper-quote { margin:16px 0 0; padding:13px 0; border-top:2px solid #34302b; border-bottom:2px solid #34302b; text-align:center; font:700 1rem/1.4 Georgia,serif; }
+
+    .install-panel { text-align:center; }
+    .install-btn { margin-top:13px; color:#f4f6fa; border-color:rgba(255,255,255,.2); background:linear-gradient(135deg,#343947,#151823); }
+    .install-note { margin-top:8px; color:var(--text-soft); font-size:.65rem; min-height:1.3em; }
+
+    @media (max-width:560px) {
+      .experience-tools { top:max(9px,env(safe-area-inset-top)); right:8px; }
+      .tool-pill { min-height:34px; padding:7px 9px; font-size:.61rem; }
+      .small-wins-grid,.dual-sky-grid,.then-now-grid { grid-template-columns:1fr; }
+      .mini-sky,.mini-sky canvas { min-height:165px; height:165px; }
+      .story-map { height:250px; }
+      .newspaper-columns { column-count:1; }
+      .newspaper-hero { height:220px; }
+      .reader-toggle { top:11px; right:12px; }
+      .handwriting-canvas-wrap { height:160px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .name-meteor.fly,.silver-envelope-flight.show .flying-envelope,.light-photon { animation-duration:.01ms!important; }
+    }
+
   </style>
 </head>
 <body class="landing-mode">
+  <div class="experience-tools" aria-label="Experience options">
+    <button class="tool-pill" id="languageToggle" type="button" aria-pressed="false" aria-label="Switch between English and Russian">EN · RU</button>
+  </div>
+  <div class="name-meteor" id="nameMeteor" aria-hidden="true">amarachiii</div>
+  <div class="hug-overlay" id="hugOverlay" aria-live="polite"><div class="hug-message">a warm hug, across every kilometre 🤍</div></div>
+  <div class="silver-envelope-flight" id="silverEnvelopeFlight" aria-hidden="true">
+    <div class="flying-envelope"></div>
+    <div class="envelope-route-copy">ASABA, NIGERIA&nbsp;&nbsp; ✦ &nbsp;&nbsp;RUSSIA</div>
+  </div>
   <div id="netflix-intro">
     <div class="netflix-text">Favour</div>
     <div class="netflix-bar"></div>
@@ -1152,6 +1340,7 @@
       <div class="universe-title">welcome to<span class="universe-name">Victory's Universe</span></div>
       <p class="time-greeting" id="timeGreeting"><span>Good day, Victory.</span> Your universe has been waiting.</p>
       <p class="universe-subtitle">Five little worlds made from the things I remember, admire and still hope for. Choose anywhere to begin.</p>
+      <p class="drag-hint">tap a planet to enter · drag it to rearrange the universe</p>
       <div class="universe-map-scene" id="universeMapScene">
         <div class="aurora-layer" aria-hidden="true"><i class="aurora-ribbon one"></i><i class="aurora-ribbon two"></i></div>
         <canvas class="sky-canvas" id="skyCanvas" aria-hidden="true"></canvas>
@@ -1182,6 +1371,7 @@
       </div>
       <p class="sky-caption" id="skyCaption">Tonight's bright stars · Russia UTC+5 estimate</p>
       <button class="sky-locate-btn" id="skyLocateBtn" type="button">match the stars to your exact sky</button>
+      <button class="meteor-btn" id="meteorBtn" type="button">✦ call your meteor</button>
       <button class="universe-letter-btn" id="gotoLetterBtn" type="button">💌 open your letter</button>
     </div>
 
@@ -1199,6 +1389,26 @@
           <p>Every random voice note and simple “goodnight” that looked small on a screen but never felt small to me.</p>
           <p>That little pause before hanging up, when the conversation was over but neither of us seemed ready to leave.</p>
         </div>
+        <section class="feature-card" aria-labelledby="firstChatTitle">
+          <span class="feature-kicker">as close as I remember it</span>
+          <h3 class="feature-title" id="firstChatTitle">The conversation that started everything</h3>
+          <p class="feature-copy">I cannot pretend I remember every punctuation mark, but I remember the shape of it.</p>
+          <div class="chat-recreation" aria-label="A recreation of Favour and Victory's earliest conversation">
+            <div class="chat-bubble victory"><span class="chat-name">Victory</span>hii</div>
+            <div class="chat-bubble favour"><span class="chat-name">Favour</span>heyy</div>
+            <div class="chat-bubble victory"><span class="chat-name">Victory</span>I got your number from Pelumi</div>
+            <div class="chat-bubble favour"><span class="chat-name">Favour</span>ohk</div>
+            <div class="chat-aside">Meanwhile, I secretly went to confirm with Pelumi 😭</div>
+            <div class="chat-bubble victory"><span class="chat-name">Victory</span>I’m short—but not too short—and the first thing you’ll probably notice is my ass 😭</div>
+            <div class="chat-aside">Safe to say, that introduction was impossible to forget.</div>
+          </div>
+        </section>
+
+        <article class="feature-card first-met-letter" aria-labelledby="firstMetTitle">
+          <span class="feature-kicker">to the Victory I first met</span>
+          <h3 class="feature-title" id="firstMetTitle">You became so much more than my first impression</h3>
+          <p class="first-met-quote">I still laugh because, yes, I noticed your ass first—you practically warned me to. But I had no idea I was meeting one of the most caring and loving souls I would ever know. The person I see now is stronger, wiser and more mature than the girl I met in 2023. I appreciate you deeply, I am genuinely proud of you, and I hope life gives you more wins than you have had to fight for. I hope every honest desire in your heart finds its way to you.</p>
+        </article>
         <section class="substory" aria-labelledby="openWhenTitle">
           <span class="substory-kicker">letters for later</span>
           <h3 class="substory-title" id="openWhenTitle">Open when...</h3>
@@ -1254,6 +1464,15 @@
           <div class="wyr-reaction" id="wyrReaction" aria-live="polite"></div>
           <button class="wyr-next" id="wyrNext" type="button">next question →</button>
         </section>
+        <section class="feature-card hug-card" aria-labelledby="hugTitle">
+          <span class="feature-kicker">for the distance</span>
+          <h3 class="feature-title" id="hugTitle">One hug, sent properly</h3>
+          <p class="feature-copy">Hold the button. Let your phone do the tiny part distance will not let me do myself.</p>
+          <button class="hug-btn" id="hugBtn" type="button">
+            <span class="hug-fill" id="hugFill"></span>
+            <span>hold to receive a hug</span>
+          </button>
+        </section>
       </div>
     </div>
 
@@ -1271,6 +1490,30 @@
           <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Growth-minded</b><span>Always working on becoming a better version of yourself.</span></div></div>
           <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Big-hearted</b><span>You give more than you probably even realize.</span></div></div>
         </div>
+
+        <section class="feature-card" aria-labelledby="smallWinsTitle">
+          <span class="feature-kicker">the wins that deserve to be named</span>
+          <h3 class="feature-title" id="smallWinsTitle">Your small wins were never actually small</h3>
+          <p class="feature-copy">People usually notice the destination. I notice how many times you had to choose not to give up before you got there.</p>
+          <div class="small-wins-grid">
+            <div class="small-win"><b>You waited without surrendering</b><span>Almost two years outside school could have made you stop believing. You kept going.</span></div>
+            <div class="small-win"><b>You fought for the move</b><span>Living abroad did not simply happen to you. You wanted it, worked for it and made it real.</span></div>
+            <div class="small-win"><b>You travelled on your own</b><span>You crossed countries and began again with more courage than most people ever have to find.</span></div>
+            <div class="small-win"><b>You started learning Russian</b><span>A whole new language is now one more bridge between you and the medical future you want.</span></div>
+            <div class="small-win"><b>You adapted</b><span>New place, new language, new routines—and you found ways to keep becoming yourself inside all of it.</span></div>
+            <div class="small-win"><b>You survived a health chapter</b><span>Your body put you through a frightening, painful season. You came through it.</span></div>
+            <div class="small-win"><b>You outgrew darker seasons</b><span>The difficult days do not seem to own you the way they once did. That growth matters.</span></div>
+            <div class="small-win"><b>You became stronger and wiser</b><span>You are not the same person I met four years ago. The change in you genuinely impresses me.</span></div>
+          </div>
+        </section>
+
+        <section class="feature-card surgeon-dream" aria-labelledby="surgeonDreamTitle">
+          <span class="feature-kicker">who you are outside of us</span>
+          <h3 class="feature-title" id="surgeonDreamTitle">I can see the surgeon you are fighting to become</h3>
+          <p class="feature-copy">Your dream is not just a title. It is the admission you kept chasing, the years you refused to treat as wasted, the Russian you are learning now and the life you crossed a border to build. You have the steadiness, strength and care the work will ask from you.</p>
+          <p class="feature-copy">What makes me proudest is not only that you moved abroad. It is your strength and adaptability—the way you keep meeting a new version of life and learning how to stand inside it.</p>
+          <div class="white-coat-line"><span class="white-coat-icon" aria-hidden="true">⚕</span><div><strong>Future surgeon, currently in progress</strong><span>Russian first. Admission next. White coat after that. One hard-earned step at a time.</span></div></div>
+        </section>
         <article class="zodiac-card" aria-labelledby="libraTitle">
           <div class="zodiac-content">
             <span class="zodiac-dates">13 October · Air sign</span>
@@ -1323,7 +1566,7 @@
           <h3 class="substory-title" id="distanceTitle">Nigeria to Russia</h3>
           <div class="distance-value" id="distanceValue">calculating…</div>
           <div class="distance-route"><span class="distance-plane" aria-hidden="true">✈</span></div>
-          <p class="distance-note" id="distanceNote">An honest estimate from Iwo to Russia's UTC+5 region until you choose to share your current location.</p>
+          <p class="distance-note" id="distanceNote">An honest estimate from Asaba to Russia's UTC+5 region until you choose to share your current location.</p>
         </section>
 
         <div class="sky-bridge-live" aria-label="Live time bridge between Nigeria and Russia">
@@ -1341,15 +1584,39 @@
         </div>
         <div class="sky-bridge-note">different clocks. the same sky. still us.</div>
 
+        <section class="feature-card" aria-labelledby="liveSkiesTitle">
+          <span class="feature-kicker">the same moment, seen from two places</span>
+          <h3 class="feature-title" id="liveSkiesTitle">Our live skies</h3>
+          <p class="feature-copy">Asaba on one side. Your UTC+5 sky on the other—an honest estimate until you choose to let the browser use your exact location.</p>
+          <div class="dual-sky-grid">
+            <div class="mini-sky"><canvas id="asabaSkyCanvas" aria-label="Live star view above Asaba, Nigeria"></canvas><div class="mini-sky-label"><span><b>Asaba</b>Nigeria</span><time id="asabaSkyTime">--:--</time></div></div>
+            <div class="mini-sky"><canvas id="victorySkyCanvas" aria-label="Estimated live star view above Victory's UTC plus five region"></canvas><div class="mini-sky-label"><span><b>Victory’s sky</b>Russia · UTC+5 estimate</span><time id="victorySkyTime">--:--</time></div></div>
+          </div>
+          <div class="light-bridge" aria-hidden="true"><span class="light-bridge-note">one light travelling both ways</span><span class="light-photon"></span></div>
+        </section>
+
         <section class="weather-card" aria-labelledby="weatherTitle">
           <span class="substory-kicker">under the same sky</span>
           <h3 class="substory-title" id="weatherTitle">Our weather, right now</h3>
           <div class="weather-grid">
-            <div class="weather-place"><span class="weather-city">Iwo, Nigeria</span><span class="weather-main" id="nigeriaWeather">loading…</span><span class="weather-desc" id="nigeriaWeatherDesc">checking the sky</span></div>
+            <div class="weather-place"><span class="weather-city">Asaba, Nigeria</span><span class="weather-main" id="nigeriaWeather">loading…</span><span class="weather-desc" id="nigeriaWeatherDesc">checking the sky</span></div>
             <div class="weather-place"><span class="weather-city" id="herWeatherCity">Russia · UTC+5 estimate</span><span class="weather-main" id="russiaWeather">loading…</span><span class="weather-desc" id="russiaWeatherDesc">checking the sky</span></div>
           </div>
           <button class="locate-btn" id="locateHerBtn" type="button">use your actual location for your side</button>
           <p class="weather-note" id="weatherNote">Location is only used in this browser and is never saved or sent to Favour.</p>
+        </section>
+
+        <section class="feature-card" aria-labelledby="journeyMapTitle">
+          <span class="feature-kicker">four places, one strange little story</span>
+          <h3 class="feature-title" id="journeyMapTitle">The places that hold pieces of us</h3>
+          <p class="feature-copy">These are city-level memories only—the personal details stay ours.</p>
+          <div class="story-map" id="journeyMap" role="img" aria-label="World map with meaningful pins in Ibadan, Port Harcourt, Asaba and Russia"></div>
+          <div class="map-memory-list">
+            <div class="map-memory"><b>Ibadan · where we first met in person</b><p>I still cannot believe I watched someone eat bread with Bama and Milo. You genuinely scarred me 😭</p></div>
+            <div class="map-memory"><b>Port Harcourt · a night that belongs to us</b><p>Some memories do not need a public caption. You know exactly which night—and yes, I remember the bath too.</p></div>
+            <div class="map-memory"><b>Asaba · where I am finishing this</b><p>A different city, still thinking carefully about how to make your birthday feel special.</p></div>
+            <div class="map-memory"><b>Russia · where you began again</b><p>The place you travelled to alone, learned to adapt and started building the road toward medicine.</p></div>
+          </div>
         </section>
 
         <div class="time-together" id="timeTogether" style="opacity:1; transform:none;">
@@ -1407,16 +1674,36 @@
           <p id="lifeMeaning"><strong>Twenty is big.</strong> It is 240 months, more than 175,000 hours, thousands of ordinary mornings and one completely unrepeatable you. You have already lived whole versions of yourself—and there is still so much life waiting to meet you.</p>
         </section>
         <section class="substory" aria-labelledby="hopeTitle">
-          <span class="substory-kicker">this year, specifically</span>
-          <h3 class="substory-title" id="hopeTitle">This year I hope...</h3>
-          <div class="hope-list">
-            <div class="hope-item" style="--hope-delay:.1s"><span class="hope-check">✦</span><span>you wake up with more peace than pressure, even on ordinary days.</span></div>
-            <div class="hope-item" style="--hope-delay:.2s"><span class="hope-check">✦</span><span>the work you have been putting in finally becomes visible to the right people.</span></div>
-            <div class="hope-item" style="--hope-delay:.3s"><span class="hope-check">✦</span><span>Russia begins to feel less unfamiliar and more like a chapter you truly own.</span></div>
-            <div class="hope-item" style="--hope-delay:.4s"><span class="hope-check">✦</span><span>you find friends who protect your softness and celebrate your growth.</span></div>
-            <div class="hope-item" style="--hope-delay:.5s"><span class="hope-check">✦</span><span>you laugh so often that the difficult days stop feeling like the whole story.</span></div>
-            <div class="hope-item" style="--hope-delay:.6s"><span class="hope-check">✦</span><span>you feel loved without needing to question whether you deserve it.</span></div>
+          <span class="substory-kicker">twenty sincere wishes for twenty</span>
+          <h3 class="substory-title" id="hopeTitle">Twenty things I hope this year gives you</h3>
+          <div class="twenty-wishes" id="twentyWishes"></div>
+        </section>
+
+        <section class="feature-card" aria-labelledby="dreamMapTitle">
+          <span class="feature-kicker">the world should keep opening for you</span>
+          <h3 class="feature-title" id="dreamMapTitle">Places I can imagine you seeing</h3>
+          <p class="feature-copy">I might be remembering these imperfectly: maybe the UK because you like the accent, and maybe the Maldives. Even if I got the places wrong, I did not get the bigger wish wrong—I want the world to become available to you.</p>
+          <div class="story-map" id="dreamMap" role="img" aria-label="Map showing possible dream destinations in the United Kingdom and Maldives"></div>
+          <div class="map-memory-list">
+            <div class="map-memory"><b>The United Kingdom · maybe</b><p>So you can hear the accent every day until the novelty finally wears off.</p></div>
+            <div class="map-memory"><b>The Maldives · maybe</b><p>Clear water, proper rest and absolutely no admission stress for a while.</p></div>
+            <div class="map-memory"><b>Everywhere else · definitely</b><p>These are not limits. They are only the first two pins on a much bigger map.</p></div>
           </div>
+        </section>
+
+        <section class="feature-card" aria-labelledby="bucketTitle">
+          <span class="feature-kicker">twenty things that belong to your future</span>
+          <h3 class="feature-title" id="bucketTitle">Victory’s bucket list</h3>
+          <p class="feature-copy">This list is yours—not a list of things you owe anyone. Tick something whenever life lets you claim it.</p>
+          <div class="bucket-list" id="bucketList"></div>
+          <div class="bucket-progress" id="bucketProgress">0 of 20 claimed</div>
+        </section>
+
+        <section class="feature-card fortune-shell" aria-labelledby="fortuneTitle">
+          <span class="feature-kicker">a card from the universe</span>
+          <h3 class="feature-title" id="fortuneTitle">Your birthday fortune</h3>
+          <div class="fortune-card" id="fortuneCard" aria-live="polite"><p>Your next chapter will ask for courage—and then introduce you to the version of yourself who already has it.</p></div>
+          <button class="fortune-btn" id="fortuneBtn" type="button">draw another fortune</button>
         </section>
         <article class="today-scenario">
           <span class="substory-kicker">if I were there today...</span>
@@ -1430,6 +1717,7 @@
     <div class="screen" id="screenLetter">
       <div class="letter-card" id="letterCard">
         <div class="card-sweep"></div>
+        <button class="reader-toggle" id="readerToggle" type="button" aria-pressed="false">reader mode</button>
         <button class="skip-typing-btn" id="skipTypingBtn" type="button" hidden>show full letter</button>
         <div class="letter-header">
           <img src="victory.jpg" class="letter-small-photo" id="letterPhoto" alt="Portrait of Victory" />
@@ -1447,11 +1735,37 @@
           <p>I am grateful there are still words between us. Even if this chapter is quieter and we take it one message at a time, hearing from you still matters to me. I do not want to rush you or turn every conversation into a question about what we are. I want to treat whatever remains between us with care.</p>
           <p class="love-line" id="loveLine">And because I promised myself I would be honest: I still love you. Not only the memory of us, and not only the future I sometimes imagine. I love the honest, resilient, complicated, warm and growing person behind the screen.</p>
           <p>I still hope for a future where distance is no longer measured in kilometres or time zones. I still imagine saying goodnight beside you and laughing about how many calls it took to get there. I know that future cannot be decided by me alone, and I know hope must never become pressure. So I am holding it gently.</p>
-          <p>Today, more than anything, I want you to feel seen. Your existence made a real difference in another person's life—mine. You are not easy to forget, and you are not replaceable in the story I have lived.<span class="russian-line" lang="ru">Сегодня я просто хочу, чтобы ты чувствовала, что тебя ценят, видят и глубоко о тебе заботятся.<span class="russian-translation">Today, I just hope you feel celebrated, seen and deeply cared for.</span></span></p>
+          <p>Today, more than anything, I want you to feel seen. Your existence made a real difference in another person's life—mine. You are not easy to forget, and you are not replaceable in the story I have lived.</p>
           <p class="closing">Happy birthday, Victory. Thank you for the calls, the video calls, the laughter, the lessons and even the difficult truths. If our first call was the beginning, I hope this is not the last chapter. I mean every word.</p>
         </div>
 
         <div class="signature" id="signature">— Favour</div>
+
+        <section class="feature-card" aria-labelledby="thenNowTitle">
+          <span class="feature-kicker">the person I saw then · the person I see now</span>
+          <h3 class="feature-title" id="thenNowTitle">Favour then and Favour now</h3>
+          <div class="then-now-grid">
+            <article class="era-letter"><b>Then · 2023</b><p>I noticed your body first—partly because you made sure I knew I would. I liked you, I was curious about you, and I had no idea how important your heart would become to me.</p></article>
+            <article class="era-letter"><b>Now · 2026</b><p>Now I see the woman who fought for a new country, adapted, learned a new language and kept moving toward medicine. Your strength is the first thing I think about. Your caring heart is the thing I value most.</p></article>
+          </div>
+          <div class="build-timeline" aria-label="How Favour built the birthday site">
+            <div class="build-moment"><b>FEBRUARY · AFTER VALENTINE’S</b><p>I started working on this because I could not do what I wanted for Valentine’s, and I wanted your birthday to feel different. You probably thought I could never keep something this big a secret. Honestly, fair.</p></div>
+            <div class="build-moment"><b>OCTOBER · FINISHING THE UNIVERSE</b><p>I finished it in a chapter that did not look exactly how I imagined in February. I still felt I should show you. If it makes your day even a little softer, then every hour I spent hiding this was worth it.</p></div>
+          </div>
+        </section>
+
+        <section class="feature-card handwriting-card" aria-labelledby="handwritingTitle">
+          <span class="feature-kicker">actually written by me</span>
+          <h3 class="feature-title" id="handwritingTitle">Watch my handwriting appear</h3>
+          <p class="feature-copy">Not a font. Not polished. Just my hand writing something simple for you.</p>
+          <div class="handwriting-canvas-wrap"><canvas id="handwritingCanvas" aria-label="Favour's handwritten birthday message"></canvas></div>
+          <button class="handwriting-btn" id="handwritingBtn" type="button">play the handwritten note</button>
+          <audio id="handwritingVoice" controls preload="metadata">
+            <source src="favour-handwriting-voice.mp3" type="audio/mpeg" />
+            <source src="favour-handwriting-voice.webm" type="audio/webm" />
+          </audio>
+          <div class="handwriting-status" id="handwritingStatus">The writing can play now. Add your recorded voice file beside the site to hear Favour read it.</div>
+        </section>
 
         <section class="favour-memo" aria-labelledby="memoTitle">
           <div class="memo-avatar">F</div>
@@ -1554,6 +1868,27 @@
           <div class="constellation-caption">some names were always meant to be written in stars.</div>
         </section>
 
+        <section class="final-panel newspaper" aria-labelledby="newspaperTitle">
+          <header class="newspaper-masthead">
+            <div class="newspaper-date"><span>13 October 2026</span><span>Special birthday edition</span><span>Price: one smile</span></div>
+            <h2 class="newspaper-name" id="newspaperTitle">THE VICTORY TIMES</h2>
+            <div class="newspaper-tag">All the news worth celebrating</div>
+          </header>
+          <div class="newspaper-body">
+            <h3 class="newspaper-headline">Future surgeon crosses continents and refuses to give up</h3>
+            <p class="newspaper-deck">After years of waiting, fighting, adapting and beginning again, Victory enters twenty stronger, wiser and closer to the life she chose.</p>
+            <img class="newspaper-hero" src="victory.jpg" alt="Victory, the subject of the special birthday edition" />
+            <p class="newspaper-caption">Victory—future doctor, current Russian student and living proof that a delayed chapter is not a cancelled future.</p>
+            <div class="newspaper-columns">
+              <p>Victory did not take the easy route to twenty. She spent nearly two years outside school without allowing the delay to decide what her life would become. She fought for the chance to move abroad, travelled on her own and began learning Russian before applying to university.</p>
+              <p>Her goal is medicine, specifically surgery. The work ahead is serious, but so is she. Those close enough to watch her journey describe strength and adaptability as her defining qualities.</p>
+              <p>She has also come through a difficult health chapter and darker emotional seasons without losing the caring, loving person underneath them. The person she is today is not the girl Favour first met in 2023—and that growth is worth its own headline.</p>
+              <p>Asked for comment, Favour said: “I am proud of how she keeps becoming more of herself. I hope twenty gives her the admission, peace, health and wins she has worked so hard for.”</p>
+            </div>
+            <blockquote class="newspaper-quote">BREAKING: Amarachiii remains impossible to forget.</blockquote>
+          </div>
+        </section>
+
         <section class="final-panel return-capsule" aria-labelledby="returnTitle">
           <span class="panel-kicker">the universe remembers</span>
           <h2 class="panel-title" id="returnTitle">A light for next year</h2>
@@ -1591,6 +1926,14 @@
           </div>
           <div class="reply-status" id="keepsakeStatus" aria-live="polite"></div>
         </section>
+
+        <section class="final-panel install-panel" aria-labelledby="installTitle">
+          <span class="panel-kicker">keep the universe on your phone</span>
+          <h2 class="panel-title" id="installTitle">Install Victory’s Universe</h2>
+          <p class="panel-copy">It can sit on your home screen like an app, with your portrait as its icon.</p>
+          <button class="install-btn" id="installBtn" type="button">add to home screen</button>
+          <div class="install-note" id="installNote">Your browser will show the safest install option available.</div>
+        </section>
       </div>
       <div class="closing-credit" id="closingCredit" aria-label="Made by Favour">
         <span class="credit-label">made with intention by</span>
@@ -1623,6 +1966,7 @@
   <div id="yt-player"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
     const netflixIntro = document.getElementById('netflix-intro');
     const heroImg = document.querySelector('.hero-photo-frame img');
@@ -2021,10 +2365,11 @@
     const wyrReaction=document.getElementById('wyrReaction'), wyrNext=document.getElementById('wyrNext');
     let wyrIndex=0;
     function paintWyr(){
-      const [a,b]=wouldYouRather[wyrIndex]; wyrCount.textContent=`question ${wyrIndex+1} of ${wouldYouRather.length}`;
-      wyrQuestion.textContent='Would you rather…'; wyrA.textContent=a; wyrB.textContent=b;
+      const [a,b]=wouldYouRather[wyrIndex], ru=document.documentElement.lang==='ru';
+      wyrCount.textContent=ru?`вопрос ${wyrIndex+1} из ${wouldYouRather.length}`:`question ${wyrIndex+1} of ${wouldYouRather.length}`;
+      wyrQuestion.textContent=ru?'Что бы ты выбрала…':'Would you rather…'; wyrA.textContent=a; wyrB.textContent=b;
       wyrA.classList.remove('chosen');wyrB.classList.remove('chosen');wyrReaction.textContent='';wyrNext.classList.remove('show');
-      wyrNext.textContent=wyrIndex===wouldYouRather.length-1?'play again ↻':'next question →';
+      wyrNext.textContent=wyrIndex===wouldYouRather.length-1?(ru?'сыграть снова ↻':'play again ↻'):(ru?'следующий вопрос →':'next question →');
     }
     function chooseWyr(button){wyrA.classList.remove('chosen');wyrB.classList.remove('chosen');button.classList.add('chosen');wyrReaction.textContent=wouldYouRather[wyrIndex][2];wyrNext.classList.add('show');if(navigator.vibrate)navigator.vibrate(16);}
     wyrA.addEventListener('click',()=>chooseWyr(wyrA));wyrB.addEventListener('click',()=>chooseWyr(wyrB));
@@ -2033,6 +2378,7 @@
     const burst = document.getElementById('burst');
     const letterCard = document.getElementById('letterCard');
     const letterParas = document.querySelectorAll('#letterBody p');
+    letterParas.forEach(p => { p.dataset.englishText = p.textContent.trim(); });
     const signature = document.getElementById('signature');
     const scrollCue = document.getElementById('scrollCue');
     const sliderWrap = document.getElementById('sliderWrap');
@@ -2081,7 +2427,7 @@
         p.classList.add('typing'); p.textContent = ''; let i = 0;
         const timer = setInterval(() => {
           if (skipTyping) {
-            p.textContent = text;
+            p.textContent = p.getAttribute('data-text') || text;
             clearInterval(timer);
             resolve();
             return;
@@ -2165,7 +2511,7 @@
     });
 
     document.getElementById('gotoLetterBtn').addEventListener('click', (e) => {
-      openLetterExperience(e.currentTarget);
+      animateSilverEnvelope(e.currentTarget);
     });
 
     skipTypingBtn.addEventListener('click', () => {
@@ -2554,7 +2900,7 @@
     setInterval(updateSkyBridgeTimes, 15000);
 
     // ===== honest distance estimate + live weather (location stays in-browser) =====
-    const IWO = { lat:7.6353, lon:4.1816, label:'Iwo, Nigeria' };
+    const ASABA = { lat:6.1985, lon:6.7274, label:'Asaba, Nigeria' };
     const RUSSIA_FALLBACK = { lat:56.8389, lon:60.6057, label:'Russia · UTC+5 estimate' };
     const distanceValue = document.getElementById('distanceValue');
     const distanceNote = document.getElementById('distanceNote');
@@ -2573,11 +2919,16 @@
       return earth * 2 * Math.atan2(Math.sqrt(value),Math.sqrt(1-value));
     }
     function showDistance(destination,isExact=false) {
-      const km = Math.round(haversineKm(IWO,destination));
-      distanceValue.textContent = km.toLocaleString() + ' km';
-      distanceNote.textContent = isExact
-        ? `Approximate straight-line distance from Iwo to your current location: ${km.toLocaleString()} km. Your coordinates stay on this device.`
-        : `Estimated straight-line distance from Iwo to Russia's UTC+5 region: ${km.toLocaleString()} km. Tap below for a closer figure.`;
+      const km = Math.round(haversineKm(ASABA,destination));
+      const ru = document.documentElement.lang === 'ru';
+      distanceValue.textContent = km.toLocaleString() + (ru ? ' км' : ' km');
+      distanceNote.textContent = ru
+        ? (isExact
+          ? `Примерное расстояние по прямой от Асабы до твоего текущего места: ${km.toLocaleString()} км. Координаты остаются на этом устройстве.`
+          : `Примерное расстояние по прямой от Асабы до региона России UTC+5: ${km.toLocaleString()} км. Нажми ниже для более точной оценки.`)
+        : (isExact
+          ? `Approximate straight-line distance from Asaba to your current location: ${km.toLocaleString()} km. Your coordinates stay on this device.`
+          : `Estimated straight-line distance from Asaba to Russia's UTC+5 region: ${km.toLocaleString()} km. Tap below for a closer figure.`);
     }
     const weatherDescriptions = {
       0:'clear sky',1:'mostly clear',2:'partly cloudy',3:'overcast',45:'foggy',48:'icy fog',
@@ -2593,7 +2944,8 @@
         if (!response.ok) throw new Error('weather unavailable');
         const data = await response.json(), current = data.current;
         tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
-        descEl.textContent = `${weatherDescriptions[current.weather_code] || 'current conditions'} · feels ${Math.round(current.apparent_temperature)}°`;
+        const feels = document.documentElement.lang === 'ru' ? 'ощущается как' : 'feels';
+        descEl.textContent = `${weatherDescriptions[current.weather_code] || (document.documentElement.lang === 'ru' ? 'текущая погода' : 'current conditions')} · ${feels} ${Math.round(current.apparent_temperature)}°`;
       } catch (err) {
         tempEl.textContent = 'sky unavailable';
         descEl.textContent = 'check again when connected';
@@ -2601,7 +2953,7 @@
     }
     async function loadBothSkies(destination=RUSSIA_FALLBACK) {
       await Promise.all([
-        fetchWeather(IWO,nigeriaWeather,nigeriaWeatherDesc),
+        fetchWeather(ASABA,nigeriaWeather,nigeriaWeatherDesc),
         fetchWeather(destination,russiaWeather,russiaWeatherDesc)
       ]);
     }
@@ -2649,7 +3001,9 @@
       const days = Math.floor(diff / 86400000);
       const hours = Math.floor((diff % 86400000) / 3600000);
       const minutes = Math.floor((diff % 3600000) / 60000);
-      returnCountdown.textContent = `${days} days · ${hours} hours · ${minutes} minutes`;
+      returnCountdown.textContent = document.documentElement.lang === 'ru'
+        ? `${days} дней · ${hours} часов · ${minutes} минут`
+        : `${days} days · ${hours} hours · ${minutes} minutes`;
     }
     returnOpenBtn.addEventListener('click', () => {
       if (returnOpenBtn.disabled) return;
@@ -2832,10 +3186,364 @@
       if (days < 0) { const prev = new Date(now.getFullYear(), now.getMonth(), 0); days += prev.getDate(); months--; }
       if (months < 0) { months += 12; years--; }
       const mins = now.getMinutes(), secs = now.getSeconds();
-      ttCount.innerHTML = `<span class="tt-num">${years}</span> year${years !== 1 ? 's' : ''} · <span class="tt-num">${months}</span> month${months !== 1 ? 's' : ''} · <span class="tt-num">${days}</span> day${days !== 1 ? 's' : ''}<br><span class="tt-num">${hours}</span>h <span class="tt-num">${mins}</span>m <span class="tt-num">${secs}</span>s`;
+      ttCount.innerHTML = document.documentElement.lang === 'ru'
+        ? `<span class="tt-num">${years}</span> г. · <span class="tt-num">${months}</span> мес. · <span class="tt-num">${days}</span> дн.<br><span class="tt-num">${hours}</span>ч <span class="tt-num">${mins}</span>м <span class="tt-num">${secs}</span>с`
+        : `<span class="tt-num">${years}</span> year${years !== 1 ? 's' : ''} · <span class="tt-num">${months}</span> month${months !== 1 ? 's' : ''} · <span class="tt-num">${days}</span> day${days !== 1 ? 's' : ''}<br><span class="tt-num">${hours}</span>h <span class="tt-num">${mins}</span>m <span class="tt-num">${secs}</span>s`;
     }
     updateTimeTogether();
     setInterval(updateTimeTogether, 1000);
+
+    // ===== 2026 EXPANSION: selected personal features =====
+    let currentLanguage = 'en';
+    try { currentLanguage = localStorage.getItem('victory-language') === 'ru' ? 'ru' : 'en'; } catch (err) {}
+
+    // Silver envelope travelling from Favour's side to Victory before the letter opens.
+    const silverEnvelopeFlight = document.getElementById('silverEnvelopeFlight');
+    let envelopeInFlight = false;
+    function animateSilverEnvelope(originEl) {
+      if (envelopeInFlight) return;
+      envelopeInFlight = true;
+      silverEnvelopeFlight.classList.remove('show');
+      void silverEnvelopeFlight.offsetWidth;
+      silverEnvelopeFlight.classList.add('show');
+      if (navigator.vibrate) navigator.vibrate([18, 40, 26]);
+      setTimeout(() => {
+        silverEnvelopeFlight.classList.remove('show');
+        envelopeInFlight = false;
+        openLetterExperience(originEl);
+      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 120 : 2200);
+    }
+
+    // Draggable planets: positions stay on this device and a dragged planet does not accidentally open.
+    const PLANET_STORAGE_KEY = 'victory-universe-planet-positions';
+    let savedPlanetPositions = {};
+    try { savedPlanetPositions = JSON.parse(localStorage.getItem(PLANET_STORAGE_KEY) || '{}'); } catch (err) {}
+    document.querySelectorAll('.planet').forEach((planet, index) => {
+      const key = planet.dataset.target || String(index);
+      const saved = savedPlanetPositions[key];
+      if (saved) {
+        planet.style.translate = `${saved.x}px ${saved.y}px`;
+        planet.classList.add('was-dragged');
+      }
+      planet.style.touchAction = 'none';
+      let startX = 0, startY = 0, originX = saved?.x || 0, originY = saved?.y || 0;
+      let active = false, moved = false;
+      planet.addEventListener('pointerdown', event => {
+        active = true; moved = false; startX = event.clientX; startY = event.clientY;
+        const match = (planet.style.translate || '').match(/(-?[\d.]+)px\s+(-?[\d.]+)px/);
+        originX = match ? Number(match[1]) : 0; originY = match ? Number(match[2]) : 0;
+        planet.classList.add('dragging'); planet.setAttribute('aria-grabbed','true');
+        try { planet.setPointerCapture(event.pointerId); } catch (err) {}
+        event.stopPropagation();
+      });
+      planet.addEventListener('pointermove', event => {
+        if (!active) return;
+        const dx = event.clientX - startX, dy = event.clientY - startY;
+        if (Math.hypot(dx,dy) > 7) moved = true;
+        const x = Math.max(-92, Math.min(92, originX + dx));
+        const y = Math.max(-66, Math.min(66, originY + dy));
+        planet.style.translate = `${x}px ${y}px`;
+        event.stopPropagation(); event.preventDefault();
+      });
+      const endDrag = event => {
+        if (!active) return;
+        active = false; planet.classList.remove('dragging'); planet.setAttribute('aria-grabbed','false');
+        const match = (planet.style.translate || '').match(/(-?[\d.]+)px\s+(-?[\d.]+)px/);
+        if (moved && match) {
+          planet.classList.add('was-dragged');
+          savedPlanetPositions[key] = { x:Number(match[1]), y:Number(match[2]) };
+          try { localStorage.setItem(PLANET_STORAGE_KEY, JSON.stringify(savedPlanetPositions)); } catch (err) {}
+          if (navigator.vibrate) navigator.vibrate(12);
+          setTimeout(() => { moved = false; }, 80);
+        }
+        event.stopPropagation();
+      };
+      planet.addEventListener('pointerup', endDrag);
+      planet.addEventListener('pointercancel', endDrag);
+      planet.addEventListener('click', event => {
+        if (!moved) return;
+        event.preventDefault(); event.stopImmediatePropagation(); moved = false;
+      }, true);
+    });
+
+    // A meteor that writes her nickname across the current sky.
+    const nameMeteor = document.getElementById('nameMeteor');
+    const meteorBtn = document.getElementById('meteorBtn');
+    function launchNameMeteor() {
+      nameMeteor.classList.remove('fly');
+      void nameMeteor.offsetWidth;
+      nameMeteor.classList.add('fly');
+      setTimeout(() => nameMeteor.classList.remove('fly'), 3600);
+    }
+    meteorBtn.addEventListener('click', launchNameMeteor);
+
+    // Hold-to-hug with a warm visual and gentle phone haptics where supported.
+    const hugBtn = document.getElementById('hugBtn');
+    const hugOverlay = document.getElementById('hugOverlay');
+    let hugTimer = null, hugDone = false;
+    function completeHug() {
+      hugDone = true; hugBtn.classList.remove('holding'); hugOverlay.classList.add('show');
+      hugBtn.querySelector('span:last-child').textContent = currentLanguage === 'ru' ? 'обнимаю тебя через всё расстояние 🤍' : 'hug sent across every kilometre 🤍';
+      if (navigator.vibrate) navigator.vibrate([55,45,90,55,140]);
+      setTimeout(() => hugOverlay.classList.remove('show'), 2300);
+    }
+    function beginHug() {
+      clearTimeout(hugTimer); hugDone = false; hugBtn.classList.add('holding');
+      hugTimer = setTimeout(completeHug, 1150);
+    }
+    function cancelHug() {
+      clearTimeout(hugTimer);
+      if (!hugDone) hugBtn.classList.remove('holding');
+    }
+    hugBtn.addEventListener('pointerdown', beginHug);
+    hugBtn.addEventListener('pointerup', cancelHug);
+    hugBtn.addEventListener('pointerleave', cancelHug);
+    hugBtn.addEventListener('pointercancel', cancelHug);
+    hugBtn.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); completeHug(); }
+    });
+
+    // Real map tiles with city-level pins only. Exact private addresses are never used.
+    const JOURNEY_PLACES = [
+      { label:'Ibadan · first meeting', coords:[7.3775,3.9470], note:'Bread, Bama and Milo—the food combination I may never recover from 😭' },
+      { label:'Port Harcourt · a private memory', coords:[4.8156,7.0498], note:'A night we both remember. The personal details stay ours.' },
+      { label:'Asaba · where Favour finished this', coords:[6.1985,6.7274], note:'The Nigerian side of the universe now.' },
+      { label:'Russia · Victory building her future', coords:[56.8389,60.6057], note:'A broad UTC+5 estimate, never an exact address.' }
+    ];
+    const DREAM_PLACES = [
+      { label:'United Kingdom · maybe', coords:[54.5,-2.5], note:'For the accent you like—and whatever dream waits after it.' },
+      { label:'Maldives · maybe', coords:[3.2028,73.2207], note:'Clear water, proper rest and no admission stress.' }
+    ];
+    let journeyMapInstance = null, dreamMapInstance = null;
+    function mapLanguageCopy(value) {
+      if (currentLanguage !== 'ru' || typeof RU_TRANSLATIONS === 'undefined') return value;
+      return RU_TRANSLATIONS.get(String(value).replace(/\s+/g,' ').trim()) || value;
+    }
+    function makeStarMarker() {
+      return L.divIcon({ className:'', html:'<span style="display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#a66b6d;color:white;border:2px solid white;box-shadow:0 0 18px rgba(201,137,138,.75);font-size:13px">✦</span>', iconSize:[28,28], iconAnchor:[14,14] });
+    }
+    function buildLeafletMap(elementId, places, zoom) {
+      if (!window.L) {
+        document.getElementById(elementId).innerHTML = '<div style="height:100%;display:grid;place-items:center;padding:25px;text-align:center;color:#5b5f6a;font-size:.78rem">The map appears when the site is online. The memory cards below still tell the story.</div>';
+        return null;
+      }
+      const map = L.map(elementId,{ scrollWheelZoom:false, attributionControl:false, zoomControl:true }).setView([21,15],zoom);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ maxZoom:18, attribution:'© OpenStreetMap' }).addTo(map);
+      const marker = makeStarMarker();
+      const line = [];
+      places.forEach(place => {
+        L.marker(place.coords,{icon:marker}).addTo(map).bindPopup(`<strong>${mapLanguageCopy(place.label)}</strong><br>${mapLanguageCopy(place.note)}`);
+        line.push(place.coords);
+      });
+      if (line.length > 1) L.polyline(line,{color:'#b96f84',weight:2,dashArray:'5 8',opacity:.8}).addTo(map);
+      const group = L.featureGroup(places.map(place => L.marker(place.coords)));
+      map.fitBounds(group.getBounds().pad(.22));
+      setTimeout(() => map.invalidateSize(),250);
+      return map;
+    }
+    function ensureJourneyMap() {
+      if (!journeyMapInstance) journeyMapInstance = buildLeafletMap('journeyMap',JOURNEY_PLACES,2);
+      else setTimeout(() => journeyMapInstance.invalidateSize(),100);
+    }
+    function ensureDreamMap() {
+      if (!dreamMapInstance) dreamMapInstance = buildLeafletMap('dreamMap',DREAM_PLACES,2);
+      else setTimeout(() => dreamMapInstance.invalidateSize(),100);
+    }
+    document.querySelector('[data-target="screenMoments"]').addEventListener('click',() => setTimeout(() => { ensureJourneyMap(); renderTwinSkies(); },160));
+    document.querySelector('[data-target="screenFuture"]').addEventListener('click',() => setTimeout(ensureDreamMap,160));
+
+    // Side-by-side live sky views, calculated locally from the same bright-star data as the hub.
+    const asabaSkyCanvas = document.getElementById('asabaSkyCanvas');
+    const victorySkyCanvas = document.getElementById('victorySkyCanvas');
+    const asabaSkyTime = document.getElementById('asabaSkyTime');
+    const victorySkyTime = document.getElementById('victorySkyTime');
+    function paintMiniSky(canvas, place, hour) {
+      const width = Math.max(180,Math.round(canvas.clientWidth || 240));
+      const height = Math.max(150,Math.round(canvas.clientHeight || 180));
+      const dpr = Math.min(2,window.devicePixelRatio || 1);
+      canvas.width=width*dpr;canvas.height=height*dpr;
+      const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+      const daylight = hour>=6 && hour<18;
+      const gradient=ctx.createLinearGradient(0,0,0,height);
+      if(daylight){gradient.addColorStop(0,'#8db5d8');gradient.addColorStop(1,'#e8d5c3');}
+      else{gradient.addColorStop(0,'#070a19');gradient.addColorStop(1,'#1d2446');}
+      ctx.fillStyle=gradient;ctx.fillRect(0,0,width,height);
+      const now=new Date(),jd=julianDate(now),days=jd-2451545;
+      const lst=normalDegrees(280.46061837+360.98564736629*days+place.lon),lat=place.lat*Math.PI/180;
+      brightStars.forEach(([name,ra,dec,mag])=>{
+        const decR=dec*Math.PI/180,ha=normalDegrees(lst-ra*15)*Math.PI/180;
+        const sinAlt=Math.sin(decR)*Math.sin(lat)+Math.cos(decR)*Math.cos(lat)*Math.cos(ha),alt=Math.asin(Math.max(-1,Math.min(1,sinAlt)));
+        if(alt<=0)return;
+        const az=Math.atan2(-Math.sin(ha)*Math.cos(decR),Math.sin(decR)*Math.cos(lat)-Math.cos(decR)*Math.sin(lat)*Math.cos(ha));
+        const radius=Math.min(width,height)*.82,r=(1-alt/(Math.PI/2))*radius;
+        const x=width/2+r*Math.sin(az),y=height*.56-r*.62*Math.cos(az);
+        if(x<0||x>width||y<0||y>height)return;
+        const size=Math.max(.7,2.7-mag*.55),alpha=daylight?.18:Math.max(.34,1-mag*.13);
+        ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${alpha})`;ctx.fill();
+      });
+      const glow=ctx.createRadialGradient(width*.78,height*.2,2,width*.78,height*.2,24);
+      glow.addColorStop(0,daylight?'rgba(255,246,205,.86)':'rgba(235,240,255,.5)');glow.addColorStop(1,'transparent');
+      ctx.fillStyle=glow;ctx.fillRect(0,0,width,height);
+    }
+    function renderTwinSkies() {
+      const now=new Date();
+      const lagosHour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Lagos',hour:'2-digit',hour12:false}).format(now));
+      const russiaHour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Yekaterinburg',hour:'2-digit',hour12:false}).format(now));
+      paintMiniSky(asabaSkyCanvas,ASABA,lagosHour);paintMiniSky(victorySkyCanvas,currentSkyPlace,russiaHour);
+      asabaSkyTime.textContent=timeFormatters.nigeria.format(now);victorySkyTime.textContent=timeFormatters.russia.format(now);
+    }
+    renderTwinSkies();
+    setInterval(renderTwinSkies,60000);
+    window.addEventListener('resize',renderTwinSkies,{passive:true});
+
+    // Twenty wishes: nineteen entirely for her, one gentle hope for the two of you.
+    const TWENTY_WISHES = [
+      ['I hope the admission you have fought for finally arrives with your name on it.','Пусть наконец придёт то письмо о зачислении, за которое ты так долго боролась.'],
+      ['I hope Russian stops feeling like a wall and starts feeling like another thing you conquered.','Пусть русский перестанет быть стеной и станет ещё одной вершиной, которую ты покорила.'],
+      ['I hope your body stays healthy, calm and kind to you.','Пусть твоё тело будет здоровым, спокойным и бережным к тебе.'],
+      ['I hope peace becomes normal—not something you only get after surviving a hard day.','Пусть спокойствие станет нормой, а не наградой после тяжёлого дня.'],
+      ['I hope you find friends abroad who feel safe, loyal and genuinely happy for you.','Пусть за границей ты найдёшь друзей, рядом с которыми безопасно и которые искренне радуются за тебя.'],
+      ['I hope the work nobody saw begins producing wins everybody can see.','Пусть труд, которого никто не видел, принесёт победы, которые увидят все.'],
+      ['I hope you never forget how much courage it took to begin again.','Пусть ты никогда не забудешь, сколько смелости понадобилось, чтобы начать заново.'],
+      ['I hope you learn to rest without feeling guilty for pausing.','Пусть ты научишься отдыхать без чувства вины.'],
+      ['I hope confidence catches up with the capable person everyone else can already see.','Пусть твоя уверенность догонит ту способную девушку, которую остальные уже видят.'],
+      ['I hope you wear your first white coat and remember every version of you that refused to quit.','Пусть, надевая первый белый халат, ты вспомнишь каждую версию себя, которая не сдалась.'],
+      ['I hope you meet teachers and mentors who recognise what is in you.','Пусть тебе встретятся преподаватели и наставники, которые увидят твой потенциал.'],
+      ['I hope you laugh enough that difficult seasons stop feeling like the whole story.','Пусть в твоей жизни будет столько смеха, что трудные времена перестанут казаться всей историей.'],
+      ['I hope Russia begins to feel less like somewhere you moved and more like a chapter you own.','Пусть Россия станет не просто местом переезда, а главой, которой ты по-настоящему владеешь.'],
+      ['I hope money becomes a source of freedom instead of pressure.','Пусть деньги станут источником свободы, а не давления.'],
+      ['I hope the people who love you get to watch you become Dr Victory.','Пусть люди, которые тебя любят, увидят, как ты станешь доктором Виктори.'],
+      ['I hope you visit places that currently exist only in passing thoughts and saved pictures.','Пусть ты побываешь в местах, которые пока существуют лишь в мыслях и сохранённых фотографиях.'],
+      ['I hope something unexpectedly good finds you before you have time to prepare for it.','Пусть что-то неожиданно хорошее найдёт тебя раньше, чем ты успеешь к этому подготовиться.'],
+      ['I hope the darker days keep becoming smaller and further apart.','Пусть тёмные дни становятся всё реже и короче.'],
+      ['I hope you become as proud of yourself as I already am of your strength.','Пусть однажды ты будешь гордиться собой так же, как я уже горжусь твоей силой.'],
+      ['And very gently: if it is right for both of us, I hope life gives us one more honest, peaceful chapter.','И очень осторожно: если это будет правильно для нас обоих, пусть жизнь подарит нам ещё одну честную и спокойную главу.']
+    ];
+    const twentyWishes = document.getElementById('twentyWishes');
+    function renderTwentyWishes() {
+      twentyWishes.innerHTML=TWENTY_WISHES.map((wish,index)=>`<div class="twenty-wish"><span class="wish-number">${String(index+1).padStart(2,'0')}</span><span>${currentLanguage==='ru'?wish[1]:wish[0]}</span></div>`).join('');
+    }
+
+    // Her bucket list is intentionally hers alone.
+    const BUCKET_ITEMS = [
+      ['Open the university admission letter you have been waiting for.','Открыть письмо о зачислении в университет, которого ты так ждала.'],
+      ['Hold your first medical-student ID card.','Получить свой первый студенческий билет медицинского университета.'],
+      ['Wear your first white coat.','Надеть свой первый белый халат.'],
+      ['Speak Russian through an entire day without translating in your head.','Прожить целый день на русском, не переводя всё мысленно.'],
+      ['Pass the exam that once frightened you most.','Сдать экзамен, который когда-то пугал тебя больше всего.'],
+      ['Walk into an operating theatre knowing you earned your place there.','Войти в операционную, зная, что ты заслужила там своё место.'],
+      ['Assist in your first real procedure.','Принять участие в своей первой настоящей процедуре.'],
+      ['Become the surgeon you kept imagining during the waiting years.','Стать хирургом, которым ты представляла себя в годы ожидания.'],
+      ['Visit the UK and judge every accent in person.','Побывать в Великобритании и лично оценить каждый акцент.'],
+      ['Stand beside impossibly clear water in the Maldives.','Постоять у невероятно прозрачной воды на Мальдивах.'],
+      ['Build a room or home abroad that genuinely feels like yours.','Создать за границей комнату или дом, который по-настоящему будет твоим.'],
+      ['Find a circle of friends who protect your peace.','Найти друзей, которые берегут твой покой.'],
+      ['Buy yourself something meaningful with money you earned as a doctor.','Купить себе что-то важное на деньги, заработанные врачом.'],
+      ['Take a photograph in the city where you finally feel settled.','Сделать фотографию в городе, где ты наконец почувствуешь себя дома.'],
+      ['Celebrate a birthday that feels light from beginning to end.','Отпраздновать день рождения, который будет лёгким от начала до конца.'],
+      ['Take a whole day off without explaining or apologising.','Взять целый выходной без объяснений и извинений.'],
+      ['Learn something completely unrelated to medicine just because it is fun.','Научиться чему-то совсем не связанному с медициной — просто ради удовольствия.'],
+      ['Write a letter thanking the version of you who refused to quit.','Написать письмо с благодарностью той версии себя, которая не сдалась.'],
+      ['Look back and know the move abroad was worth the fight.','Оглянуться назад и понять, что переезд за границу стоил всей борьбы.'],
+      ['Choose a new dream because the old impossible one finally became real.','Выбрать новую мечту, потому что прежняя невозможная уже стала реальностью.']
+    ];
+    const bucketList=document.getElementById('bucketList'),bucketProgress=document.getElementById('bucketProgress');
+    let bucketState=[];
+    try { bucketState=JSON.parse(localStorage.getItem('victory-bucket-list')||'[]'); } catch(err) { bucketState=[]; }
+    function updateBucketProgress(){const total=bucketState.filter(Boolean).length;bucketProgress.textContent=currentLanguage==='ru'?`${total} из 20 исполнено`:`${total} of 20 claimed`;}
+    function renderBucketList(){
+      bucketList.innerHTML=BUCKET_ITEMS.map((item,index)=>`<label class="bucket-item"><input type="checkbox" data-bucket="${index}" ${bucketState[index]?'checked':''}><span>${currentLanguage==='ru'?item[1]:item[0]}</span></label>`).join('');
+      bucketList.querySelectorAll('[data-bucket]').forEach(input=>input.addEventListener('change',()=>{bucketState[Number(input.dataset.bucket)]=input.checked;try{localStorage.setItem('victory-bucket-list',JSON.stringify(bucketState));}catch(err){}updateBucketProgress();}));
+      updateBucketProgress();
+    }
+
+    const FORTUNES = [
+      ['Your next chapter will ask for courage—and then introduce you to the version of yourself who already has it.','Следующая глава потребует смелости — а затем познакомит тебя с той версией себя, у которой она уже есть.'],
+      ['A delayed dream is moving again. This time, it knows exactly where to find you.','Отложенная мечта снова движется. Теперь она точно знает, где тебя найти.'],
+      ['The language that feels difficult today will one day carry your confidence.','Язык, который сегодня кажется трудным, однажды станет голосом твоей уверенности.'],
+      ['A white coat belongs somewhere in your future. Keep walking toward it.','В твоём будущем есть белый халат. Продолжай идти к нему.'],
+      ['The place that feels unfamiliar now will slowly collect reasons to feel like home.','Место, которое сейчас кажется чужим, постепенно соберёт причины стать домом.'],
+      ['You are closer to a life-changing yes than the waiting makes it seem.','Ты ближе к судьбоносному «да», чем кажется во время ожидания.'],
+      ['Your strength is about to become useful in a way that finally feels rewarding.','Твоя сила скоро пригодится так, что наконец принесёт радость, а не только выживание.'],
+      ['A door you fought to reach will open—and you will be ready when it does.','Дверь, к которой ты так долго шла, откроется — и ты будешь готова войти.'],
+      ['Someone important will recognise your effort before you learn to hide how much that means.','Кто-то важный заметит твои старания раньше, чем ты успеешь скрыть, как много это для тебя значит.'],
+      ['Your twenties will contain a version of peace your teenage self could not imagine.','В твоих двадцатых будет спокойствие, которое ты-подросток не могла представить.'],
+      ['The future surgeon in you is already practising the most important skill: refusing to give up on a life.','Будущий хирург в тебе уже осваивает самый важный навык — не сдаваться, когда речь идёт о жизни.'],
+      ['A journey near water is waiting for the version of you who finally takes a real break.','Путешествие к воде ждёт ту версию тебя, которая наконец позволит себе настоящий отдых.'],
+      ['The next good surprise will arrive without asking you to suffer for it first.','Следующий хороший сюрприз придёт, не требуя сначала страдать ради него.'],
+      ['You will become fluent in more than Russian—you will become fluent in beginning again.','Ты свободно заговоришь не только по-русски — ты научишься свободно начинать заново.'],
+      ['One ordinary morning, you will realise the hardest transition is already behind you.','Однажды обычным утром ты поймёшь, что самый тяжёлый переход уже позади.'],
+      ['The people meant for your next chapter will not require you to shrink.','Люди из твоей следующей главы не потребуют, чтобы ты становилась меньше.'],
+      ['Your health will be something you care for, not something fear gets to control.','Ты будешь заботиться о здоровье, но страх больше не будет им управлять.'],
+      ['A win with your name on it is already travelling toward you.','Победа с твоим именем уже движется к тебе.'],
+      ['Twenty is not a deadline. It is the first page of the life you fought to reach.','Двадцать — не крайний срок. Это первая страница жизни, к которой ты так долго шла.'],
+      ['Very gently: one peaceful conversation may heal more than either of you expects.','Очень осторожно: один спокойный разговор может исцелить больше, чем вы оба ожидаете.']
+    ];
+    const fortuneCard=document.getElementById('fortuneCard'),fortuneBtn=document.getElementById('fortuneBtn');
+    let fortuneIndex=0;
+    function paintFortune(){const item=FORTUNES[fortuneIndex];fortuneCard.querySelector('p').textContent=currentLanguage==='ru'?item[1]:item[0];fortuneCard.animate([{transform:'rotateY(8deg)',opacity:.2},{transform:'rotateY(0)',opacity:1}],{duration:480,easing:'ease-out'});}
+    fortuneBtn.addEventListener('click',()=>{let next=fortuneIndex;while(next===fortuneIndex)next=Math.floor(Math.random()*FORTUNES.length);fortuneIndex=next;paintFortune();if(navigator.vibrate)navigator.vibrate(14);});
+
+    // Actual handwriting image revealed stroke-by-stroke; audio begins automatically when supplied.
+    const handwritingCanvas=document.getElementById('handwritingCanvas');
+    const handwritingBtn=document.getElementById('handwritingBtn');
+    const handwritingVoice=document.getElementById('handwritingVoice');
+    const handwritingStatus=document.getElementById('handwritingStatus');
+    const handwritingImage=new Image();handwritingImage.decoding='async';handwritingImage.src='assets/favour-handwriting.jpeg';
+    let handwritingProgress=0,handwritingFrame=null,handwritingStart=0;
+    function drawHandwriting(progress=1){
+      if(!handwritingImage.naturalWidth)return;
+      const rect=handwritingCanvas.getBoundingClientRect(),width=Math.max(300,Math.round(rect.width||600)),height=Math.max(150,Math.round(rect.height||190)),dpr=Math.min(2,window.devicePixelRatio||1);
+      handwritingCanvas.width=width*dpr;handwritingCanvas.height=height*dpr;
+      const ctx=handwritingCanvas.getContext('2d');ctx.scale(dpr,dpr);ctx.fillStyle='#f7f5ef';ctx.fillRect(0,0,width,height);
+      const off=document.createElement('canvas');off.width=handwritingImage.naturalHeight;off.height=handwritingImage.naturalWidth;
+      const octx=off.getContext('2d');octx.translate(0,off.height);octx.rotate(-Math.PI/2);octx.filter='grayscale(1) contrast(1.28) brightness(1.08)';octx.drawImage(handwritingImage,0,0);
+      const sx=70,sy=70,sw=Math.min(900,off.width-70),sh=Math.min(260,off.height-70);
+      const revealWidth=Math.max(1,Math.round(sw*Math.max(0,Math.min(1,progress))));
+      ctx.drawImage(off,sx,sy,revealWidth,sh,16,12,(width-32)*(revealWidth/sw),height-24);
+      ctx.strokeStyle='rgba(55,65,80,.09)';ctx.lineWidth=1;for(let y=36;y<height;y+=34){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(width,y);ctx.stroke();}
+    }
+    function animateHandwriting(duration=7000){
+      cancelAnimationFrame(handwritingFrame);handwritingStart=performance.now();
+      const step=now=>{handwritingProgress=Math.min(1,(now-handwritingStart)/duration);drawHandwriting(handwritingProgress);if(handwritingProgress<1)handwritingFrame=requestAnimationFrame(step);else handwritingStatus.textContent=currentLanguage==='ru'?'Написано мной. Для тебя.':'written by me, for you.';};
+      handwritingFrame=requestAnimationFrame(step);
+    }
+    handwritingImage.addEventListener('load',()=>drawHandwriting(0));
+    handwritingImage.addEventListener('error',()=>{handwritingStatus.textContent='The handwriting image could not load.';});
+    handwritingBtn.addEventListener('click',async()=>{
+      animateHandwriting(Number.isFinite(handwritingVoice.duration)&&handwritingVoice.duration>0?handwritingVoice.duration*1000:7000);
+      try{await handwritingVoice.play();handwritingStatus.textContent=currentLanguage==='ru'?'Слушай, пока появляются слова…':'listen while the words appear…';}
+      catch(err){handwritingStatus.textContent=currentLanguage==='ru'?'Почерк уже работает. Добавь файл favour-handwriting-voice.mp3, чтобы услышать голос Фавора.':'The handwriting works now. Add favour-handwriting-voice.mp3 to hear Favour read it.';}
+    });
+    handwritingVoice.addEventListener('play',()=>animateHandwriting(Number.isFinite(handwritingVoice.duration)?handwritingVoice.duration*1000:7000));
+    handwritingVoice.addEventListener('timeupdate',()=>{if(handwritingVoice.duration)drawHandwriting(handwritingVoice.currentTime/handwritingVoice.duration);});
+    handwritingVoice.addEventListener('ended',()=>drawHandwriting(1));
+    window.addEventListener('resize',()=>drawHandwriting(handwritingProgress),{passive:true});
+
+    // Clean reader mode for the long letter.
+    const readerToggle=document.getElementById('readerToggle');
+    function setReaderMode(enabled){
+      document.body.classList.toggle('reader-mode',enabled);readerToggle.setAttribute('aria-pressed',String(enabled));
+      readerToggle.textContent=enabled?(currentLanguage==='ru'?'обычный вид':'normal view'):(currentLanguage==='ru'?'режим чтения':'reader mode');
+      if(enabled){skipTyping=true;letterParas.forEach(p=>{const original=p.getAttribute('data-text');if(original)p.textContent=original;p.style.opacity='1';});skipTypingBtn.hidden=true;}
+    }
+    readerToggle.addEventListener('click',()=>setReaderMode(!document.body.classList.contains('reader-mode')));
+
+    // Installable-app support. The browser controls the final install confirmation.
+    const installBtn=document.getElementById('installBtn'),installNote=document.getElementById('installNote');
+    let deferredInstallPrompt=null;
+    window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;installNote.textContent=currentLanguage==='ru'?'Готово к установке.':'Ready to install.';});
+    window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;installBtn.textContent=currentLanguage==='ru'?'установлено ✓':'installed ✓';installNote.textContent=currentLanguage==='ru'?'Вселенная теперь на главном экране.':'The universe is now on your home screen.';});
+    installBtn.addEventListener('click',async()=>{
+      if(window.matchMedia('(display-mode: standalone)').matches){installNote.textContent=currentLanguage==='ru'?'Эта вселенная уже установлена.':'This universe is already installed.';return;}
+      if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;installNote.textContent=choice.outcome==='accepted'?(currentLanguage==='ru'?'Добавлено на главный экран.':'Added to your home screen.'):(currentLanguage==='ru'?'Ничего не установлено. Можно вернуться позже.':'Nothing was installed. You can return later.');deferredInstallPrompt=null;return;}
+      const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+      installNote.textContent=isiOS?(currentLanguage==='ru'?'В Safari нажми «Поделиться», затем «На экран Домой».':'In Safari, tap Share, then “Add to Home Screen”.'):(currentLanguage==='ru'?'Открой меню браузера и выбери «Установить приложение» или «Добавить на главный экран».':'Open your browser menu and choose “Install app” or “Add to Home screen”.');
+    });
+    if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+
+    renderTwentyWishes();renderBucketList();paintFortune();
   </script>
+  <script src="translations-ru.js"></script>
 </body>
 </html>
