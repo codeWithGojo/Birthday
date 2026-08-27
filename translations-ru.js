@@ -213,6 +213,7 @@ const RU_ATTRIBUTE_TRANSLATIONS = new Map([
   ['How much Favour loves you','Как сильно Фавор любит тебя'],
   ['Toggle soft dark mode','Переключить мягкий тёмный режим'],
   ['Record your birthday wish','Записать желание на день рождения'],
+  ['Close install guide','Закрыть инструкцию по установке'],
   ['Play','Воспроизвести'],
   ['Play or pause Like I Want You by Giveon','Воспроизвести или поставить на паузу Like I Want You от Giveon']
 ]);
@@ -269,6 +270,7 @@ function refreshLanguageDependentContent() {
   Object.keys(weatherDescriptions).forEach(code=>weatherDescriptions[code]=(currentLanguage==='ru'?WEATHER_RU:WEATHER_EN)[code]);
   renderTwentyWishes();renderBucketList();paintFortune();
   paintWyr();updateTimeGreeting();updateReturnCapsule();updateTimeTogether();
+  if(window.refreshInstallCopy)window.refreshInstallCopy();
   fortuneBtn.textContent=currentLanguage==='ru'?'вытянуть другое предсказание':'draw another fortune';
   readerToggle.textContent=document.body.classList.contains('reader-mode')?(currentLanguage==='ru'?'обычный вид':'normal view'):(currentLanguage==='ru'?'режим чтения':'reader mode');
   letterParas.forEach(paragraph=>{
@@ -535,7 +537,13 @@ languageToggle.addEventListener('click',()=>applyLanguage(currentLanguage==='en'
   ['draw another fortune','вытянуть другое предсказание'],
   ['if I were there today...','если бы я был рядом сегодня...'],
   ['We would make the day feel unhurried','Мы бы никуда не спешили'],
-  ['I would show up with your favourite little things, pretend I had no plan, then take you somewhere quiet and beautiful. We would eat, take too many pictures, laugh about our old calls, and walk until the cold made us hurry back inside. At midnight, I would say “happy birthday” close enough that no network, screen or time zone had to carry it for me.','Я бы пришёл с твоими любимыми мелочами, сделал вид, что плана нет, а затем отвёз тебя в тихое красивое место. Мы бы поели, сделали слишком много фотографий, смеялись над старыми звонками и гуляли, пока холод не заставил бы нас вернуться. В полночь я сказал бы «с днём рождения» так близко, чтобы ни сеть, ни экран, ни часовой пояс не передавали это за меня.']
+  ['I would show up with your favourite little things, pretend I had no plan, then take you somewhere quiet and beautiful. We would eat, take too many pictures, laugh about our old calls, and walk until the cold made us hurry back inside. At midnight, I would say “happy birthday” close enough that no network, screen or time zone had to carry it for me.','Я бы пришёл с твоими любимыми мелочами, сделал вид, что плана нет, а затем отвёз тебя в тихое красивое место. Мы бы поели, сделали слишком много фотографий, смеялись над старыми звонками и гуляли, пока холод не заставил бы нас вернуться. В полночь я сказал бы «с днём рождения» так близко, чтобы ни сеть, ни экран, ни часовой пояс не передавали это за меня.'],
+  ['tap a planet to enter — scrolling stays smooth','нажми на планету, чтобы войти — прокрутка останется плавной'],
+  ['save / share silver keepsake','сохранить / поделиться открыткой'],
+  ['open full-size card','открыть открытку полностью'],
+  ['install guide','инструкция по установке'],
+  ['Keep Victory’s Universe on this phone','Сохрани Вселенную Виктори на телефоне'],
+  ['Your phone needs one quick browser step. Nothing else will be downloaded.','Нужен один короткий шаг в браузере. Больше ничего скачивать не придётся.']
 ].forEach(([en,ru])=>addRu(en,ru));
 
 // Apply the saved choice only after every translation has been registered.

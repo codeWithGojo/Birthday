@@ -6,12 +6,13 @@
   <title>For Victory — Happy Birthday</title>
   <meta name="description" content="A little something from Favour, made with love." />
   <meta name="theme-color" content="#0a0b17" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Victory's Universe" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="victory.jpg" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
   <link rel="canonical" href="https://codewithgojo.github.io/Birthday/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Victory's Universe" />
@@ -54,7 +55,7 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
-    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
     body {
       font-family: 'Quicksand', sans-serif;
       background:
@@ -66,7 +67,9 @@
       position: relative;
       -webkit-font-smoothing: antialiased;
       transition: background 1s ease, color 0.6s ease;
+      overscroll-behavior-x: none;
     }
+    button, a, input, textarea { touch-action: manipulation; }
     body.dark {
       background:
         radial-gradient(ellipse 120% 55% at 50% -8%, rgba(255,255,255,0.05) 0%, transparent 55%),
@@ -151,13 +154,19 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    .particle { position: fixed; border-radius: 50%; pointer-events: none; z-index: 2; will-change: transform; }
+    #particles, #fallingStars, #twinkleStars, #floatHearts {
+      position: fixed; inset: 0; overflow: hidden; pointer-events: none; contain: strict;
+    }
+    #particles, #fallingStars { z-index: 2; }
+    #twinkleStars { z-index: 1; }
+    #floatHearts { z-index: 3; }
+    .particle { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
     .particle-gold { background: radial-gradient(circle, var(--flame) 0%, transparent 70%); box-shadow: 0 0 8px var(--flame); }
     .particle-rose { background: radial-gradient(circle, var(--rose) 0%, transparent 70%); box-shadow: 0 0 8px var(--rose); }
     .particle-white { background: radial-gradient(circle, rgba(150,155,170,0.8) 0%, transparent 70%); box-shadow: 0 0 6px rgba(150,155,170,0.5); }
     body.dark .particle-white { background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%); box-shadow: 0 0 6px rgba(255,255,255,0.6); }
 
-    .float-heart { position: fixed; pointer-events: none; z-index: 3; color: var(--rose); opacity: 0; animation: heartFloat linear infinite; }
+    .float-heart { position: absolute; pointer-events: none; color: var(--rose); opacity: 0; animation: heartFloat linear infinite; }
     @keyframes heartFloat {
       0% { transform: translateY(100vh) rotate(0deg) scale(0.6); opacity: 0; }
       10% { opacity: 0.4; } 90% { opacity: 0.2; }
@@ -166,7 +175,7 @@
 
     /* occasional shooting star across the universe */
     .falling-star {
-      position: fixed; left:-24vw; pointer-events: none; z-index: 2;
+      position: absolute; left:-24vw; pointer-events: none;
       width: 150px; height: 2px;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,.38) 42%, rgba(255,255,255,.98) 94%, var(--rose) 100%);
       border-radius: 2px; opacity: 0;
@@ -188,7 +197,7 @@
 
     .main-wrap {
       position: relative; z-index: 10; max-width: 640px; margin: 0 auto;
-      padding: 40px 20px 120px; min-height: 100vh; min-height: 100dvh;
+      padding: 40px 20px 120px; min-height: 100vh; min-height: 100svh;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
 
@@ -751,8 +760,9 @@
     body.space-mode .ambient-bg, body.space-mode .noise-overlay { opacity: 0; }
 
     /* twinkling starfield used behind space screens */
-    .twinkle { position: fixed; border-radius: 50%; background: #fff; pointer-events: none; z-index: 1; opacity: 0; }
-    .twinkle-anim { animation: twinkle ease-in-out infinite; }
+    .twinkle { position: absolute; border-radius: 50%; background: #fff; pointer-events: none; opacity: 0; }
+    .twinkle-anim { animation: twinkle ease-in-out infinite; animation-play-state: paused; }
+    #twinkleStars.active .twinkle-anim { animation-play-state: running; }
     @keyframes twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.95; } }
 
     /* ================= INTRO SCREEN ================= */
@@ -1264,6 +1274,41 @@
     .install-panel { text-align:center; }
     .install-btn { margin-top:13px; color:#f4f6fa; border-color:rgba(255,255,255,.2); background:linear-gradient(135deg,#343947,#151823); }
     .install-note { margin-top:8px; color:var(--text-soft); font-size:.65rem; min-height:1.3em; }
+    .keepsake-fallback {
+      display:inline-flex; align-items:center; justify-content:center; min-height:44px; margin-top:10px;
+      padding:9px 15px; border-radius:999px; border:1px solid var(--glass-border); color:var(--rose-deep);
+      background:var(--surface); font-size:.7rem; font-weight:700; text-decoration:none;
+    }
+    .keepsake-fallback[hidden] { display:none; }
+
+    .install-guide {
+      position:fixed; inset:0; z-index:500; display:flex; align-items:flex-end; justify-content:center;
+      padding:max(18px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));
+      background:rgba(5,7,13,.68); overscroll-behavior:contain;
+    }
+    body.install-guide-open { overflow:hidden; }
+    .install-guide[hidden] { display:none; }
+    .install-guide-sheet {
+      position:relative; width:min(100%,520px); max-height:min(82svh,680px); overflow:auto; -webkit-overflow-scrolling:touch;
+      padding:26px 20px 24px; border:1px solid var(--glass-border); border-radius:26px;
+      background:linear-gradient(165deg,var(--surface),var(--surface-2)); color:var(--text);
+      box-shadow:0 30px 90px rgba(0,0,0,.36);
+    }
+    .install-guide-grip { width:42px; height:4px; margin:0 auto 17px; border-radius:9px; background:var(--silver); }
+    .install-guide-close {
+      position:absolute; top:13px; right:13px; width:44px; height:44px; border-radius:50%;
+      border:1px solid var(--glass-border); background:var(--surface); color:var(--text); cursor:pointer;
+      font:500 1.25rem/1 'Quicksand',sans-serif;
+    }
+    .install-guide-kicker { color:var(--rose-deep); font-size:.62rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    .install-guide-title { max-width:390px; margin:7px 44px 7px 0; font:600 1.45rem/1.2 'Fredoka',sans-serif; }
+    .install-guide-copy { color:var(--text-soft); font-size:.78rem; line-height:1.55; }
+    .install-steps { display:grid; gap:10px; margin-top:17px; }
+    .install-step { display:grid; grid-template-columns:34px 1fr; gap:11px; align-items:start; padding:12px; border:1px solid var(--glass-border); border-radius:15px; background:var(--surface); }
+    .install-step-number { width:34px; height:34px; display:grid; place-items:center; border-radius:11px; background:linear-gradient(145deg,#343947,#151823); color:#fff; font-size:.7rem; font-weight:800; }
+    .install-step b { display:block; color:var(--text); font-size:.78rem; }
+    .install-step span { display:block; margin-top:3px; color:var(--text-soft); font-size:.7rem; line-height:1.45; }
+    .install-guide-tip { margin-top:13px; padding:11px 12px; border-radius:13px; background:var(--blush); color:var(--text-soft); font-size:.68rem; line-height:1.5; }
 
     @media (max-width:560px) {
       .experience-tools { top:max(9px,env(safe-area-inset-top)); right:8px; }
@@ -1275,6 +1320,57 @@
       .newspaper-hero { height:220px; }
       .reader-toggle { top:11px; right:12px; }
       .handwriting-canvas-wrap { height:160px; }
+    }
+    @media (max-width:640px), (pointer:coarse) {
+      body { min-height:100svh; -webkit-text-size-adjust:100%; }
+      .main-wrap {
+        width:100%; min-height:100svh; padding-top:max(28px,env(safe-area-inset-top));
+        padding-left:max(14px,env(safe-area-inset-left)); padding-right:max(14px,env(safe-area-inset-right));
+        padding-bottom:max(104px,calc(86px + env(safe-area-inset-bottom)));
+      }
+      body.space-mode .main-wrap { padding-top:max(92px,calc(82px + env(safe-area-inset-top))); }
+      .universe-progress {
+        top:max(8px,env(safe-area-inset-top)); left:max(10px,env(safe-area-inset-left)); right:max(10px,env(safe-area-inset-right));
+        width:auto; transform:none; padding:8px 12px; backdrop-filter:none; -webkit-backdrop-filter:none;
+      }
+      .universe-progress.visible { transform:none; }
+      .experience-tools { right:max(10px,env(safe-area-inset-right)); }
+      body.space-mode .experience-tools { top:max(52px,calc(48px + env(safe-area-inset-top))); }
+      .tool-pill { min-height:42px; padding:8px 12px; backdrop-filter:none; -webkit-backdrop-filter:none; }
+      .controls {
+        left:max(10px,env(safe-area-inset-left)); right:max(10px,env(safe-area-inset-right));
+        bottom:max(9px,env(safe-area-inset-bottom)); flex-direction:row; justify-content:flex-end; align-items:center; gap:8px;
+      }
+      .sp-player { max-width:min(230px,calc(100vw - 84px)); backdrop-filter:none; -webkit-backdrop-filter:none; }
+      .theme-btn { width:46px; height:46px; flex:0 0 46px; }
+      .section-card { padding:28px 16px 26px; border-radius:22px; }
+      .feature-card { padding:19px 14px; border-radius:18px; }
+      .final-panel { padding:19px 15px; }
+      .planet-field { touch-action:pan-y; }
+      .planet { touch-action:manipulation !important; }
+      .drag-hint { max-width:280px; line-height:1.45; }
+      .back-to-universe, .sky-locate-btn, .meteor-btn, .fortune-btn, .handwriting-btn, .install-btn { min-height:44px; }
+      .story-map { touch-action:pan-y; }
+      .reader-toggle { min-height:40px; }
+      .back-to-universe { top:max(100px,calc(90px + env(safe-area-inset-top))); }
+      .install-guide { padding-inline:0; padding-bottom:0; }
+      .install-guide-sheet { width:100%; max-height:88svh; border-radius:26px 26px 0 0; border-bottom:0; padding-bottom:max(24px,calc(16px + env(safe-area-inset-bottom))); }
+      body.mobile-device .noise-overlay { display:none; }
+      body.mobile-device .room-glow { inset:0; filter:none; }
+      body.mobile-device .universe-map-scene { transform:none !important; will-change:auto; }
+      body.mobile-device .map-star,
+      body.mobile-device .planet,
+      body.mobile-device .silver-core,
+      body.mobile-device .silver-core::before,
+      body.mobile-device .silver-core::after,
+      body.mobile-device .aurora-ribbon,
+      body.mobile-device .hero-photo-aura,
+      body.mobile-device .hero-photo-ring,
+      body.mobile-device .zodiac-card::before,
+      body.mobile-device .zodiac-symbol::before,
+      body.mobile-device .zodiac-symbol::after { animation:none !important; }
+      body.mobile-device .aurora-layer { filter:blur(11px) saturate(1.05); opacity:.42; }
+      body.mobile-device .planet:hover .planet-sphere { transform:none; }
     }
     @media (prefers-reduced-motion:reduce) {
       .name-meteor.fly,.silver-envelope-flight.show .flying-envelope,.light-photon { animation-duration:.01ms!important; }
@@ -1922,9 +2018,10 @@
             <div><span class="keepsake-small">13 October · for one person</span><span class="keepsake-name">Victory</span><span class="keepsake-line">I'm glad you exist. Genuinely.</span></div>
           </div>
           <div class="keepsake-actions">
-            <button class="final-action-btn primary" id="downloadKeepsakeBtn" type="button">download silver keepsake</button>
+            <button class="final-action-btn primary" id="downloadKeepsakeBtn" type="button">save / share silver keepsake</button>
           </div>
           <div class="reply-status" id="keepsakeStatus" aria-live="polite"></div>
+          <a class="keepsake-fallback" id="keepsakeFallback" href="#" target="_blank" rel="noopener" hidden>open full-size card</a>
         </section>
 
         <section class="final-panel install-panel" aria-labelledby="installTitle">
@@ -1942,6 +2039,18 @@
       <button class="explore-again-btn" id="exploreAgainBtn" type="button">explore the universe again</button>
     </div>
 
+  </div>
+
+  <div class="install-guide" id="installGuide" role="dialog" aria-modal="true" aria-labelledby="installGuideTitle" aria-describedby="installGuideCopy" hidden>
+    <div class="install-guide-sheet">
+      <div class="install-guide-grip" aria-hidden="true"></div>
+      <button class="install-guide-close" id="installGuideClose" type="button" aria-label="Close install guide">×</button>
+      <span class="install-guide-kicker" id="installGuideKicker">install guide</span>
+      <h2 class="install-guide-title" id="installGuideTitle">Keep Victory’s Universe on this phone</h2>
+      <p class="install-guide-copy" id="installGuideCopy">Your phone needs one quick browser step. Nothing else will be downloaded.</p>
+      <div class="install-steps" id="installSteps"></div>
+      <p class="install-guide-tip" id="installGuideTip"></p>
+    </div>
   </div>
 
   <div class="controls">
@@ -1968,6 +2077,14 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
+    const isPhoneLayout = window.matchMedia('(max-width: 640px)').matches;
+    const useCalmEffects = prefersReducedMotion || isCoarsePointer || isPhoneLayout;
+    document.body.classList.toggle('mobile-device', isCoarsePointer || isPhoneLayout);
+    const dragHint = document.querySelector('.drag-hint');
+    if (dragHint && isCoarsePointer) dragHint.textContent = 'tap a planet to enter — scrolling stays smooth';
+
     const netflixIntro = document.getElementById('netflix-intro');
     const heroImg = document.querySelector('.hero-photo-frame img');
     const loadingSkeleton = document.getElementById('loadingSkeleton');
@@ -1978,7 +2095,7 @@
         netflixIntro.classList.add('done');
       }
     }
-    setTimeout(() => { introMinTimeDone = true; maybeDismissIntro(); }, 2600);
+    setTimeout(() => { introMinTimeDone = true; maybeDismissIntro(); }, useCalmEffects ? 1800 : 2600);
     if (heroImg.complete && heroImg.naturalWidth > 0) {
       heroImgReady = true;
     } else {
@@ -1990,7 +2107,7 @@
 
     const particleContainer = document.getElementById('particles');
     const particleTypes = ['particle-gold', 'particle-rose', 'particle-white'];
-    const particleCount = window.innerWidth < 480 ? 14 : 24;
+    const particleCount = useCalmEffects ? 7 : (window.innerWidth < 480 ? 14 : 24);
     for (let i = 0; i < particleCount; i++) {
       const p = document.createElement('div');
       p.className = 'particle ' + particleTypes[Math.floor(Math.random() * particleTypes.length)];
@@ -2045,7 +2162,7 @@
       starTimer = setTimeout(() => {
         spawnStar();
         scheduleShootingStar(false);
-      }, immediate ? 900 : 5200 + Math.random() * 5200);
+      }, immediate ? (useCalmEffects ? 1600 : 900) : (useCalmEffects ? 9000 : 5200) + Math.random() * (useCalmEffects ? 7000 : 5200));
     }
     scheduleShootingStar(true);
 
@@ -2107,6 +2224,7 @@
       clearTimeout(starTimer);
       if (isSpace) scheduleShootingStar(id === 'screenUniverse');
       twinkleActive = isSpace;
+      updateTwinkleVisibility();
       if (id === 'screenMemories') revealList('memoryList', 'p');
       if (id === 'screenQualities') revealList('qualityList', '.quality-item');
       if (id === 'screenMoments') revealList('momentsTimeline', '.moment-entry');
@@ -2125,14 +2243,14 @@
       items.forEach((el, i) => setTimeout(() => el.classList.add('show'), 150 + i * 200));
     }
     function launchFinalCelebration() {
-      if (window.confetti && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const shared = { particleCount:72, spread:78, startVelocity:42, gravity:.82, ticks:260, zIndex:140, colors:['#ffffff','#d8dde6','#f3cbd5','#aeb8c7','#f5e9c8'] };
+      if (window.confetti && !prefersReducedMotion) {
+        const shared = { particleCount:useCalmEffects ? 30 : 72, spread:78, startVelocity:42, gravity:.82, ticks:useCalmEffects ? 180 : 260, zIndex:140, colors:['#ffffff','#d8dde6','#f3cbd5','#aeb8c7','#f5e9c8'] };
         window.confetti({ ...shared, angle:62, origin:{ x:0, y:.72 } });
         window.confetti({ ...shared, angle:118, origin:{ x:1, y:.72 } });
-        setTimeout(() => window.confetti({ particleCount:55, spread:110, startVelocity:30, gravity:.7, scalar:.85, zIndex:140, origin:{x:.5,y:.28}, colors:shared.colors }), 420);
+        if (!useCalmEffects) setTimeout(() => window.confetti({ particleCount:55, spread:110, startVelocity:30, gravity:.7, scalar:.85, zIndex:140, origin:{x:.5,y:.28}, colors:shared.colors }), 420);
       }
       const colors = ['#ffffff','#d8dde6','#f3cbd5','#aeb8c7','#f5e9c8'];
-      const count = window.innerWidth < 480 ? 48 : 78;
+      const count = useCalmEffects ? 24 : (window.innerWidth < 480 ? 48 : 78);
       for (let i = 0; i < count; i++) {
         const piece = document.createElement('i');
         piece.className = 'final-particle';
@@ -2213,7 +2331,7 @@
     // ===== twinkling starfield for space screens =====
     const twinkleContainer = document.getElementById('twinkleStars');
     let twinkleActive = false;
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < (useCalmEffects ? 22 : 60); i++) {
       const t = document.createElement('div');
       t.className = 'twinkle twinkle-anim';
       const size = 1 + Math.random() * 2;
@@ -2227,13 +2345,14 @@
     function updateTwinkleVisibility() {
       twinkleContainer.style.opacity = twinkleActive ? '1' : '0';
       twinkleContainer.style.transition = 'opacity 1s ease';
+      twinkleContainer.classList.toggle('active', twinkleActive && !prefersReducedMotion);
     }
-    setInterval(updateTwinkleVisibility, 300);
+    updateTwinkleVisibility();
 
     // ===== living star map: random pulses + subtle pointer/phone parallax =====
     const mapStars = document.getElementById('mapStars');
     const universeMapScene = document.getElementById('universeMapScene');
-    for (let i = 0; i < 38; i++) {
+    for (let i = 0; i < (useCalmEffects ? 16 : 38); i++) {
       const star = document.createElement('i');
       star.className = 'map-star';
       const size = .8 + Math.random() * 2.4;
@@ -2252,18 +2371,14 @@
       });
     }
     function resetMapTilt() { universeMapScene.style.transform = 'perspective(850px) rotateX(0deg) rotateY(0deg)'; }
-    universeMapScene.addEventListener('pointermove', event => {
-      if (event.pointerType === 'touch') return;
-      const rect = universeMapScene.getBoundingClientRect();
-      applyMapTilt(((event.clientX-rect.left)/rect.width-.5)*2,((event.clientY-rect.top)/rect.height-.5)*2);
-    });
-    universeMapScene.addEventListener('pointerleave', resetMapTilt);
-    universeMapScene.addEventListener('touchmove', event => {
-      const touch = event.touches[0], rect = universeMapScene.getBoundingClientRect();
-      applyMapTilt(((touch.clientX-rect.left)/rect.width-.5)*2,((touch.clientY-rect.top)/rect.height-.5)*2);
-    }, { passive:true });
-    universeMapScene.addEventListener('touchend', resetMapTilt, { passive:true });
-    if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+    if (!useCalmEffects) {
+      universeMapScene.addEventListener('pointermove', event => {
+        const rect = universeMapScene.getBoundingClientRect();
+        applyMapTilt(((event.clientX-rect.left)/rect.width-.5)*2,((event.clientY-rect.top)/rect.height-.5)*2);
+      });
+      universeMapScene.addEventListener('pointerleave', resetMapTilt);
+    }
+    if (!useCalmEffects && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') {
       window.addEventListener('deviceorientation', event => {
         if (!document.getElementById('screenUniverse').classList.contains('active')) return;
         const x = Math.max(-1,Math.min(1,(event.gamma || 0)/28));
@@ -3057,6 +3172,8 @@
     // ===== downloadable 4:5 silver keepsake =====
     const downloadKeepsakeBtn = document.getElementById('downloadKeepsakeBtn');
     const keepsakeStatus = document.getElementById('keepsakeStatus');
+    const keepsakeFallback = document.getElementById('keepsakeFallback');
+    let keepsakeObjectUrl = null;
     const keepsakePortrait = new Image();
     keepsakePortrait.decoding = 'async';
     keepsakePortrait.src = 'victory.jpg';
@@ -3123,22 +3240,69 @@
       ctx.fillText("VICTORY'S SILVER UNIVERSE  ·  FROM FAVOUR", 540, 1260);
       return canvas;
     }
+    function canvasToPngBlob(canvas) {
+      return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    }
     downloadKeepsakeBtn.addEventListener('click', async () => {
-      keepsakeStatus.textContent = 'preparing your keepsake…';
+      downloadKeepsakeBtn.disabled = true;
+      downloadKeepsakeBtn.setAttribute('aria-busy','true');
+      keepsakeFallback.hidden = true;
+      keepsakeStatus.textContent = currentLanguage === 'ru' ? 'готовим твою открытку…' : 'preparing your keepsake…';
       try {
-        if (!keepsakePortrait.complete) await keepsakePortrait.decode();
-      } catch (err) { /* card still works without the portrait */ }
-      const canvas = createKeepsakeCanvas();
-      canvas.toBlob((blob) => {
-        if (!blob) { keepsakeStatus.textContent = 'The card could not be created on this browser.'; return; }
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url; link.download = 'Victory-silver-universe.png';
-        document.body.appendChild(link); link.click(); link.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 1500);
-        keepsakeStatus.textContent = 'Saved—a piece of the universe for your camera roll.';
-      }, 'image/png');
+        try {
+          if (!keepsakePortrait.complete) await keepsakePortrait.decode();
+        } catch (err) { /* card still works without the portrait */ }
+        const blob = await canvasToPngBlob(createKeepsakeCanvas());
+        if (!blob) throw new Error('canvas-export-failed');
+
+        let file = null;
+        try { file = new File([blob], 'Victory-silver-universe.png', { type:'image/png' }); } catch (err) {}
+        const canShareFile = Boolean(file && navigator.share && navigator.canShare && navigator.canShare({ files:[file] }));
+        if ((isCoarsePointer || isPhoneLayout) && canShareFile) {
+          try {
+            await navigator.share({
+              files:[file],
+              title:"Victory's silver birthday card",
+              text:currentLanguage === 'ru' ? 'Сохрани эту частицу своей вселенной 🤍' : 'Keep this little piece of your universe 🤍'
+            });
+            keepsakeStatus.textContent = currentLanguage === 'ru'
+              ? 'Готово. Если открылось меню, выбери «Сохранить изображение».'
+              : 'Ready. If the share sheet opened, choose “Save Image”.';
+            return;
+          } catch (err) {
+            if (err && err.name !== 'AbortError') console.warn('File sharing was unavailable; showing a direct card link instead.');
+          }
+        }
+
+        if (keepsakeObjectUrl) URL.revokeObjectURL(keepsakeObjectUrl);
+        keepsakeObjectUrl = URL.createObjectURL(blob);
+        keepsakeFallback.href = keepsakeObjectUrl;
+        keepsakeFallback.hidden = false;
+        const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+        if (isiOS) {
+          keepsakeFallback.textContent = currentLanguage === 'ru' ? 'открыть открытку и сохранить' : 'open card to save it';
+          keepsakeStatus.textContent = currentLanguage === 'ru'
+            ? 'Открытка готова. Нажми ссылку, затем удерживай изображение и выбери «Сохранить в Фото».'
+            : 'Your card is ready. Open it, then press and hold the image and choose “Save to Photos”.';
+        } else {
+          keepsakeFallback.textContent = currentLanguage === 'ru' ? 'открыть открытку полностью' : 'open full-size card';
+          const link = document.createElement('a');
+          link.href = keepsakeObjectUrl; link.download = 'Victory-silver-universe.png';
+          document.body.appendChild(link); link.click(); link.remove();
+          keepsakeStatus.textContent = currentLanguage === 'ru'
+            ? 'Загрузка началась. Если она не появилась, открой открытку по ссылке ниже.'
+            : 'Download started. If it did not appear, open the full-size card below.';
+        }
+      } catch (err) {
+        keepsakeStatus.textContent = currentLanguage === 'ru'
+          ? 'В этом браузере не удалось создать открытку. Попробуй Safari или Chrome.'
+          : 'This browser could not create the card. Try again in Safari or Chrome.';
+      } finally {
+        downloadKeepsakeBtn.disabled = false;
+        downloadKeepsakeBtn.removeAttribute('aria-busy');
+      }
     });
+    window.addEventListener('pagehide', () => { if (keepsakeObjectUrl) URL.revokeObjectURL(keepsakeObjectUrl); }, { once:true });
 
     const themeBtn = document.getElementById('themeBtn');
     themeBtn.addEventListener('click', () => document.body.classList.toggle('dark'));
@@ -3221,9 +3385,15 @@
     document.querySelectorAll('.planet').forEach((planet, index) => {
       const key = planet.dataset.target || String(index);
       const saved = savedPlanetPositions[key];
-      if (saved) {
+      if (!useCalmEffects && saved) {
         planet.style.translate = `${saved.x}px ${saved.y}px`;
         planet.classList.add('was-dragged');
+      }
+      if (useCalmEffects) {
+        planet.style.removeProperty('translate');
+        planet.style.touchAction = 'manipulation';
+        planet.setAttribute('aria-grabbed','false');
+        return;
       }
       planet.style.touchAction = 'none';
       let startX = 0, startY = 0, originX = saved?.x || 0, originY = saved?.y || 0;
@@ -3529,21 +3699,140 @@
     }
     readerToggle.addEventListener('click',()=>setReaderMode(!document.body.classList.contains('reader-mode')));
 
-    // Installable-app support. The browser controls the final install confirmation.
+    // Installable-app support with a clear fallback for iPhone and embedded browsers.
     const installBtn=document.getElementById('installBtn'),installNote=document.getElementById('installNote');
+    const installGuide=document.getElementById('installGuide'),installGuideClose=document.getElementById('installGuideClose');
+    const installGuideKicker=document.getElementById('installGuideKicker'),installGuideTitle=document.getElementById('installGuideTitle');
+    const installGuideCopy=document.getElementById('installGuideCopy'),installSteps=document.getElementById('installSteps'),installGuideTip=document.getElementById('installGuideTip');
     let deferredInstallPrompt=null;
-    window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;installNote.textContent=currentLanguage==='ru'?'Готово к установке.':'Ready to install.';});
-    window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;installBtn.textContent=currentLanguage==='ru'?'установлено ✓':'installed ✓';installNote.textContent=currentLanguage==='ru'?'Вселенная теперь на главном экране.':'The universe is now on your home screen.';});
-    installBtn.addEventListener('click',async()=>{
-      if(window.matchMedia('(display-mode: standalone)').matches){installNote.textContent=currentLanguage==='ru'?'Эта вселенная уже установлена.':'This universe is already installed.';return;}
-      if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;installNote.textContent=choice.outcome==='accepted'?(currentLanguage==='ru'?'Добавлено на главный экран.':'Added to your home screen.'):(currentLanguage==='ru'?'Ничего не установлено. Можно вернуться позже.':'Nothing was installed. You can return later.');deferredInstallPrompt=null;return;}
-      const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-      installNote.textContent=isiOS?(currentLanguage==='ru'?'В Safari нажми «Поделиться», затем «На экран Домой».':'In Safari, tap Share, then “Add to Home Screen”.'):(currentLanguage==='ru'?'Открой меню браузера и выбери «Установить приложение» или «Добавить на главный экран».':'Open your browser menu and choose “Install app” or “Add to Home screen”.');
+    const isInstalled=()=>window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+    function getInstallPlatform(){
+      const ua=navigator.userAgent;
+      const ios=/iphone|ipad|ipod/i.test(ua);
+      const android=/android/i.test(ua);
+      const embedded=/(instagram|fban|fbav|whatsapp|tiktok|line\/|snapchat)/i.test(ua);
+      const iosSafari=ios && /safari/i.test(ua) && !/(crios|fxios|edgios|opios)/i.test(ua) && !embedded;
+      return {ios,android,embedded,iosSafari};
+    }
+    function renderInstallGuide(){
+      const ru=currentLanguage==='ru';
+      const platform=getInstallPlatform();
+      installGuideKicker.textContent=ru?'инструкция по установке':'install guide';
+      installGuideTitle.textContent=ru?'Сохрани Вселенную Виктори на телефоне':'Keep Victory’s Universe on this phone';
+      installGuideCopy.textContent=ru?'Это занимает меньше минуты и не требует магазина приложений.':'It takes less than a minute and does not need an app store.';
+      let steps,tip;
+      if(platform.ios){
+        steps=platform.iosSafari
+          ? (ru?[
+              ['Нажми «Поделиться»','Кнопка с квадратом и стрелкой вверх находится внизу Safari.'],
+              ['Выбери «На экран Домой»','Прокрути список действий, если пункт не виден сразу.'],
+              ['Нажми «Добавить»','Вселенная появится на главном экране как приложение.']
+            ]:[
+              ['Tap Share','Use the square-with-an-up-arrow button at the bottom of Safari.'],
+              ['Choose “Add to Home Screen”','Scroll through the actions if it is not visible immediately.'],
+              ['Tap Add','The universe will appear on the home screen like an app.']
+            ])
+          : (ru?[
+              ['Сначала открой в Safari','В меню этого браузера выбери «Открыть в Safari».'],
+              ['Нажми «Поделиться»','В Safari нажми квадрат со стрелкой вверх.'],
+              ['Выбери «На экран Домой»','Затем нажми «Добавить» в правом верхнем углу.']
+            ]:[
+              ['Open this page in Safari first','Use this browser’s menu and choose “Open in Safari”.'],
+              ['Tap Share','In Safari, tap the square-with-an-up-arrow button.'],
+              ['Choose “Add to Home Screen”','Then tap Add in the top-right corner.']
+            ]);
+        tip=ru?'На iPhone сайт не может нажать кнопку установки за тебя — Apple всегда требует эти шаги в Safari.':'On iPhone, a website cannot press the install button for you—Apple always requires these Safari steps.';
+      }else if(platform.android){
+        steps=platform.embedded
+          ? (ru?[
+              ['Открой в Chrome','В меню этого приложения выбери «Открыть во внешнем браузере».'],
+              ['Нажми меню ⋮','Оно находится в правом верхнем углу Chrome.'],
+              ['Выбери «Установить приложение»','Также пункт может называться «Добавить на главный экран».']
+            ]:[
+              ['Open in Chrome','Use this app’s menu and choose “Open in external browser”.'],
+              ['Tap the ⋮ menu','It is in the top-right corner of Chrome.'],
+              ['Choose “Install app”','It may also say “Add to Home screen”.']
+            ])
+          : (ru?[
+              ['Открой меню ⋮','Оно находится в правом верхнем углу браузера.'],
+              ['Нажми «Установить приложение»','Также пункт может называться «Добавить на главный экран».'],
+              ['Подтверди установку','Иконка Виктори появится на главном экране.']
+            ]:[
+              ['Open the ⋮ menu','It is in the top-right corner of your browser.'],
+              ['Tap “Install app”','It may also say “Add to Home screen”.'],
+              ['Confirm the install','Victory’s icon will appear on your home screen.']
+            ]);
+        tip=ru?'Если пункта установки нет, обнови страницу один раз в Chrome и снова открой меню.':'If the install option is missing, refresh once in Chrome and open the menu again.';
+      }else{
+        steps=ru?[
+          ['Открой меню браузера','В Chrome или Edge нажми меню ⋮.'],
+          ['Найди «Установить приложение»','Пункт также может находиться в разделе «Приложения».'],
+          ['Подтверди','Вселенная откроется в собственном окне.']
+        ]:[
+          ['Open the browser menu','In Chrome or Edge, use the ⋮ menu.'],
+          ['Find “Install app”','It may also be listed under Apps.'],
+          ['Confirm','The universe will open in its own app window.']
+        ];
+        tip=ru?'Лучше всего установка работает в Safari на iPhone и Chrome на Android.':'Installation works best in Safari on iPhone and Chrome on Android.';
+      }
+      installSteps.innerHTML=steps.map((step,index)=>`<div class="install-step"><span class="install-step-number">${index+1}</span><div><b>${step[0]}</b><span>${step[1]}</span></div></div>`).join('');
+      installGuideTip.textContent=tip;
+    }
+    function openInstallGuide(){
+      renderInstallGuide();
+      installGuide.hidden=false;
+      document.body.classList.add('install-guide-open');
+      installGuideClose.focus({preventScroll:true});
+    }
+    function closeInstallGuide(){
+      installGuide.hidden=true;
+      document.body.classList.remove('install-guide-open');
+      installBtn.focus({preventScroll:true});
+    }
+    installGuideClose.addEventListener('click',closeInstallGuide);
+    installGuide.addEventListener('click',event=>{if(event.target===installGuide)closeInstallGuide();});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!installGuide.hidden)closeInstallGuide();});
+    window.refreshInstallCopy=()=>{
+      if(isInstalled()){
+        installBtn.textContent=currentLanguage==='ru'?'установлено ✓':'installed ✓';
+        installNote.textContent=currentLanguage==='ru'?'Вселенная уже на главном экране.':'The universe is already on your home screen.';
+      }else if(deferredInstallPrompt){
+        installBtn.textContent=currentLanguage==='ru'?'установить приложение':'install app';
+        installNote.textContent=currentLanguage==='ru'?'Готово к установке одним нажатием.':'Ready to install with one tap.';
+      }else{
+        installBtn.textContent=currentLanguage==='ru'?'добавить на главный экран':'add to home screen';
+      }
+      if(!installGuide.hidden)renderInstallGuide();
+    };
+    window.addEventListener('beforeinstallprompt',event=>{
+      event.preventDefault();deferredInstallPrompt=event;window.refreshInstallCopy();
     });
+    window.addEventListener('appinstalled',()=>{
+      deferredInstallPrompt=null;
+      if(!installGuide.hidden)closeInstallGuide();
+      window.refreshInstallCopy();
+    });
+    installBtn.addEventListener('click',async()=>{
+      if(isInstalled()){window.refreshInstallCopy();return;}
+      if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        const choice=await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt=null;
+        if(choice.outcome==='accepted'){
+          installNote.textContent=currentLanguage==='ru'?'Добавлено на главный экран.':'Added to your home screen.';
+        }else{
+          installNote.textContent=currentLanguage==='ru'?'Установка отменена. Инструкция всё ещё доступна.':'Install cancelled. The step-by-step guide is still available.';
+        }
+        return;
+      }
+      installNote.textContent=currentLanguage==='ru'?'Следуй трём шагам ниже.':'Follow the three quick steps below.';
+      openInstallGuide();
+    });
+    window.refreshInstallCopy();
     if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 
     renderTwentyWishes();renderBucketList();paintFortune();
   </script>
-  <script src="translations-ru.js?v=2"></script>
+  <script src="translations-ru.js?v=3"></script>
 </body>
 </html>
