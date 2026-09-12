@@ -1,0 +1,38 @@
+/* Birthday site final polish — mobile restraint and quieter ending */
+body.mobile-device #particles,
+body.mobile-device #floatHearts { display: none !important; }
+body.mobile-device .noise-overlay { opacity: 0.012; }
+body.mobile-device .falling-star { filter: none; }
+body.mobile-device .globe-rotate { animation-duration: 50s; }
+body.mobile-device .ambient-bg { opacity: .82; }
+body.effects-paused * { animation-play-state: paused !important; }
+
+#screenFinal .final-heart { display: none; }
+#screenFinal .final-title {
+  max-width: 560px;
+  margin: 0 auto 10px;
+  line-height: 1.12;
+}
+#screenFinal .final-sub { margin-bottom: 30px; }
+#screenFinal .hidden-final-msg { font-size: 1.25rem; }
+
+@media (max-width: 640px) {
+  .main-wrap { padding-left: 16px; padding-right: 16px; padding-bottom: 88px; }
+  .section-card, .letter-card { border-radius: 22px; }
+  .section-card { padding: 30px 18px 28px; }
+  .letter-card { padding-left: 18px; padding-right: 18px; }
+  .letter-body { font-size: 1.04rem; line-height: 1.78; }
+  .feature-card { padding-left: 16px; padding-right: 16px; }
+  .story-map { min-height: 280px; }
+  .netflix-text { font-size: clamp(2.45rem, 14vw, 4.2rem); letter-spacing: .11em; }
+  .netflix-sub { font-size: .7rem; letter-spacing: .2em; }
+}
+
+@media (max-width: 390px) {
+  .main-wrap { padding-left: 13px; padding-right: 13px; }
+  .section-card { padding-left: 15px; padding-right: 15px; }
+  .letter-card { padding-left: 15px; padding-right: 15px; }
+  .sky-bridge-live { grid-template-columns: minmax(0,1fr) 66px minmax(0,1fr); padding: 11px; gap: 7px; }
+  .sky-route-label { font-size: .49rem; padding: 3px 5px; }
+  .story-map { min-height: 250px; }
+}
