@@ -4,74 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101115" />
-  <title>Victory's Universe — Polished</title>
-  <style>
-    html,body{margin:0;width:100%;height:100%;background:#101115;overflow:hidden}
-    iframe{border:0;width:100%;height:100%;display:block;background:#101115}
-  </style>
+  <title>Victory's Universe</title>
+  <style>html,body{margin:0;width:100%;height:100%;background:#101115;overflow:hidden}iframe{border:0;width:100%;height:100%;display:block;background:#101115}</style>
 </head>
 <body>
-  <iframe id="birthday" src="index.html" title="Victory's Universe"></iframe>
-  <script>
-    const frame = document.getElementById('birthday');
-    frame.addEventListener('load', () => {
-      const d = frame.contentDocument;
-      if (!d) return;
-
-      const link = d.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'polish.css?v=1';
-      d.head.appendChild(link);
-
-      const introName = d.querySelector('.netflix-text');
-      const introSub = d.querySelector('.netflix-sub');
-      if (introName) introName.textContent = 'Victory';
-      if (introSub) introSub.textContent = '20 years of you';
-
-      const finalTitle = d.querySelector('.final-title');
-      const finalSub = d.querySelector('.final-sub');
-      if (finalTitle) finalTitle.textContent = 'Happy birthday, amarachiii. 🤍';
-      if (finalSub) finalSub.textContent = "I'm glad you exist. Genuinely.";
-
-      const hiddenFinal = d.getElementById('hiddenFinalMsg');
-      if (hiddenFinal) hiddenFinal.innerHTML = '<span class="return-line">Come back next year. This universe will still be here.</span>';
-
-      const future = d.getElementById('futureText');
-      if (future) {
-        future.innerHTML = future.innerHTML.replace(
-          'I know that future cannot be decided by me alone. I am not asking this birthday page to decide anything. I only want to be honest that the hope is still here: quieter now, more patient, but real.',
-          'I know that future is not mine to decide alone. I only want to be honest that the hope is still here: quieter now, more patient, but real.'
-        );
-      }
-
-      d.querySelectorAll('.era-letter p').forEach(p => {
-        if (p.textContent.includes('I noticed your body first')) {
-          p.textContent = 'Back then I noticed the obvious things first. I liked you, I was curious about you, and I had no idea how much your heart, your strength and the person behind the jokes would come to matter to me.';
-        }
-      });
-
-      d.addEventListener('visibilitychange', () => {
-        d.body.classList.toggle('effects-paused', d.hidden);
-      });
-
-      async function hideMissingAudio(audioId, noteId, fallback) {
-        const audio = d.getElementById(audioId);
-        const note = d.getElementById(noteId);
-        if (!audio) return;
-        const source = audio.getAttribute('src') || audio.querySelector('source')?.getAttribute('src');
-        if (!source) return;
-        try {
-          const response = await fetch(source, { method: 'HEAD', cache: 'no-store' });
-          if (!response.ok) throw new Error('missing');
-        } catch (_) {
-          audio.hidden = true;
-          if (note) note.textContent = fallback;
-        }
-      }
-
-      hideMissingAudio('favourVoiceMemo', 'memoNote', 'The voice note will appear here once the recording is added.');
-      hideMissingAudio('handwritingVoice', 'handwritingStatus', 'The handwriting is ready. The recorded voice will appear here once it is added.');
-    });
-  </script>
+  <iframe src="https://cdn.jsdelivr.net/gh/codeWithGojo/Birthday@f998325530d476a3605bcb129a63029dbd6033bf/index.html" title="Victory's Universe"></iframe>
 </body>
 </html>
