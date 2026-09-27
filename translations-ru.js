@@ -270,6 +270,7 @@ function refreshLanguageDependentContent() {
   Object.keys(weatherDescriptions).forEach(code=>weatherDescriptions[code]=(currentLanguage==='ru'?WEATHER_RU:WEATHER_EN)[code]);
   renderTwentyWishes();renderBucketList();paintFortune();
   paintWyr();updateTimeGreeting();updateReturnCapsule();updateTimeTogether();
+  if(window.refreshBirthdayQuiz)window.refreshBirthdayQuiz();
   if(window.refreshInstallCopy)window.refreshInstallCopy();
   fortuneBtn.textContent=currentLanguage==='ru'?'вытянуть другое предсказание':'draw another fortune';
   readerToggle.textContent=document.body.classList.contains('reader-mode')?(currentLanguage==='ru'?'обычный вид':'normal view'):(currentLanguage==='ru'?'режим чтения':'reader mode');
@@ -574,6 +575,16 @@ languageToggle.addEventListener('click',()=>applyLanguage(currentLanguage==='en'
   ['install guide','инструкция по установке'],
   ['Keep Victory’s Universe on this phone','Сохрани Вселенную Виктори на телефоне'],
   ['Your phone needs one quick browser step. Nothing else will be downloaded.','Нужен один короткий шаг в браузере. Больше ничего скачивать не придётся.']
+].forEach(([en,ru])=>addRu(en,ru));
+
+[
+  ['a little test of my memory','небольшая проверка моей памяти'],
+  ['How well does Favour know Victory?','Насколько хорошо Фавор знает Виктори?'],
+  ['Guess the answers I gave about you. I wrote them down first, so no changing them after you choose.','Угадай, что я ответил о тебе. Я записал ответы заранее, так что после твоего выбора уже ничего не поменяю.'],
+  ['Happy 20th, Victory. Stay until the very end.','С двадцатилетием, Виктори. Досмотри до самого конца.'],
+  ['one more scene →','ещё одна сцена →'],
+  ['after the credits','после титров'],
+  ["Oh, you're still here? I had a feeling. I hope you smiled at least once today. Happy birthday, amarachiii. And yes, your forehead gets a starring credit in the sequel.",'О, ты ещё здесь? Я так и думал. Надеюсь, сегодня ты хотя бы раз улыбнулась. С днём рождения, amarachiii. И да, в продолжении твой лоб получит главную роль.']
 ].forEach(([en,ru])=>addRu(en,ru));
 
 // Apply the saved choice only after every translation has been registered.

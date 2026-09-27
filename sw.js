@@ -1,8 +1,8 @@
-const CACHE_NAME = 'victory-twenty-v5';
+const CACHE_NAME = 'victory-twenty-v6';
 const CORE_FILES = [
   './',
   './index.html',
-  './translations-ru.js?v=4',
+  './translations-ru.js?v=5',
   './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',

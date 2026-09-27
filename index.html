@@ -1278,6 +1278,19 @@
     .if-here p { font:normal clamp(1rem,3.4vw,1.2rem)/1.65 'Cormorant Garamond',Georgia,serif; margin:12px 0; }
     .if-here p:last-child { color:#cdd3df; }
     .letter-keep .final-action-btn { display:inline-flex; align-items:center; justify-content:center; text-decoration:none; margin-top:10px; }
+    .favour-quiz { background:#f3eee9!important; border-color:#d9cbc5; }
+    .favour-quiz .quiz-progress { margin:16px 0 7px; color:#785d5c; font-size:.68rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; }
+    .favour-quiz .quiz-question { margin:0 0 15px; font:600 clamp(1.08rem,3.7vw,1.3rem)/1.35 'Fredoka',sans-serif; color:#282630; }
+    .quiz-choices { display:grid; gap:9px; }
+    .quiz-choice { min-height:46px; width:100%; padding:10px 14px; border:1px solid #cbbfbd; border-radius:12px; background:#fffaf8; color:#2f2930; text-align:left; font:600 .78rem/1.4 'Quicksand',sans-serif; cursor:pointer; }
+    .quiz-choice:hover:not(:disabled) { border-color:#966a74; background:#fff; }
+    .quiz-choice:focus-visible,.quiz-next:focus-visible,.after-credits-btn:focus-visible { outline:3px solid #b77b89; outline-offset:3px; }
+    .quiz-choice:disabled { cursor:default; opacity:.68; }
+    .quiz-choice.is-answer,.quiz-choice.is-answer:disabled { border-color:#9f7480; background:#eadde0; opacity:1; }
+    .quiz-choice.is-picked:not(.is-answer) { opacity:1; text-decoration:line-through; }
+    .quiz-feedback { margin:14px 0 0; color:#5f4a52; font-size:.8rem; line-height:1.6; }
+    .quiz-next { margin-top:14px; padding:10px 18px; border:0; border-radius:999px; background:#302b34; color:#fff; font:700 .75rem 'Quicksand',sans-serif; cursor:pointer; }
+    .quiz-next[hidden],.after-credits-scene[hidden] { display:none; }
     .movie-credits { background:#090b12!important; color:#eef0f6; text-align:center; overflow:hidden; }
     .movie-credits .panel-kicker,.movie-credits .panel-title { color:#edf0f7; }
     .movie-credits .panel-title { font:600 clamp(1.6rem,5vw,2.1rem) 'Fredoka',sans-serif; }
@@ -1290,6 +1303,11 @@
     .credits-roll span { display:block; color:#aab3c4; font:.62rem 'Quicksand',sans-serif; text-transform:uppercase; letter-spacing:.16em; margin-bottom:5px; }
     .credits-roll strong { display:block; font:600 1rem 'Quicksand',sans-serif; }
     .movie-credits .credits-end { color:#bfc7d7; font:italic 1rem Georgia,serif; }
+    .after-credits-btn { margin:7px auto 0; min-height:44px; padding:10px 18px; border:1px solid #8790a1; border-radius:999px; background:transparent; color:#fff; font:700 .72rem 'Quicksand',sans-serif; cursor:pointer; }
+    .after-credits-scene { margin-top:20px; padding:28px 17px; border-top:1px solid #50586a; background:#05070d; animation:creditIn .9s ease both; }
+    .after-credits-scene span { display:block; color:#aab3c4; font:.6rem 'Quicksand',sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+    .after-credits-scene p { max-width:30ch; margin:20px auto 12px; color:#f3f0ee; font:italic 1.15rem/1.55 Georgia,serif; }
+    .after-credits-scene strong { color:#f0dbe1; font:700 1.4rem 'Caveat',cursive; }
     @keyframes creditsDrift { from { transform:translateY(0); } to { transform:translateY(-35%); } }
     @media (prefers-reduced-motion:reduce) { .credits-roll { animation:none; } .credits-window { max-height:none; } }
 
@@ -2071,6 +2089,16 @@
           <button class="install-btn" id="installBtn" type="button">add to home screen</button>
           <div class="install-note" id="installNote">Your browser will show the safest install option available.</div>
         </section>
+        <section class="final-panel favour-quiz" aria-labelledby="favourQuizTitle">
+          <span class="panel-kicker">a little test of my memory</span>
+          <h2 class="panel-title" id="favourQuizTitle">How well does Favour know Victory?</h2>
+          <p class="panel-copy">Guess the answers I gave about you. I wrote them down first, so no changing them after you choose.</p>
+          <div class="quiz-progress" id="quizProgress"></div>
+          <p class="quiz-question" id="quizQuestion"></p>
+          <div class="quiz-choices" id="quizChoices"></div>
+          <p class="quiz-feedback" id="quizFeedback" role="status" aria-live="polite"></p>
+          <button class="quiz-next" id="quizNext" type="button" hidden>next question →</button>
+        </section>
         <section class="final-panel movie-credits" aria-labelledby="movieCreditsTitle">
           <span class="panel-kicker">the birthday film</span>
           <h2 class="panel-title" id="movieCreditsTitle">The credits</h2>
@@ -2085,7 +2113,13 @@
               <p><span>Next chapter</span><strong>Still being written</strong></p>
             </div>
           </div>
-          <p class="credits-end">Happy 20th, Victory. No post-credits scene could top you.</p>
+          <p class="credits-end">Happy 20th, Victory. Stay until the very end.</p>
+          <button class="after-credits-btn" id="afterCreditsBtn" type="button" aria-controls="afterCreditsScene" aria-expanded="false">one more scene →</button>
+          <div class="after-credits-scene" id="afterCreditsScene" hidden>
+            <span>after the credits</span>
+            <p>Oh, you're still here? I had a feeling. I hope you smiled at least once today. Happy birthday, amarachiii. And yes, your forehead gets a starring credit in the sequel.</p>
+            <strong>Favour</strong>
+          </div>
         </section>
       </div>
       <div class="closing-credit" id="closingCredit" aria-label="Made by Favour">
@@ -2751,6 +2785,91 @@
     unlockBtn.addEventListener('pointercancel', cancelUnlock);
     unlockBtn.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); completeUnlock(); }
+    });
+
+    // Victory guesses the answers Favour already gave in the rest of this universe.
+    const quizQuestions = [
+      {
+        en:{ question:'If I were beside you today, what would I probably do first?', choices:['Make a bad joke','Deliver a perfect speech','Ask for a photo'], note:'I would make a bad joke, wait for that look you give me, then try to say the important part properly.' },
+        ru:{ question:'Если бы я был рядом сегодня, что бы я, скорее всего, сделал сначала?', choices:['Неудачно пошутил','Произнёс идеальную речь','Попросил фото'], note:'Я бы неудачно пошутил, дождался твоего взгляда, а потом попытался сказать главное как следует.' }, answer:0
+      },
+      {
+        en:{ question:'What stayed with me from our first call?', choices:['Every exact word','The nerves fading and neither of us wanting to hang up','The song playing in the background'], note:'I cannot repeat every word, but I remember how the nerves faded and how neither of us seemed ready to hang up.' },
+        ru:{ question:'Что мне запомнилось о нашем первом звонке?', choices:['Каждое слово','Как прошло волнение и нам не хотелось заканчивать разговор','Песня на фоне'], note:'Я не помню каждое слово, но помню, как прошло волнение и как нам обоим не хотелось заканчивать разговор.' }, answer:1
+      },
+      {
+        en:{ question:'Which four-hour problem do I keep complaining about?', choices:['A flight delay','The Nigeria–Russia time difference','Your phone battery'], note:'Four hours between Nigeria and Russia can feel much longer than four hours.' },
+        ru:{ question:'На какую четырёхчасовую проблему я постоянно жалуюсь?', choices:['Задержка рейса','Разница во времени между Нигерией и Россией','Заряд твоего телефона'], note:'Четыре часа между Нигерией и Россией иногда ощущаются намного дольше.' }, answer:1
+      },
+      {
+        en:{ question:'Which dream of yours am I cheering for?', choices:['Becoming a surgeon','Opening a café','Starring in a film'], note:'I can see the surgeon you are working so hard to become. I am proud of you.' },
+        ru:{ question:'За какую твою мечту я болею?', choices:['Стать хирургом','Открыть кафе','Сняться в фильме'], note:'Я вижу, как упорно ты идёшь к мечте стать хирургом. Я горжусь тобой.' }, answer:0
+      },
+      {
+        en:{ question:'What would I call you at the end of the birthday letter?', choices:['Captain Victory','Amarachiii','Professor V'], note:'Happy birthday, amarachiii. Of course I had to say it.' },
+        ru:{ question:'Как бы я назвал тебя в конце письма на день рождения?', choices:['Капитан Виктори','Amarachiii','Профессор Ви'], note:'С днём рождения, amarachiii. Конечно, я должен был это сказать.' }, answer:1
+      }
+    ];
+    const quizProgress = document.getElementById('quizProgress');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizChoices = document.getElementById('quizChoices');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const quizNext = document.getElementById('quizNext');
+    let quizIndex = 0, quizSelected = null, quizMatches = 0;
+    function renderBirthdayQuiz() {
+      const ru = currentLanguage === 'ru';
+      quizChoices.replaceChildren();
+      if (quizIndex >= quizQuestions.length) {
+        quizProgress.textContent = ru ? 'финал' : 'the reveal';
+        quizQuestion.textContent = ru ? `Ты угадала ${quizMatches} из ${quizQuestions.length} моих ответов.` : `You guessed ${quizMatches} of my ${quizQuestions.length} answers.`;
+        quizFeedback.textContent = ru ? 'Как бы ты ни ответила, я рад, что помню эти маленькие детали о тебе.' : 'However you answered, I am glad I get to remember these little things about you.';
+        quizNext.textContent = ru ? 'сыграть ещё раз ↺' : 'play again ↺';
+        quizNext.hidden = false;
+        return;
+      }
+      const item = quizQuestions[quizIndex], copy = item[ru ? 'ru' : 'en'];
+      quizProgress.textContent = ru ? `вопрос ${quizIndex + 1} из ${quizQuestions.length}` : `question ${quizIndex + 1} of ${quizQuestions.length}`;
+      quizQuestion.textContent = copy.question;
+      copy.choices.forEach((choice,index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'quiz-choice';
+        button.textContent = choice;
+        button.dataset.choice = index;
+        if (quizSelected !== null) {
+          button.disabled = true;
+          if (index === item.answer) button.classList.add('is-answer');
+          if (index === quizSelected) button.classList.add('is-picked');
+        }
+        quizChoices.append(button);
+      });
+      quizFeedback.textContent = quizSelected === null ? '' : `${ru ? 'Мой ответ: ' : 'My answer: '}${copy.note}`;
+      quizNext.textContent = quizIndex === quizQuestions.length - 1 ? (ru ? 'увидеть результат →' : 'see the ending →') : (ru ? 'следующий вопрос →' : 'next question →');
+      quizNext.hidden = quizSelected === null;
+    }
+    quizChoices.addEventListener('click', event => {
+      const button = event.target.closest('button[data-choice]');
+      if (!button || quizSelected !== null) return;
+      quizSelected = Number(button.dataset.choice);
+      if (quizSelected === quizQuestions[quizIndex].answer) quizMatches++;
+      renderBirthdayQuiz();
+    });
+    quizNext.addEventListener('click', () => {
+      if (quizIndex >= quizQuestions.length) { quizIndex = 0; quizMatches = 0; }
+      else quizIndex++;
+      quizSelected = null;
+      renderBirthdayQuiz();
+    });
+    window.refreshBirthdayQuiz = renderBirthdayQuiz;
+    renderBirthdayQuiz();
+
+    const afterCreditsBtn = document.getElementById('afterCreditsBtn');
+    const afterCreditsScene = document.getElementById('afterCreditsScene');
+    afterCreditsBtn.addEventListener('click', () => {
+      afterCreditsScene.hidden = false;
+      afterCreditsBtn.hidden = true;
+      afterCreditsBtn.setAttribute('aria-expanded','true');
+      afterCreditsScene.scrollIntoView({behavior:prefersReducedMotion?'auto':'smooth',block:'nearest'});
     });
 
     const favourVoiceMemo = document.getElementById('favourVoiceMemo');
@@ -3965,6 +4084,6 @@
 
     renderTwentyWishes();renderBucketList();paintFortune();
   </script>
-  <script src="translations-ru.js?v=4"></script>
+  <script src="translations-ru.js?v=5"></script>
 </body>
 </html>
