@@ -417,6 +417,8 @@ languageToggle.addEventListener('click',()=>applyLanguage(currentLanguage==='en'
   ['save wish','сохранить желание'],
   ['Come back next year. This universe will still be here.','Возвращайся в следующем году. Эта вселенная всё ещё будет здесь.'],
   ['continue →','продолжить →'],
+  ['continue to the ending →','перейти к финалу →'],
+  ['see the credits ↓','посмотреть титры ↓'],
   ['Happy Birthday','С днём рождения'],
   ['I hope today felt like everything you deserve.','Надеюсь, сегодняшний день был таким, какого ты заслуживаешь.'],
   ['hold to unlock one more thing','удерживай, чтобы открыть ещё кое-что'],
