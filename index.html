@@ -903,6 +903,23 @@
     .universe-letter-btn:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
     .universe-letter-btn:active { transform: scale(0.96); }
 
+    .banter-invite { display:block; max-width:360px; margin:18px auto 0; padding:13px 20px;
+      border:1px dashed rgba(238,241,249,.62); border-radius:18px; background:rgba(15,18,34,.5);
+      color:#f4f4fb; font:600 .9rem 'Quicksand',sans-serif; cursor:pointer;
+      box-shadow:0 10px 28px rgba(0,0,0,.2); transition:transform .2s,background .2s; }
+    .banter-invite small { display:block; margin-top:4px; color:#bfc6d7; font-size:.73rem; font-weight:500; }
+    .banter-invite:hover, .banter-invite:focus-visible { transform:translateY(-2px); background:rgba(35,38,58,.85); }
+    .banter-invite:focus-visible, .banter-reveal:focus-visible { outline:2px solid #fff; outline-offset:4px; }
+    .banter-card { max-width:600px; margin:0 auto; padding:clamp(24px,5vw,44px); border-radius:28px;
+      border:1px solid rgba(241,243,251,.45); background:linear-gradient(155deg,#292b39,#151722 70%);
+      color:#f4f4fb; box-shadow:0 24px 65px rgba(0,0,0,.26); text-align:center; }
+    .banter-kicker { color:#cbd0df; font:.7rem 'Quicksand',sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+    .banter-card h2 { margin:12px 0; font:600 clamp(1.7rem,6vw,2.6rem) 'Fredoka',sans-serif; }
+    .banter-card p { line-height:1.6; color:#e0e3ee; }
+    .banter-reveal { min-height:48px; padding:12px 24px; margin-top:14px; border:0; border-radius:40px;
+      background:linear-gradient(135deg,#fff,#cdd3dd); color:#282b37; font:700 .92rem 'Quicksand',sans-serif; cursor:pointer; }
+    .banter-payoff[hidden] { display:none; }
+
     /* ================= SECTION SCREENS ================= */
     .back-to-universe {
       background: transparent; border: 1.5px solid var(--glass-border); color: var(--text-soft);
@@ -1509,6 +1526,20 @@
       <button class="sky-locate-btn" id="skyLocateBtn" type="button">match the stars to your exact sky</button>
       <button class="meteor-btn" id="meteorBtn" type="button">✦ call your meteor</button>
       <button class="universe-letter-btn" id="gotoLetterBtn" type="button">💌 open your letter</button>
+      <button class="banter-invite" id="banterInvite" type="button">Do not open this, Victory.<small>I'm serious. Just keep scrolling.</small></button>
+    </div>
+
+    <div class="screen" id="screenBanter">
+      <button class="back-to-universe" data-back type="button">← universe</button>
+      <div class="banter-card">
+        <span class="banter-kicker">the one thing you weren't supposed to open</span>
+        <h2>I told you not to open it 😭</h2>
+        <p>You saw “don't open” and clicked anyway. I knew you would.</p>
+        <button class="banter-reveal" id="banterReveal" type="button" aria-controls="banterPayoff" aria-expanded="false">Fine. Press this too.</button>
+        <div class="banter-payoff" id="banterPayoff" hidden>
+          <p>The video is still on its way. I'll be back to bant you properly.</p>
+        </div>
+      </div>
     </div>
 
     <!-- SCREEN: memories -->
@@ -2373,6 +2404,13 @@
     });
     document.querySelectorAll('[data-back]').forEach(btn => {
       btn.addEventListener('click', () => showScreen('screenUniverse'));
+    });
+
+    document.getElementById('banterInvite').addEventListener('click', () => showScreen('screenBanter'));
+    document.getElementById('banterReveal').addEventListener('click', event => {
+      event.currentTarget.hidden = true;
+      event.currentTarget.setAttribute('aria-expanded', 'true');
+      document.getElementById('banterPayoff').hidden = false;
     });
 
     // ===== open-when envelopes =====
@@ -4084,6 +4122,6 @@
 
     renderTwentyWishes();renderBucketList();paintFortune();
   </script>
-  <script src="translations-ru.js?v=6"></script>
+  <script src="translations-ru.js?v=7"></script>
 </body>
 </html>
