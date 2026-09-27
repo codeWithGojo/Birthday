@@ -30,7 +30,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
     :root {
       /* silver / pearl — light theme (default) */
@@ -1444,7 +1443,7 @@
         <div class="hero-photo-aura"></div>
         <div class="hero-photo-ring"></div>
         <div class="hero-photo-frame" id="photoFrame">
-          <img src="victory.jpg" alt="Victory" />
+          <img src="victory.jpg" alt="Victory" fetchpriority="high" decoding="async" />
         </div>
         <div class="hero-tap-hint">tap me</div>
       </div>
@@ -2131,8 +2130,6 @@
 
   <div id="yt-player"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
@@ -2152,15 +2149,25 @@
         netflixIntro.classList.add('done');
       }
     }
-    setTimeout(() => { introMinTimeDone = true; maybeDismissIntro(); }, useCalmEffects ? 1800 : 2600);
+    setTimeout(() => { introMinTimeDone = true; maybeDismissIntro(); }, prefersReducedMotion ? 0 : (useCalmEffects ? 450 : 900));
     if (heroImg.complete && heroImg.naturalWidth > 0) {
       heroImgReady = true;
     } else {
       heroImg.addEventListener('load', () => { heroImgReady = true; maybeDismissIntro(); });
       heroImg.addEventListener('error', () => { heroImgReady = true; maybeDismissIntro(); });
     }
-    setTimeout(() => { heroImgReady = true; maybeDismissIntro(); }, 5000);
+    setTimeout(() => { heroImgReady = true; maybeDismissIntro(); }, 3000);
     netflixIntro.addEventListener('click', () => { loadingSkeleton.classList.add('hidden'); netflixIntro.classList.add('done'); });
+    let confettiLoading = false;
+    function loadConfetti() {
+      if (confettiLoading || window.confetti) return;
+      confettiLoading = true;
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+    document.getElementById('openBtn').addEventListener('click', loadConfetti, { once:true });
 
     const particleContainer = document.getElementById('particles');
     const particleTypes = ['particle-gold', 'particle-rose', 'particle-white'];
@@ -3364,23 +3371,47 @@
     const themeBtn = document.getElementById('themeBtn');
     themeBtn.addEventListener('click', () => document.body.classList.toggle('dark'));
 
-    let player, isPlaying = false;
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);
-    window.onYouTubeIframeAPIReady = function () {
-      player = new YT.Player('yt-player', {
-        height: '1', width: '1', videoId: 'yNNMKN9BUmU',
-        playerVars: { autoplay: 0, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
-        events: { onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) { isPlaying = false; updateMusicUI(); } } }
-      });
-    };
+    let player, isPlaying = false, musicBootStarted = false, musicReady = false, musicRequested = false, musicLoadTimeout;
     const musicBtn = document.getElementById('musicBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
     const spPlayer = document.getElementById('spPlayer');
     const spBar = document.getElementById('spBar');
     let progressTimer = null;
+    function loadMusicPlayer() {
+      if (musicBootStarted) return;
+      musicBootStarted = true;
+      window.onYouTubeIframeAPIReady = function () {
+        player = new YT.Player('yt-player', {
+          height: '1', width: '1', videoId: 'yNNMKN9BUmU',
+          playerVars: { autoplay: 0, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
+          events: {
+            onReady: () => {
+              musicReady = true;
+              clearTimeout(musicLoadTimeout);
+              musicBtn.removeAttribute('aria-busy');
+              musicBtn.title = 'Play';
+              if (musicRequested) { musicRequested = false; player.playVideo(); }
+            },
+            onStateChange: (e) => {
+              if (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+                isPlaying = e.data === YT.PlayerState.PLAYING;
+                updateMusicUI();
+              }
+            }
+          }
+        });
+      };
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      tag.async = true;
+      tag.onerror = () => { clearTimeout(musicLoadTimeout); musicBootStarted = false; musicRequested = false; musicBtn.removeAttribute('aria-busy'); musicBtn.title = 'Music is unavailable right now'; };
+      document.head.appendChild(tag);
+    }
+    window.addEventListener('load', () => {
+      if ('requestIdleCallback' in window) requestIdleCallback(loadMusicPlayer, { timeout: 4000 });
+      else setTimeout(loadMusicPlayer, 1800);
+    }, { once:true });
     function updateMusicUI() {
       playIcon.style.display = isPlaying ? 'none' : 'block';
       pauseIcon.style.display = isPlaying ? 'block' : 'none';
@@ -3391,7 +3422,20 @@
       } else clearInterval(progressTimer);
     }
     musicBtn.addEventListener('click', () => {
-      if (!player || !player.playVideo) return;
+      if (!musicReady) {
+        musicRequested = true;
+        musicBtn.setAttribute('aria-busy', 'true');
+        musicBtn.title = 'Loading song';
+        clearTimeout(musicLoadTimeout);
+        musicLoadTimeout = setTimeout(() => {
+          if (musicReady) return;
+          musicRequested = false;
+          musicBtn.removeAttribute('aria-busy');
+          musicBtn.title = 'Music is taking longer. Tap to retry.';
+        }, 8000);
+        loadMusicPlayer();
+        return;
+      }
       isPlaying = !isPlaying; isPlaying ? player.playVideo() : player.pauseVideo(); updateMusicUI();
     });
 
@@ -3542,6 +3586,28 @@
       { label:'Maldives · maybe', coords:[3.2028,73.2207], note:'Clear water, proper rest and no admission stress.' }
     ];
     let journeyMapInstance = null, dreamMapInstance = null;
+    let mapLibraryPromise = null;
+    function loadMapLibrary() {
+      if (window.L) return Promise.resolve();
+      if (mapLibraryPromise) return mapLibraryPromise;
+      const mapLoad = new Promise((resolve, reject) => {
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(css);
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = () => { mapLibraryPromise = null; reject(new Error('Map unavailable')); };
+        document.head.appendChild(script);
+      });
+      mapLibraryPromise = Promise.race([
+        mapLoad,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Map timed out')), 7000))
+      ]).catch(err => { mapLibraryPromise = null; throw err; });
+      return mapLibraryPromise;
+    }
     function mapLanguageCopy(value) {
       if (currentLanguage !== 'ru' || typeof RU_TRANSLATIONS === 'undefined') return value;
       return RU_TRANSLATIONS.get(String(value).replace(/\s+/g,' ').trim()) || value;
@@ -3554,6 +3620,7 @@
         document.getElementById(elementId).innerHTML = '<div style="height:100%;display:grid;place-items:center;padding:25px;text-align:center;color:#5b5f6a;font-size:.78rem">The map appears when the site is online. The memory cards below still tell the story.</div>';
         return null;
       }
+      document.getElementById(elementId).textContent = '';
       const map = L.map(elementId,{ scrollWheelZoom:false, attributionControl:false, zoomControl:true }).setView([21,15],zoom);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ maxZoom:18, attribution:'© OpenStreetMap' }).addTo(map);
       const marker = makeStarMarker();
@@ -3568,11 +3635,19 @@
       setTimeout(() => map.invalidateSize(),250);
       return map;
     }
-    function ensureJourneyMap() {
+    async function ensureJourneyMap() {
+      if (!journeyMapInstance) {
+        document.getElementById('journeyMap').textContent = 'Loading map…';
+        try { await loadMapLibrary(); } catch (err) {}
+      }
       if (!journeyMapInstance) journeyMapInstance = buildLeafletMap('journeyMap',JOURNEY_PLACES,2);
       else setTimeout(() => journeyMapInstance.invalidateSize(),100);
     }
-    function ensureDreamMap() {
+    async function ensureDreamMap() {
+      if (!dreamMapInstance) {
+        document.getElementById('dreamMap').textContent = 'Loading map…';
+        try { await loadMapLibrary(); } catch (err) {}
+      }
       if (!dreamMapInstance) dreamMapInstance = buildLeafletMap('dreamMap',DREAM_PLACES,2);
       else setTimeout(() => dreamMapInstance.invalidateSize(),100);
     }
