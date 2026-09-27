@@ -215,7 +215,7 @@ const RU_ATTRIBUTE_TRANSLATIONS = new Map([
   ['Record your birthday wish','Записать желание на день рождения'],
   ['Close install guide','Закрыть инструкцию по установке'],
   ['Play','Воспроизвести'],
-  ['Play or pause Like I Want You by Giveon','Воспроизвести или поставить на паузу Like I Want You от Giveon']
+  ['Play or pause Do Ya Like by Childish Gambino','Воспроизвести или поставить на паузу Do Ya Like от Childish Gambino']
 ]);
 
 const RU_VALUES = new Set([...RU_TRANSLATIONS.values()].map(value=>String(value).replace(/\s+/g,' ').trim()));
