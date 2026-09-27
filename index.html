@@ -2861,7 +2861,6 @@
       renderBirthdayQuiz();
     });
     window.refreshBirthdayQuiz = renderBirthdayQuiz;
-    renderBirthdayQuiz();
 
     const afterCreditsBtn = document.getElementById('afterCreditsBtn');
     const afterCreditsScene = document.getElementById('afterCreditsScene');
@@ -3580,6 +3579,7 @@
     // ===== 2026 EXPANSION: selected personal features =====
     let currentLanguage = 'en';
     try { currentLanguage = localStorage.getItem('victory-language') === 'ru' ? 'ru' : 'en'; } catch (err) {}
+    renderBirthdayQuiz();
 
     // Silver envelope travelling from Favour's side to Victory before the letter opens.
     const silverEnvelopeFlight = document.getElementById('silverEnvelopeFlight');
