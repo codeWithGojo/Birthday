@@ -82,6 +82,23 @@
       padding: clamp(28px, 8vw, 100px);
       transition: opacity .7s ease, visibility .7s;
     }
+    #netflix-intro::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:linear-gradient(90deg,#151713 35%,rgba(21,23,19,.9) 55%,rgba(21,23,19,.25) 100%),
+        url('assets/media/victory-vhs.jpg') right 24% center / auto 115% no-repeat;
+      opacity:.88;
+    }
+    #netflix-intro::after {
+      content:''; position:absolute; inset:0; pointer-events:none; opacity:.14;
+      background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.32) 4px 5px);
+    }
+    #netflix-intro > * { position:relative; z-index:1; }
+    .intro-tape-status,.intro-tape-counter {
+      position:absolute!important; color:#d6c8ad; font:700 .67rem 'Quicksand',sans-serif;
+      letter-spacing:.17em; text-transform:uppercase;
+    }
+    .intro-tape-status { top:max(28px,env(safe-area-inset-top)); right:clamp(28px,8vw,100px); }
+    .intro-tape-counter { bottom:max(38px,env(safe-area-inset-bottom)); right:clamp(28px,8vw,100px); }
     #netflix-intro.done { opacity: 0; visibility: hidden; pointer-events: none; }
     .intro-overline { font: 700 .65rem 'Quicksand', sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #b8aa8c; margin-bottom: 22px; }
     .netflix-text {
@@ -102,6 +119,10 @@
     .netflix-sub {
       font-size: .72rem; font-weight: 600; letter-spacing: .08em;
       color: #a4a397; margin-top: 16px;
+    }
+    @media (max-width:700px) {
+      #netflix-intro::before { background:linear-gradient(90deg,#151713 8%,rgba(21,23,19,.8) 70%,rgba(21,23,19,.45)),url('assets/media/victory-vhs.jpg') right center / auto 100% no-repeat; opacity:.6; }
+      .intro-tape-status,.intro-tape-counter { font-size:.55rem; }
     }
     .intro-skip {
       position: absolute; bottom: max(28px, env(safe-area-inset-bottom)); border: 0; background: transparent;
@@ -1480,6 +1501,23 @@
       background:#242720; border-color:#626256; border-radius:3px; box-shadow:none;
     }
     body.landing-mode .theme-btn svg { fill:#d4ac7c; }
+    .story-media {
+      margin:24px auto 28px; width:min(100%,470px); padding:8px;
+      background:#e8e3da; color:#282a27; border:1px solid #c9c1b6;
+      text-align:left;
+    }
+    body.dark .story-media { background:#dcd5c9; border-color:#a79e92; }
+    .story-media img,.story-media video { display:block; width:100%; height:auto; max-height:510px; object-fit:cover; background:#1e211e; }
+    .story-media video { aspect-ratio:9/16; object-fit:contain; }
+    .story-media--collage img { object-fit:contain; background:#faf9f6; }
+    .story-media figcaption { padding:10px 5px 4px; font:600 .72rem/1.5 'Quicksand',sans-serif; }
+    .story-media figcaption span { display:block; margin-bottom:4px; color:#695d52; font-size:.55rem; letter-spacing:.13em; text-transform:uppercase; }
+    .story-media--small { width:min(100%,340px); }
+    .story-media--pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:min(100%,550px); }
+    .story-media--pair img,.story-media--pair video { height:280px; max-height:none; object-fit:cover; }
+    .story-media--pair video { object-fit:contain; }
+    .story-media--pair figcaption { grid-column:1/-1; }
+    .banter-payoff .story-media { margin-bottom:8px; }
     @media (max-width:700px) {
       body.landing-mode .main-wrap {
         padding:max(64px,calc(46px + env(safe-area-inset-top))) 20px
@@ -1500,6 +1538,9 @@
       #screenIntro .hero-subtitle { margin:13px 0 18px; font-size:.83rem; line-height:1.45; }
       #screenIntro .open-btn { min-height:48px; width:100%; max-width:350px; }
       .opening-footnote { margin-top:27px; padding-top:12px; }
+      .story-media { margin:19px auto 22px; }
+      .story-media img,.story-media video { max-height:60svh; }
+      .story-media--pair img,.story-media--pair video { height:min(45svh,250px); }
     }
     @media (max-width:360px) {
       body.landing-mode .main-wrap { padding-inline:16px; }
@@ -1532,10 +1573,12 @@
     <div class="envelope-route-copy">ASABA, NIGERIA&nbsp;&nbsp; ✦ &nbsp;&nbsp;RUSSIA</div>
   </div>
   <div id="netflix-intro">
-    <div class="intro-overline">Favour / 2026</div>
-    <div class="netflix-text">A little world<br>for Victory.</div>
+    <div class="intro-tape-status" aria-hidden="true">SP &nbsp; PLAY ▷</div>
+    <div class="intro-overline">Favour presents / 13 October 2026</div>
+    <div class="netflix-text">Victory,<br>at twenty.</div>
     <div class="netflix-bar"></div>
-    <div class="netflix-sub">Made with love, from Asaba.</div>
+    <div class="netflix-sub">A birthday film from Asaba.</div>
+    <div class="intro-tape-counter" aria-hidden="true">00:00:01</div>
     <button class="intro-skip" type="button" aria-label="Skip introduction">tap to skip</button>
   </div>
 
@@ -1622,7 +1665,11 @@
         <p>You saw “don't open” and clicked anyway. I knew you would.</p>
         <button class="banter-reveal" id="banterReveal" type="button" aria-controls="banterPayoff" aria-expanded="false">Fine. Press this too.</button>
         <div class="banter-payoff" id="banterPayoff" hidden>
-          <p>The video is still on its way. I'll be back to bant you properly.</p>
+          <p>Okay, you win. I saved this one for last.</p>
+          <figure class="story-media story-media--small">
+            <video class="story-video" controls playsinline preload="none" poster="assets/media/surprise.webp" aria-label="A playful clip of Victory"><source src="assets/media/surprise.mp4" type="video/mp4">Your browser cannot play this video.</video>
+            <figcaption><span>the one you opened anyway</span>There she is.</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -1635,6 +1682,11 @@
         <h2 class="section-title">Memories</h2>
         <img src="victory.jpg" class="memory-photo" alt="Victory" />
         <div class="memory-caption">this is still one of my favorite pictures of you</div>
+        <figure class="story-media story-media--pair">
+          <img src="assets/media/victory-closeup.jpg" alt="A close-up selfie of Victory" loading="lazy" decoding="async">
+          <video class="story-video" controls playsinline preload="none" poster="assets/media/memory.webp" aria-label="A black-and-white clip of Victory"><source src="assets/media/memory.mp4" type="video/mp4">Your browser cannot play this video.</video>
+          <figcaption><span>from the camera roll / 01</span>A photo and a few seconds I wanted to keep.</figcaption>
+        </figure>
         <div class="memory-list" id="memoryList">
           <p>Our first call—not every sentence, but the nervous excitement and how quickly your voice began to feel familiar.</p>
           <p>The video calls where seeing your face made the kilometres between Nigeria and Russia feel less powerful.</p>
@@ -1693,6 +1745,14 @@
         </div>
         <div class="dice-result" id="diceResult"></div>
         <div class="dice-hint">tap the wheel to spin</div>
+        <figure class="story-media story-media--collage">
+          <img src="assets/media/victory-cat-faces.jpg" alt="Victory matching four expressions with cat reactions" loading="lazy" decoding="async">
+          <figcaption><span>from the camera roll / 02</span>The cat comparisons still make me laugh.</figcaption>
+        </figure>
+        <figure class="story-media story-media--small">
+          <video class="story-video" controls playsinline preload="none" poster="assets/media/laugh.webp" aria-label="A short playful clip of Victory"><source src="assets/media/laugh.mp4" type="video/mp4">Your browser cannot play this video.</video>
+          <figcaption><span>a little moving picture</span>I can almost hear your reaction.</figcaption>
+        </figure>
         <section class="substory" aria-labelledby="reasonsTitle">
           <span class="substory-kicker">one hundred little truths</span>
           <h3 class="substory-title" id="reasonsTitle">100 Reasons I Love You</h3>
@@ -1734,6 +1794,10 @@
       <div class="section-card">
         <div class="section-icon">⭐</div>
         <h2 class="section-title">Your Best Qualities</h2>
+        <figure class="story-media story-media--small">
+          <img src="assets/media/victory-green-filter.jpg" alt="Victory making a playful face in a green camera filter" loading="lazy" decoding="async">
+          <figcaption><span>from the camera roll / 03</span>No serious caption could improve this photo.</figcaption>
+        </figure>
         <div class="quality-list" id="qualityList">
           <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Honest</b><span>Even when it would be easier not to be.</span></div></div>
           <div class="quality-item"><span class="quality-star">✦</span><div class="quality-text"><b>Resilient</b><span>You keep going no matter what gets thrown at you.</span></div></div>
@@ -1784,6 +1848,11 @@
       <div class="section-card">
         <div class="section-icon">🪐</div>
         <h2 class="section-title">Our Moments</h2>
+        <figure class="story-media story-media--pair">
+          <img src="assets/media/victory-silly-face.jpg" alt="Victory making a funny face for the camera" loading="lazy" decoding="async">
+          <video class="story-video" controls playsinline preload="none" poster="assets/media/moment.webp" aria-label="A brief selfie clip of Victory"><source src="assets/media/moment.mp4" type="video/mp4">Your browser cannot play this video.</video>
+          <figcaption><span>from the camera roll / 04</span>Not every memory needs a perfect pose.</figcaption>
+        </figure>
         <div class="globe-wrap">
           <svg class="globe-svg" viewBox="0 0 260 260">
             <defs>
@@ -2417,6 +2486,7 @@
       universeProgress.classList.toggle('visible', id !== 'screenIntro');
     }
     function showScreen(id) {
+      document.querySelectorAll('.story-video').forEach(video => { if (!video.paused) video.pause(); });
       screens.forEach(s => s.classList.remove('active'));
       const target = document.getElementById(id);
       target.classList.add('active');
@@ -3635,6 +3705,13 @@
     const spPlayer = document.getElementById('spPlayer');
     const spBar = document.getElementById('spBar');
     let progressTimer = null;
+    document.querySelectorAll('.story-video').forEach(video => {
+      video.addEventListener('play', () => {
+        document.querySelectorAll('.story-video').forEach(other => { if (other !== video && !other.paused) other.pause(); });
+        musicRequested = false;
+        if (musicReady && isPlaying) { player.pauseVideo(); isPlaying = false; updateMusicUI(); }
+      });
+    });
     function loadMusicPlayer() {
       if (musicBootStarted) return;
       musicBootStarted = true;
@@ -4223,6 +4300,6 @@
 
     renderTwentyWishes();renderBucketList();paintFortune();
   </script>
-  <script src="translations-ru.js?v=9"></script>
+  <script src="translations-ru.js?v=10"></script>
 </body>
 </html>

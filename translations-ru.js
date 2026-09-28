@@ -4,6 +4,24 @@ const addRu = (english, russian) => RU_TRANSLATIONS.set(String(english).replace(
 
 [
   ['For Victory — Happy Birthday','Для Виктори — С днём рождения'],
+  ['Favour presents / 13 October 2026','Фавор представляет / 13 октября 2026'],
+  ['Victory,','Виктори,'],
+  ['at twenty.','в двадцать лет.'],
+  ['A birthday film from Asaba.','Фильм ко дню рождения из Асабы.'],
+  ['Okay, you win. I saved this one for last.','Ладно, ты победила. Это я оставил напоследок.'],
+  ['the one you opened anyway','то, что ты всё равно открыла'],
+  ['There she is.','Вот она.'],
+  ['from the camera roll / 01','из галереи / 01'],
+  ['from the camera roll / 02','из галереи / 02'],
+  ['from the camera roll / 03','из галереи / 03'],
+  ['from the camera roll / 04','из галереи / 04'],
+  ['A photo and a few seconds I wanted to keep.','Фото и несколько секунд, которые мне хотелось сохранить.'],
+  ['The cat comparisons still make me laugh.','Эти сравнения с котами до сих пор меня смешат.'],
+  ['a little moving picture','маленькое видео'],
+  ['I can almost hear your reaction.','Я почти слышу твою реакцию.'],
+  ['No serious caption could improve this photo.','Серьёзная подпись этому фото ни к чему.'],
+  ['Not every memory needs a perfect pose.','Не каждому воспоминанию нужна идеальная поза.'],
+  ['Your browser cannot play this video.','Твой браузер не может воспроизвести это видео.'],
   ['A little world','Маленький мир'],
   ['for Victory.','для Виктори.'],
   ['Made with love, from Asaba.','С любовью, из Асабы.'],
@@ -231,7 +249,15 @@ const RU_ATTRIBUTE_TRANSLATIONS = new Map([
   ['Record your birthday wish','Записать желание на день рождения'],
   ['Close install guide','Закрыть инструкцию по установке'],
   ['Play','Воспроизвести'],
-  ['Play or pause Do Ya Like by Childish Gambino','Воспроизвести или поставить на паузу Do Ya Like от Childish Gambino']
+  ['Play or pause Do Ya Like by Childish Gambino','Воспроизвести или поставить на паузу Do Ya Like от Childish Gambino'],
+  ['A playful clip of Victory','Забавное видео с Виктори'],
+  ['A black-and-white clip of Victory','Чёрно-белое видео с Виктори'],
+  ['A short playful clip of Victory','Короткое забавное видео с Виктори'],
+  ['A brief selfie clip of Victory','Короткое селфи-видео с Виктори'],
+  ['A close-up selfie of Victory','Селфи Виктори крупным планом'],
+  ['Victory matching four expressions with cat reactions','Четыре выражения лица Виктори в сравнении с котами'],
+  ['Victory making a playful face in a green camera filter','Виктори с забавным выражением лица под зелёным фильтром'],
+  ['Victory making a funny face for the camera','Виктори корчит забавную гримасу перед камерой']
 ]);
 
 const RU_VALUES = new Set([...RU_TRANSLATIONS.values()].map(value=>String(value).replace(/\s+/g,' ').trim()));

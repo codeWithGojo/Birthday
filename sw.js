@@ -1,13 +1,18 @@
-const CACHE_NAME = 'victory-twenty-v10';
+const CACHE_NAME = 'victory-twenty-v11';
 const CORE_FILES = [
   './',
   './index.html',
-  './translations-ru.js?v=9',
+  './translations-ru.js?v=10',
   './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
   './victory.jpg',
+  './assets/media/victory-vhs.jpg',
+  './assets/media/victory-closeup.jpg',
+  './assets/media/victory-cat-faces.jpg',
+  './assets/media/victory-green-filter.jpg',
+  './assets/media/victory-silly-face.jpg',
   './assets/favour-handwriting.jpeg',
   './letter-to-victory.pdf'
 ];
@@ -32,6 +37,7 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const requestUrl = new URL(event.request.url);
   if (requestUrl.origin !== self.location.origin) return;
+  if (event.request.headers.has('range') || requestUrl.pathname.endsWith('.mp4')) return;
 
   if (event.request.mode === 'navigate') {
     event.respondWith(
