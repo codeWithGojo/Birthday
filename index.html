@@ -1317,6 +1317,12 @@
     .after-credits-scene span { display:block; color:#aab3c4; font:.6rem 'Quicksand',sans-serif; letter-spacing:.18em; text-transform:uppercase; }
     .after-credits-scene p { max-width:30ch; margin:20px auto 12px; color:#f3f0ee; font:italic 1.15rem/1.55 Georgia,serif; }
     .after-credits-scene strong { color:#f0dbe1; font:700 1.4rem 'Caveat',cursive; }
+    .last-frame { margin:32px auto 5px; max-width:360px; padding:10px 10px 22px; background:#ebe4d9; color:#292b26; text-align:left; transform:rotate(-1deg); box-shadow:0 12px 34px rgba(0,0,0,.28); }
+    .last-frame img { display:block; width:100%; aspect-ratio:4/5; object-fit:cover; object-position:center 26%; }
+    .last-frame figcaption { padding:16px 8px 0; font:italic clamp(1.1rem,4vw,1.35rem)/1.45 Georgia,serif; }
+    .last-frame-label { display:block; margin-bottom:9px; font:700 .58rem 'Quicksand',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#755e51; }
+    .last-frame-return { display:block; width:fit-content; min-height:46px; margin:21px auto 0; padding:12px 19px; border:1px solid #d8c9b0; border-radius:2px; background:#d8c9b0; color:#20221f; font:700 .75rem 'Quicksand',sans-serif; cursor:pointer; }
+    .last-frame-return:focus-visible,.gift-pass-btn:focus-visible,.gift-pass-close:focus-visible { outline:3px solid #d4ac7c; outline-offset:3px; }
     @keyframes creditsDrift { from { transform:translateY(0); } to { transform:translateY(-35%); } }
     @media (prefers-reduced-motion:reduce) { .credits-roll { animation:none; } .credits-window { max-height:none; } }
 
@@ -1501,6 +1507,20 @@
       background:#242720; border-color:#626256; border-radius:3px; box-shadow:none;
     }
     body.landing-mode .theme-btn svg { fill:#d4ac7c; }
+    .gift-pass-btn { display:inline-flex; align-items:center; gap:11px; min-height:50px; margin:16px 0 0; padding:5px 0; border:0; border-bottom:1px solid #918a79; border-radius:0; background:transparent; color:#d6c8ad; font:600 .72rem 'Quicksand',sans-serif; letter-spacing:.04em; cursor:pointer; }
+    .gift-pass-btn img { display:block; width:40px; height:40px; padding:3px; background:#eee9dd; }
+    .gift-pass-btn:hover { color:#fff2da; }
+    .gift-pass[hidden] { display:none; }
+    .gift-pass { position:fixed; inset:0; z-index:300; display:grid; place-items:center; padding:calc(18px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom)); background:rgba(8,11,10,.88); overflow-y:auto; }
+    .gift-pass-card { width:min(100%,390px); position:relative; padding:28px 25px 24px; background:#eae3d8; color:#232720; text-align:center; border:1px solid #bda989; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .gift-pass-card::before { content:''; position:absolute; inset:7px; border:1px solid #bda989; pointer-events:none; }
+    .gift-pass-kicker { display:block; font:700 .6rem 'Quicksand',sans-serif; letter-spacing:.2em; text-transform:uppercase; }
+    .gift-pass-card h2 { margin:16px 0 10px; font:normal clamp(2rem,8vw,2.9rem)/1 Georgia,serif; letter-spacing:-.045em; }
+    .gift-pass-card p { margin:0 auto 18px; max-width:26ch; font:.78rem/1.5 'Quicksand',sans-serif; }
+    .gift-pass-card img { display:block; width:min(100%,230px); margin:0 auto; padding:8px; background:white; image-rendering:pixelated; }
+    .gift-pass-card small { display:block; margin:16px 0 20px; font:.68rem 'Quicksand',sans-serif; }
+    .gift-pass-card a { display:inline-block; min-height:44px; padding:12px 17px; border:1px solid #30362e; color:#30362e; text-decoration:none; font:700 .72rem 'Quicksand',sans-serif; }
+    .gift-pass-close { position:absolute; top:13px; right:15px; border:0; background:none; color:#30362e; font-size:1.7rem; line-height:1; cursor:pointer; }
     .story-media {
       margin:24px auto 28px; width:min(100%,470px); padding:8px;
       background:#e8e3da; color:#282a27; border:1px solid #c9c1b6;
@@ -1541,7 +1561,13 @@
       .story-media { margin:19px auto 22px; }
       .story-media img,.story-media video { max-height:60svh; }
       .story-media--pair img,.story-media--pair video { height:min(45svh,250px); }
+      .story-media--pair { width:100%; }
+      .story-media--pair img,.story-media--pair video { height:clamp(150px,42vw,250px); }
+      .gift-pass-card { padding:24px 18px 20px; }
+      .gift-pass-card img { width:min(100%,195px); }
+      .last-frame { width:min(100%,320px); }
     }
+    @media (max-width:380px) { .story-media--pair { grid-template-columns:1fr; } .story-media--pair img,.story-media--pair video { height:auto; max-height:56svh; } }
     @media (max-width:360px) {
       body.landing-mode .main-wrap { padding-inline:16px; }
       #screenIntro .hero-photo-wrap { height:clamp(155px,32svh,230px); }
@@ -1581,6 +1607,17 @@
     <div class="intro-tape-counter" aria-hidden="true">00:00:01</div>
     <button class="intro-skip" type="button" aria-label="Skip introduction">tap to skip</button>
   </div>
+  <div class="gift-pass" id="giftPass" role="dialog" aria-modal="true" aria-labelledby="giftPassTitle" hidden>
+    <div class="gift-pass-card">
+      <button class="gift-pass-close" id="giftPassClose" type="button" aria-label="Close QR card">×</button>
+      <span class="gift-pass-kicker">a little world, made for one person</span>
+      <h2 id="giftPassTitle">For Victory.</h2>
+      <p>Scan this card with another phone to open your birthday universe.</p>
+      <img src="assets/victory-qr.svg" alt="QR code linking to Victory's birthday universe" width="230" height="230">
+      <small>13 October 2026 · from Favour</small>
+      <a href="assets/victory-gift-card.png" download="for-victory-gift-card.png">save the QR card</a>
+    </div>
+  </div>
 
   <div class="ambient-bg"></div>
   <div class="room-glow" aria-hidden="true"></div>
@@ -1613,6 +1650,7 @@
         <h1 class="hero-title"><span class="birthday-copy">Happy birthday,</span><br><span class="victory-glow">Victory.</span></h1>
         <p class="hero-subtitle">Across the distance, there are still things I wanted you to see.</p>
         <button class="open-btn" id="openBtn">Enter your universe <span aria-hidden="true">↗</span></button>
+        <button class="gift-pass-btn" id="giftPassOpen" type="button" aria-haspopup="dialog" aria-controls="giftPass"><img src="assets/victory-qr.svg" alt="" width="40" height="40">show the gift QR code ↗</button>
       </div>
       <div class="opening-footnote"><span>ASABA, NIGERIA</span></div>
     </div>
@@ -2307,6 +2345,11 @@
             <p>Oh, you're still here? I had a feeling. I hope you smiled at least once today. Happy birthday, amarachiii. And yes, your forehead gets a starring credit in the sequel.</p>
             <strong>Favour</strong>
             <button class="banter-invite" id="banterInvite" type="button">Do not open this, Victory.<small>I'm serious. Just keep scrolling.</small></button>
+            <figure class="last-frame">
+              <img src="assets/media/victory-closeup.jpg" alt="Victory, one last photograph" loading="lazy" decoding="async">
+              <figcaption><span class="last-frame-label">the final frame · 13 October 2026</span>However far away I am, I'm glad I got to know you. Happy 20th, amarachiii.</figcaption>
+            </figure>
+            <button class="last-frame-return" id="lastFrameReturn" type="button">back to your universe ↗</button>
           </div>
         </section>
       </div>
@@ -2378,6 +2421,14 @@
     }
     setTimeout(() => { heroImgReady = true; maybeDismissIntro(); }, 3000);
     netflixIntro.querySelector('.intro-skip').addEventListener('click', () => netflixIntro.classList.add('done'));
+    const giftPass = document.getElementById('giftPass');
+    const giftPassOpen = document.getElementById('giftPassOpen');
+    const giftPassClose = document.getElementById('giftPassClose');
+    function closeGiftPass() { giftPass.hidden = true; document.body.style.overflow = ''; giftPassOpen.focus(); }
+    giftPassOpen.addEventListener('click', () => { giftPass.hidden = false; document.body.style.overflow = 'hidden'; giftPassClose.focus(); });
+    giftPassClose.addEventListener('click', closeGiftPass);
+    giftPass.addEventListener('click', event => { if (event.target === giftPass) closeGiftPass(); });
+    giftPass.addEventListener('keydown', event => { if (event.key === 'Escape') closeGiftPass(); });
     let confettiLoading = false;
     function loadConfetti() {
       if (confettiLoading || window.confetti) return;
@@ -3080,6 +3131,7 @@
       afterCreditsBtn.setAttribute('aria-expanded','true');
       afterCreditsScene.scrollIntoView({behavior:prefersReducedMotion?'auto':'smooth',block:'nearest'});
     });
+    document.getElementById('lastFrameReturn').addEventListener('click', () => showScreen('screenUniverse'));
 
     const favourVoiceMemo = document.getElementById('favourVoiceMemo');
     const memoNote = document.getElementById('memoNote');
@@ -4300,6 +4352,6 @@
 
     renderTwentyWishes();renderBucketList();paintFortune();
   </script>
-  <script src="translations-ru.js?v=10"></script>
+  <script src="translations-ru.js?v=11"></script>
 </body>
 </html>

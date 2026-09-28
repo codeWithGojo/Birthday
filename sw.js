@@ -1,8 +1,10 @@
-const CACHE_NAME = 'victory-twenty-v11';
+const CACHE_NAME = 'victory-twenty-v12';
 const CORE_FILES = [
   './',
   './index.html',
-  './translations-ru.js?v=10',
+  './translations-ru.js?v=11',
+  './assets/victory-qr.svg',
+  './assets/victory-gift-card.png',
   './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',
