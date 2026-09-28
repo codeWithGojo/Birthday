@@ -1466,6 +1466,20 @@
     body.landing-mode .tool-pill, body.landing-mode.dark .tool-pill {
       background:#232720; border-color:#69695c; color:#ede9dd; border-radius:2px; box-shadow:none;
     }
+    body.landing-mode .sp-player, body.landing-mode.dark .sp-player {
+      background:#242720; border-color:#626256; border-radius:3px; box-shadow:none; backdrop-filter:none;
+    }
+    body.landing-mode .sp-art { background:#675342; border-radius:2px; box-shadow:none; }
+    body.landing-mode .sp-title { color:#eee9dd; }
+    body.landing-mode .sp-artist { color:#bdb6a6; }
+    body.landing-mode .sp-progress { background:#55574e; }
+    body.landing-mode .sp-bar { background:#d4ac7c; }
+    body.landing-mode .sp-btn { background:#d4ac7c; box-shadow:none; }
+    body.landing-mode .sp-btn svg { fill:#1d211b; }
+    body.landing-mode .theme-btn, body.landing-mode.dark .theme-btn {
+      background:#242720; border-color:#626256; border-radius:3px; box-shadow:none;
+    }
+    body.landing-mode .theme-btn svg { fill:#d4ac7c; }
     @media (max-width:700px) {
       body.landing-mode .main-wrap {
         padding:max(64px,calc(46px + env(safe-area-inset-top))) 20px
@@ -1491,7 +1505,6 @@
       body.landing-mode .main-wrap { padding-inline:16px; }
       #screenIntro .hero-photo-wrap { height:clamp(155px,32svh,230px); }
       #screenIntro .hero-title { font-size:clamp(2.55rem,11.5vw,3rem); }
-      .opening-footnote span:last-child { max-width:14ch; text-align:right; }
       .planet-field { grid-template-columns:repeat(6,minmax(0,1fr)); }
       .planet { --sphere-size:72px; width:90px; min-height:104px; }
       .planet-label { font-size:.55rem; }
@@ -1558,7 +1571,7 @@
         <p class="hero-subtitle">Across the distance, there are still things I wanted you to see.</p>
         <button class="open-btn" id="openBtn">Enter your universe <span aria-hidden="true">↗</span></button>
       </div>
-      <div class="opening-footnote"><span>ASABA, NIGERIA</span><span>MADE FOR YOU, WHEREVER YOU ARE</span></div>
+      <div class="opening-footnote"><span>ASABA, NIGERIA</span></div>
     </div>
 
     <!-- SCREEN: universe hub -->

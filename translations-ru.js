@@ -13,7 +13,6 @@ const addRu = (english, russian) => RU_TRANSLATIONS.set(String(english).replace(
   ['Victory.','Виктори.'],
   ['Across the distance, there are still things I wanted you to see.','Даже на расстоянии мне есть что тебе показать.'],
   ['Enter your universe','Войти в твою вселенную'],
-  ['MADE FOR YOU, WHEREVER YOU ARE','СДЕЛАНО ДЛЯ ТЕБЯ, ГДЕ БЫ ТЫ НИ БЫЛА'],
   ['Presents','представляет'],
   ['tap to skip','нажми, чтобы пропустить'],
   ['universe explored','вселенная исследована'],
