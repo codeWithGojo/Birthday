@@ -4,6 +4,16 @@ const addRu = (english, russian) => RU_TRANSLATIONS.set(String(english).replace(
 
 [
   ['For Victory — Happy Birthday','Для Виктори — С днём рождения'],
+  ['A little world','Маленький мир'],
+  ['for Victory.','для Виктори.'],
+  ['Made with love, from Asaba.','С любовью, из Асабы.'],
+  ['FOR VICTORY, ON YOUR BIRTHDAY','ДЛЯ ВИКТОРИ, В ТВОЙ ДЕНЬ РОЖДЕНИЯ'],
+  ['A little something from Favour','Кое-что от Фавора'],
+  ['Happy birthday,','С днём рождения,'],
+  ['Victory.','Виктори.'],
+  ['Across the distance, there are still things I wanted you to see.','Даже на расстоянии мне есть что тебе показать.'],
+  ['Enter your universe','Войти в твою вселенную'],
+  ['MADE FOR YOU, WHEREVER YOU ARE','СДЕЛАНО ДЛЯ ТЕБЯ, ГДЕ БЫ ТЫ НИ БЫЛА'],
   ['Presents','представляет'],
   ['tap to skip','нажми, чтобы пропустить'],
   ['universe explored','вселенная исследована'],
