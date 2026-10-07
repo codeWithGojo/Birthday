@@ -1,11 +1,12 @@
-const CACHE_NAME = 'victory-twenty-v14';
+const CACHE_NAME = 'victory-twenty-v15';
 const CORE_FILES = [
   './',
   './index.html',
-  './birthday-editorial.css?v=14',
-  './birthday-universe.css?v=14',
-  './universe-sky.js?v=14',
-  './translations-ru.js?v=14',
+  './birthday-editorial.css?v=15',
+  './birthday-universe.css?v=15',
+  './universe-sky.js?v=15',
+  './universe-interactions.js?v=15',
+  './translations-ru.js?v=15',
   './assets/victory-qr.svg',
   './assets/victory-gift-card.png',
   './manifest.webmanifest',

@@ -1588,8 +1588,8 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=14" rel="stylesheet"/><link href="birthday-universe.css?v=14" rel="stylesheet"/></head>
-<body class="landing-mode"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
+<link href="birthday-editorial.css?v=15" rel="stylesheet"/><link href="birthday-universe.css?v=15" rel="stylesheet"/></head>
+<body class="landing-mode" data-active-screen="screenIntro"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
 <div class="sp-player" id="spPlayer">
@@ -1643,7 +1643,6 @@
 <div id="twinkleStars"></div>
 <div id="floatHearts"></div>
 <div class="burst" id="burst"></div>
-
 <div class="main-wrap">
 <!-- SCREEN: intro -->
 <div class="screen active" id="screenIntro">
@@ -1659,7 +1658,7 @@
 <div class="opening-copy">
 <p class="made-something">A little universe, just for you.</p>
 <h1 class="hero-title"><span class="birthday-copy">Happy birthday,</span><br/><span class="victory-glow">Victory.</span></h1>
-<p class="hero-subtitle">You mean a lot to me, Amarachi. So I made you a whole little universe for your twentieth. Your photos, our memories, a few ridiculous things, and a letter from me.</p>
+<p class="hero-subtitle">You mean a lot to me, Amarachi. So I made you a little universe: our memories, your ridiculous faces, and a birthday letter from me.</p>
 <button class="open-btn" id="openBtn">Step into your universe</button>
 <button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>Your birthday QR card</button>
 </div>
@@ -1669,29 +1668,27 @@
 <div class="screen" id="screenUniverse"><p class="universe-kicker">ONE BIRTHDAY GIRL. A WHOLE UNIVERSE.</p>
 <div class="universe-title">Victory’s little universe</div>
 <p class="time-greeting" id="timeGreeting"><span>Good day, Victory.</span> Your universe has been waiting.</p>
-<p class="universe-subtitle">Every planet holds something I wanted to keep for you. Take your time. There’s a letter waiting at the centre.</p>
-<p class="drag-hint">Tap a planet. See what’s inside.</p>
-<div class="universe-map-scene" id="universeMapScene">
+<p class="universe-subtitle">A few memories, a little nonsense, and your letter at the centre.</p>
+<p class="drag-hint">Tap a planet to explore.</p>
+<div aria-label="Universe controls" class="orbit-tools"><button aria-pressed="false" id="arrangeToggle" type="button">Move planets</button><button aria-pressed="false" id="motionToggle" type="button">Pause motion</button><button hidden="" id="resetPlanets" type="button">Reset positions</button></div><p class="arrange-hint" hidden="" id="arrangeHint" role="status">Drag one planet onto another to swap places. You can also tap two planets.</p><div class="universe-map-scene" id="universeMapScene">
 <div aria-hidden="true" class="aurora-layer"><i class="aurora-ribbon one"></i><i class="aurora-ribbon two"></i></div>
 <canvas aria-hidden="true" class="sky-canvas" id="skyCanvas"></canvas>
 <div aria-hidden="true" class="map-stars" id="mapStars"></div>
 <div aria-label="Explore Victory's universe" class="planet-field"><span aria-hidden="true" class="celestial-orbit orbit-tilted"></span><span aria-hidden="true" class="celestial-orbit orbit-outer"></span><span aria-hidden="true" class="celestial-orbit orbit-inner"></span>
-
-<button aria-label="Open The camera roll" class="planet chapter-link celestial-1" data-target="screenMemories" type="button"><span class="chapter-number">01</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-closeup.jpg"/></span><span class="chapter-copy"><span class="planet-label">The camera roll</span><span class="planet-hint">Photos, calls and how we met.</span></span></button>
-<button aria-label="Open Very Amarachi" class="planet chapter-link celestial-2" data-target="screenLove" type="button"><span class="chapter-number">02</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-cat-faces.jpg"/></span><span class="chapter-copy"><span class="planet-label">Very Amarachi</span><span class="planet-hint">The little things. And a little nonsense.</span></span></button>
-<button aria-label="Open Look how far you’ve come" class="planet chapter-link celestial-3" data-target="screenQualities" type="button"><span class="chapter-number">03</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-green-filter.jpg"/></span><span class="chapter-copy"><span class="planet-label">Look how far you’ve come</span><span class="planet-hint">The move, the language, the dream.</span></span></button>
-<button aria-label="Open From here to there" class="planet chapter-link celestial-4" data-target="screenMoments" type="button"><span class="chapter-number">04</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-silly-face.jpg"/></span><span class="chapter-copy"><span class="planet-label">From here to there</span><span class="planet-hint">A few memories across the distance.</span></span></button>
-<button aria-label="Open Here’s to twenty" class="planet chapter-link celestial-5" data-target="screenFuture" type="button"><span class="chapter-number">05</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="victory.jpg"/></span><span class="chapter-copy"><span class="planet-label">Here’s to twenty</span><span class="planet-hint">Good things I’m wishing you.</span></span></button>
+<div class="orbital-slot" data-planet="screenMemories" data-slot="1"><div class="planet-float"><button aria-label="Open The camera roll" class="planet chapter-link celestial-1" data-target="screenMemories" type="button"><span class="chapter-number">01</span><span class="planet-portrait"><img alt="" class="chapter-image" draggable="false" loading="eager" src="assets/media/victory-closeup.jpg"/></span><span class="chapter-copy"><span class="planet-label">The camera roll</span><span class="planet-hint">Photos, calls and how we met.</span></span></button></div></div>
+<div class="orbital-slot" data-planet="screenLove" data-slot="2"><div class="planet-float"><button aria-label="Open Very Amarachi" class="planet chapter-link celestial-2" data-target="screenLove" type="button"><span class="chapter-number">02</span><span class="planet-portrait"><img alt="" class="chapter-image" draggable="false" loading="eager" src="assets/media/victory-cat-faces.jpg"/></span><span class="chapter-copy"><span class="planet-label">Very Amarachi</span><span class="planet-hint">The little things. And a little nonsense.</span></span></button></div></div>
+<div class="orbital-slot" data-planet="screenQualities" data-slot="3"><div class="planet-float"><button aria-label="Open Look how far you’ve come" class="planet chapter-link celestial-3" data-target="screenQualities" type="button"><span class="chapter-number">03</span><span class="planet-portrait"><img alt="" class="chapter-image" draggable="false" loading="eager" src="assets/media/victory-green-filter.jpg"/></span><span class="chapter-copy"><span class="planet-label">Look how far you’ve come</span><span class="planet-hint">The move, the language, the dream.</span></span></button></div></div>
+<div class="orbital-slot" data-planet="screenMoments" data-slot="4"><div class="planet-float"><button aria-label="Open From here to there" class="planet chapter-link celestial-4" data-target="screenMoments" type="button"><span class="chapter-number">04</span><span class="planet-portrait"><img alt="" class="chapter-image" draggable="false" loading="eager" src="assets/media/victory-silly-face.jpg"/></span><span class="chapter-copy"><span class="planet-label">From here to there</span><span class="planet-hint">A few memories across the distance.</span></span></button></div></div>
+<div class="orbital-slot" data-planet="screenFuture" data-slot="5"><div class="planet-float"><button aria-label="Open Here’s to twenty" class="planet chapter-link celestial-5" data-target="screenFuture" type="button"><span class="chapter-number">05</span><span class="planet-portrait"><img alt="" class="chapter-image" draggable="false" loading="eager" src="victory.jpg"/></span><span class="chapter-copy"><span class="planet-label">Here’s to twenty</span><span class="planet-hint">Good things I’m wishing you.</span></span></button></div></div>
 <button aria-label="Open a birthday letter from Favour" class="universe-letter-btn universe-core" id="gotoLetterBtn" type="button"><span class="core-photo"><img alt="" height="170" src="victory.jpg" width="170"/><span aria-hidden="true" class="core-stamp">20</span></span><span class="core-title">Your letter</span><span class="core-hint">From Favour</span></button></div>
 </div>
 <p class="sky-caption" hidden="" id="skyCaption">Tonight's bright stars · Russia UTC+5 estimate</p>
 <button class="sky-locate-btn" hidden="" id="skyLocateBtn" type="button">match the stars to your exact sky</button>
 <button class="meteor-btn" hidden="" id="meteorBtn" type="button">✦ call your meteor</button>
-
-<div class="orbit-footer"><p>Made by Favour. Entirely for you.</p><aside aria-live="polite" class="universe-progress" id="universeProgress">
+<div class="universe-actions"><button id="surpriseStop" type="button">Surprise me</button><button id="wishOpen" type="button">Make a shooting-star wish</button></div><p class="universe-notice" id="universeNotice" role="status"></p><div class="orbit-footer"><p>Made by Favour. Entirely for you.</p><aside aria-live="polite" class="universe-progress" id="universeProgress">
 <div class="progress-copy"><span>universe explored</span><span id="progressPercent">0%</span></div>
 <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-</aside></div></div>
+</aside><button hidden="" id="resumeStop" type="button">Back to your last stop</button></div></div>
 <div class="screen" id="screenBanter">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
 <div class="banter-card">
@@ -2312,11 +2309,15 @@
     if(dragHint)dragHint.hidden=true;
 
     const netflixIntro = document.getElementById('netflix-intro');
+    let introAlreadySeen = false;
+    try { introAlreadySeen = sessionStorage.getItem('victory-intro-seen') === 'yes'; } catch (err) {}
+    if (introAlreadySeen) netflixIntro.classList.add('done');
     const heroImg = document.querySelector('.hero-photo-frame img');
     let introMinTimeDone = false, heroImgReady = false;
     function maybeDismissIntro() {
       if (introMinTimeDone && heroImgReady) {
         netflixIntro.classList.add('done');
+        try { sessionStorage.setItem('victory-intro-seen','yes'); } catch (err) {}
       }
     }
     setTimeout(() => { introMinTimeDone = true; maybeDismissIntro(); }, prefersReducedMotion ? 0 : 1650);
@@ -2327,7 +2328,7 @@
       heroImg.addEventListener('error', () => { heroImgReady = true; maybeDismissIntro(); });
     }
     setTimeout(() => { heroImgReady = true; maybeDismissIntro(); }, 3000);
-    netflixIntro.querySelector('.intro-skip').addEventListener('click', () => netflixIntro.classList.add('done'));
+    netflixIntro.querySelector('.intro-skip').addEventListener('click', () => { netflixIntro.classList.add('done'); try { sessionStorage.setItem('victory-intro-seen','yes'); } catch (err) {} });
     const giftPass = document.getElementById('giftPass');
     const giftPassOpen = document.getElementById('giftPassOpen');
     const giftPassClose = document.getElementById('giftPassClose');
@@ -2427,7 +2428,9 @@
     const screens = document.querySelectorAll('.screen');
     const spaceScreenIds = ['screenIntro', 'screenUniverse'];
     const explorableScreens = new Set(['screenMemories','screenLove','screenQualities','screenMoments','screenFuture','screenLetter','screenFinal']);
-    const exploredScreens = new Set();
+    let savedExploration = [];
+    try { savedExploration = JSON.parse(localStorage.getItem('victory-explored-v1') || '[]'); } catch (err) {}
+    const exploredScreens = new Set(Array.isArray(savedExploration) ? savedExploration.filter(id => explorableScreens.has(id)) : []);
     const universeProgress = document.getElementById('universeProgress');
     const progressFill = document.getElementById('progressFill');
     const progressPercent = document.getElementById('progressPercent');
@@ -2437,7 +2440,10 @@
     };
     let finalCelebrated = false;
     function updateUniverseProgress(id) {
-      if (explorableScreens.has(id)) exploredScreens.add(id);
+      if (explorableScreens.has(id)) {
+        exploredScreens.add(id);
+        try { localStorage.setItem('victory-explored-v1', JSON.stringify([...exploredScreens])); localStorage.setItem('victory-last-stop',id); } catch (err) {}
+      }
       const percent = Math.round((exploredScreens.size / explorableScreens.size) * 100);
       progressFill.style.width = percent + '%';
       progressPercent.textContent = percent + '%';
@@ -2457,7 +2463,7 @@
       resetPageScroll();
       requestAnimationFrame(resetPageScroll);
       setTimeout(resetPageScroll, 60);
-      const isSpace = spaceScreenIds.includes(id);document.getElementById('editionIndex').hidden=id==='screenIntro';target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
+      const isSpace = spaceScreenIds.includes(id);document.getElementById('editionIndex').hidden=id==='screenIntro'||id==='screenUniverse';document.body.dataset.activeScreen=id;target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
       document.body.classList.toggle('space-mode', isSpace);
       document.body.classList.toggle('landing-mode', id === 'screenIntro');
       if (roomNames[id]) document.body.dataset.room = roomNames[id];
@@ -2475,6 +2481,7 @@
       if (id === 'screenFuture') setTimeout(() => document.getElementById('futureText').classList.add('show'), 200);
       if (id === 'screenUniverse') requestAnimationFrame(() => renderActualSky(currentSkyPlace));
       updateUniverseProgress(id);
+      document.dispatchEvent(new CustomEvent('victory:screenchange', { detail: { id } }));
       if (id === 'screenFinal' && !finalCelebrated) {
         finalCelebrated = true;
         setTimeout(launchFinalCelebration, 260);
@@ -3712,64 +3719,6 @@
       }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 120 : 2200);
     }
 
-    // Draggable planets: positions stay on this device and a dragged planet does not accidentally open.
-    const PLANET_STORAGE_KEY = 'victory-universe-planet-positions';
-    let savedPlanetPositions = {};
-    try { savedPlanetPositions = JSON.parse(localStorage.getItem(PLANET_STORAGE_KEY) || '{}'); } catch (err) {}
-    document.querySelectorAll('.planet').forEach((planet, index) => {
-      const key = planet.dataset.target || String(index);
-      const saved = savedPlanetPositions[key];
-      if(false && saved) {
-        planet.style.translate = `${saved.x}px ${saved.y}px`;
-        planet.classList.add('was-dragged');
-      }
-      if(true) {
-        planet.style.removeProperty('translate');
-        planet.style.touchAction = 'manipulation';
-        planet.setAttribute('aria-grabbed','false');
-        return;
-      }
-      planet.style.touchAction = 'none';
-      let startX = 0, startY = 0, originX = saved?.x || 0, originY = saved?.y || 0;
-      let active = false, moved = false;
-      planet.addEventListener('pointerdown', event => {
-        active = true; moved = false; startX = event.clientX; startY = event.clientY;
-        const match = (planet.style.translate || '').match(/(-?[\d.]+)px\s+(-?[\d.]+)px/);
-        originX = match ? Number(match[1]) : 0; originY = match ? Number(match[2]) : 0;
-        planet.classList.add('dragging'); planet.setAttribute('aria-grabbed','true');
-        try { planet.setPointerCapture(event.pointerId); } catch (err) {}
-        event.stopPropagation();
-      });
-      planet.addEventListener('pointermove', event => {
-        if (!active) return;
-        const dx = event.clientX - startX, dy = event.clientY - startY;
-        if (Math.hypot(dx,dy) > 7) moved = true;
-        const x = Math.max(-92, Math.min(92, originX + dx));
-        const y = Math.max(-66, Math.min(66, originY + dy));
-        planet.style.translate = `${x}px ${y}px`;
-        event.stopPropagation(); event.preventDefault();
-      });
-      const endDrag = event => {
-        if (!active) return;
-        active = false; planet.classList.remove('dragging'); planet.setAttribute('aria-grabbed','false');
-        const match = (planet.style.translate || '').match(/(-?[\d.]+)px\s+(-?[\d.]+)px/);
-        if (moved && match) {
-          planet.classList.add('was-dragged');
-          savedPlanetPositions[key] = { x:Number(match[1]), y:Number(match[2]) };
-          try { localStorage.setItem(PLANET_STORAGE_KEY, JSON.stringify(savedPlanetPositions)); } catch (err) {}
-          if (navigator.vibrate) navigator.vibrate(12);
-          setTimeout(() => { moved = false; }, 80);
-        }
-        event.stopPropagation();
-      };
-      planet.addEventListener('pointerup', endDrag);
-      planet.addEventListener('pointercancel', endDrag);
-      planet.addEventListener('click', event => {
-        if (!moved) return;
-        event.preventDefault(); event.stopImmediatePropagation(); moved = false;
-      }, true);
-    });
-
     // A meteor that writes her nickname across the current sky.
     const nameMeteor = document.getElementById('nameMeteor');
     const meteorBtn = document.getElementById('meteorBtn');
@@ -3884,8 +3833,6 @@
       if (!dreamMapInstance) dreamMapInstance = buildLeafletMap('dreamMap',DREAM_PLACES,2);
       else setTimeout(() => dreamMapInstance.invalidateSize(),100);
     }
-    document.querySelector('[data-target="screenMoments"]').addEventListener('click',() => setTimeout(() => { ensureJourneyMap(); renderTwinSkies(); },160));
-    document.querySelector('[data-target="screenFuture"]').addEventListener('click',() => setTimeout(ensureDreamMap,160));
 
     // Side-by-side live sky views, calculated locally from the same bright-star data as the hub.
     const asabaSkyCanvas = document.getElementById('asabaSkyCanvas');
@@ -4199,6 +4146,6 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=14"></script>
-<script src="universe-sky.js?v=14"></script></body>
+<script src="translations-ru.js?v=15"></script>
+<script src="universe-sky.js?v=15"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=15"></script></body>
 </html>

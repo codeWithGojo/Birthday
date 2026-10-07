@@ -29,11 +29,12 @@
   }
   function sync() {
     cancelAnimationFrame(frame);
-    if (!motion.matches && !document.hidden) frame=requestAnimationFrame(animate);
+    if (!motion.matches && !document.hidden && document.body.dataset.motion !== 'paused') frame=requestAnimationFrame(animate);
     else draw(0);
   }
   addEventListener('resize',resize,{passive:true});
   document.addEventListener('visibilitychange',sync);
+  document.addEventListener('victory:motionchange',sync);
   motion.addEventListener('change',sync);
   new MutationObserver(()=>draw(last)).observe(document.body,{attributes:true,attributeFilter:['class']});
   resize();sync();
