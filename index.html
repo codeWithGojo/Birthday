@@ -4,9 +4,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>For Victory ;  Happy Birthday</title>
+<title>Victory’s Universe · Happy Twentieth</title>
 <meta content="For Victory Amarachi, on her twentieth birthday. Memories, some terrible jokes and a note from Favour." name="description"/>
-<meta content="#eeece6" name="theme-color"/>
+<meta content="#091422" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
@@ -1588,8 +1588,8 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=13" rel="stylesheet"/></head>
-<body class="landing-mode"><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>THE BIRTHDAY EDITION</span><button id="editionIndex" type="button">Contents</button><div aria-label="Experience options" class="experience-tools">
+<link href="birthday-editorial.css?v=14" rel="stylesheet"/><link href="birthday-universe.css?v=14" rel="stylesheet"/></head>
+<body class="landing-mode"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
 <div class="sp-player" id="spPlayer">
@@ -1605,11 +1605,10 @@
 <svg id="pauseIcon" style="display:none" viewbox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
 </button>
 </div>
-<button aria-label="Toggle soft dark mode" class="theme-btn" id="themeBtn" title="Toggle soft dark mode">
+<button aria-label="Switch between starlight and moonlight" class="theme-btn" id="themeBtn" title="Switch between starlight and moonlight">
 <svg viewbox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"></path></svg>
 </button>
 </div></header>
-
 <div aria-hidden="true" class="name-meteor" id="nameMeteor">amarachiii</div>
 <div aria-live="polite" class="hug-overlay" id="hugOverlay"><div class="hug-message">a warm hug, across every kilometre 🤍</div></div>
 <div aria-hidden="true" class="silver-envelope-flight" id="silverEnvelopeFlight">
@@ -1644,14 +1643,11 @@
 <div id="twinkleStars"></div>
 <div id="floatHearts"></div>
 <div class="burst" id="burst"></div>
-<aside aria-live="polite" class="universe-progress" id="universeProgress">
-<div class="progress-copy"><span>universe explored</span><span id="progressPercent">0%</span></div>
-<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-</aside>
+
 <div class="main-wrap">
 <!-- SCREEN: intro -->
 <div class="screen active" id="screenIntro">
-<div class="opening-eyebrow">13 OCTOBER 2026 / THE BIRTHDAY EDITION</div>
+<div class="opening-eyebrow">13 OCTOBER 2026 · YOUR TWENTIETH</div>
 <div class="hero-photo-wrap" id="photoWrap">
 <div class="hero-photo-aura"></div>
 <div class="hero-photo-ring"></div>
@@ -1661,38 +1657,41 @@
 <div class="hero-tap-hint" hidden="">tap me</div>
 </div>
 <div class="opening-copy">
-<p class="made-something">For my friend, Amarachi.</p>
+<p class="made-something">A little universe, just for you.</p>
 <h1 class="hero-title"><span class="birthday-copy">Happy birthday,</span><br/><span class="victory-glow">Victory.</span></h1>
-<p class="hero-subtitle">Twenty looks good on you. I made you a little place for the photos, the jokes and a few things I wanted to say.</p>
-<button class="open-btn" id="openBtn">Open your birthday gift</button>
-<button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>show the gift QR code ↗</button>
+<p class="hero-subtitle">You mean a lot to me, Amarachi. So I made you a whole little universe for your twentieth. Your photos, our memories, a few ridiculous things, and a letter from me.</p>
+<button class="open-btn" id="openBtn">Step into your universe</button>
+<button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>Your birthday QR card</button>
 </div>
 <div class="opening-footnote"><span>FROM FAVOUR, IN ASABA</span><span>FOR VICTORY, WHEREVER YOU ARE</span></div>
 </div>
 <!-- SCREEN: universe hub -->
-<div class="screen" id="screenUniverse">
+<div class="screen" id="screenUniverse"><p class="universe-kicker">ONE BIRTHDAY GIRL. A WHOLE UNIVERSE.</p>
 <div class="universe-title">Victory’s little universe</div>
 <p class="time-greeting" id="timeGreeting"><span>Good day, Victory.</span> Your universe has been waiting.</p>
-<p class="universe-subtitle">A few things I saved for your twentieth. Start wherever you like, or go straight to the letter.</p>
-<p class="drag-hint" hidden="">tap a planet to enter · drag it to rearrange the universe</p>
+<p class="universe-subtitle">Every planet holds something I wanted to keep for you. Take your time. There’s a letter waiting at the centre.</p>
+<p class="drag-hint">Tap a planet. See what’s inside.</p>
 <div class="universe-map-scene" id="universeMapScene">
 <div aria-hidden="true" class="aurora-layer"><i class="aurora-ribbon one"></i><i class="aurora-ribbon two"></i></div>
 <canvas aria-hidden="true" class="sky-canvas" id="skyCanvas"></canvas>
 <div aria-hidden="true" class="map-stars" id="mapStars"></div>
-<div aria-label="Explore Victory's universe" class="planet-field">
-<div aria-hidden="true" class="silver-core">Victory</div>
-<button aria-label="Open The camera roll" class="planet chapter-link" data-target="screenMemories" type="button"><span class="chapter-number">01</span><img alt="" class="chapter-image" loading="lazy" src="assets/media/victory-closeup.jpg"/><span class="chapter-copy"><span class="planet-label">The camera roll</span><span class="planet-hint">Photos, calls and how we met.</span></span><span aria-hidden="true" class="chapter-open">↗</span></button>
-<button aria-label="Open Very Amarachi" class="planet chapter-link" data-target="screenLove" type="button"><span class="chapter-number">02</span><img alt="" class="chapter-image" loading="lazy" src="assets/media/victory-cat-faces.jpg"/><span class="chapter-copy"><span class="planet-label">Very Amarachi</span><span class="planet-hint">The little things. And a little nonsense.</span></span><span aria-hidden="true" class="chapter-open">↗</span></button>
-<button aria-label="Open Look how far you’ve come" class="planet chapter-link" data-target="screenQualities" type="button"><span class="chapter-number">03</span><img alt="" class="chapter-image" loading="lazy" src="assets/media/victory-green-filter.jpg"/><span class="chapter-copy"><span class="planet-label">Look how far you’ve come</span><span class="planet-hint">The move, the language, the dream.</span></span><span aria-hidden="true" class="chapter-open">↗</span></button>
-<button aria-label="Open From here to there" class="planet chapter-link" data-target="screenMoments" type="button"><span class="chapter-number">04</span><img alt="" class="chapter-image" loading="lazy" src="assets/media/victory-silly-face.jpg"/><span class="chapter-copy"><span class="planet-label">From here to there</span><span class="planet-hint">A few memories across the distance.</span></span><span aria-hidden="true" class="chapter-open">↗</span></button>
-<button aria-label="Open Here’s to twenty" class="planet chapter-link" data-target="screenFuture" type="button"><span class="chapter-number">05</span><img alt="" class="chapter-image" loading="lazy" src="victory.jpg"/><span class="chapter-copy"><span class="planet-label">Here’s to twenty</span><span class="planet-hint">Good things I’m wishing you.</span></span><span aria-hidden="true" class="chapter-open">↗</span></button>
-</div>
+<div aria-label="Explore Victory's universe" class="planet-field"><span aria-hidden="true" class="celestial-orbit orbit-tilted"></span><span aria-hidden="true" class="celestial-orbit orbit-outer"></span><span aria-hidden="true" class="celestial-orbit orbit-inner"></span>
+
+<button aria-label="Open The camera roll" class="planet chapter-link celestial-1" data-target="screenMemories" type="button"><span class="chapter-number">01</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-closeup.jpg"/></span><span class="chapter-copy"><span class="planet-label">The camera roll</span><span class="planet-hint">Photos, calls and how we met.</span></span></button>
+<button aria-label="Open Very Amarachi" class="planet chapter-link celestial-2" data-target="screenLove" type="button"><span class="chapter-number">02</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-cat-faces.jpg"/></span><span class="chapter-copy"><span class="planet-label">Very Amarachi</span><span class="planet-hint">The little things. And a little nonsense.</span></span></button>
+<button aria-label="Open Look how far you’ve come" class="planet chapter-link celestial-3" data-target="screenQualities" type="button"><span class="chapter-number">03</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-green-filter.jpg"/></span><span class="chapter-copy"><span class="planet-label">Look how far you’ve come</span><span class="planet-hint">The move, the language, the dream.</span></span></button>
+<button aria-label="Open From here to there" class="planet chapter-link celestial-4" data-target="screenMoments" type="button"><span class="chapter-number">04</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="assets/media/victory-silly-face.jpg"/></span><span class="chapter-copy"><span class="planet-label">From here to there</span><span class="planet-hint">A few memories across the distance.</span></span></button>
+<button aria-label="Open Here’s to twenty" class="planet chapter-link celestial-5" data-target="screenFuture" type="button"><span class="chapter-number">05</span><span class="planet-portrait"><img alt="" class="chapter-image" loading="eager" src="victory.jpg"/></span><span class="chapter-copy"><span class="planet-label">Here’s to twenty</span><span class="planet-hint">Good things I’m wishing you.</span></span></button>
+<button aria-label="Open a birthday letter from Favour" class="universe-letter-btn universe-core" id="gotoLetterBtn" type="button"><span class="core-photo"><img alt="" height="170" src="victory.jpg" width="170"/><span aria-hidden="true" class="core-stamp">20</span></span><span class="core-title">Your letter</span><span class="core-hint">From Favour</span></button></div>
 </div>
 <p class="sky-caption" hidden="" id="skyCaption">Tonight's bright stars · Russia UTC+5 estimate</p>
 <button class="sky-locate-btn" hidden="" id="skyLocateBtn" type="button">match the stars to your exact sky</button>
 <button class="meteor-btn" hidden="" id="meteorBtn" type="button">✦ call your meteor</button>
-<button class="universe-letter-btn" id="gotoLetterBtn" type="button">06 / A birthday note from me</button>
-</div>
+
+<div class="orbit-footer"><p>Made by Favour. Entirely for you.</p><aside aria-live="polite" class="universe-progress" id="universeProgress">
+<div class="progress-copy"><span>universe explored</span><span id="progressPercent">0%</span></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</aside></div></div>
 <div class="screen" id="screenBanter">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
 <div class="banter-card">
@@ -1712,7 +1711,7 @@
 <!-- SCREEN: memories -->
 <div class="screen" id="screenMemories">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
-<div class="section-card">
+<div class="section-card"><p class="realm-kicker">01 / THE MEMORY PLANET</p>
 <div class="section-icon">🌎</div>
 <h2 class="section-title">The camera roll</h2>
 <img alt="Victory" class="memory-photo" src="victory.jpg"/>
@@ -1761,7 +1760,7 @@
 <!-- SCREEN: love (wheel) -->
 <div class="screen" id="screenLove">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
-<div class="section-card">
+<div class="section-card"><p class="realm-kicker">02 / VERY AMARACHI</p>
 <div class="section-icon">🌙</div>
 <h2 class="section-title">Very Amarachi</h2>
 <div class="wheel-outer">
@@ -1818,7 +1817,7 @@
 <!-- SCREEN: qualities -->
 <div class="screen" id="screenQualities">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
-<div class="section-card">
+<div class="section-card"><p class="realm-kicker">03 / THE DREAM PLANET</p>
 <div class="section-icon">⭐</div>
 <h2 class="section-title">Look how far you’ve come</h2>
 <figure class="story-media story-media--small">
@@ -1867,7 +1866,7 @@
 <!-- SCREEN: moments (globe + counter) -->
 <div class="screen" id="screenMoments">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
-<div class="section-card">
+<div class="section-card"><p class="realm-kicker">04 / ACROSS THE DISTANCE</p>
 <div class="section-icon">🪐</div>
 <h2 class="section-title">From here to there</h2>
 <figure class="story-media story-media--pair">
@@ -1998,7 +1997,7 @@
 <!-- SCREEN: future -->
 <div class="screen" id="screenFuture">
 <button class="back-to-universe" data-back="" type="button">← universe</button>
-<div class="section-card">
+<div class="section-card"><p class="realm-kicker">05 / YOUR NEXT CHAPTER</p>
 <div class="section-icon">🚀</div>
 <h2 class="section-title">Here’s to twenty</h2>
 <p class="future-text" id="futureText">I hope this year brings good news about school, more confidence with Russian and friends who make the new place feel like home. I hope there’s time for fun in between it all. You’ve worked hard to get here. You deserve to enjoy some of it.</p>
@@ -2302,7 +2301,6 @@
 <p class="install-guide-tip" id="installGuideTip"></p>
 </div>
 </div>
-
 <div id="yt-player"></div>
 <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -4200,6 +4198,6 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=13"></script>
-</body>
+<script src="translations-ru.js?v=14"></script>
+<script src="universe-sky.js?v=14"></script></body>
 </html>

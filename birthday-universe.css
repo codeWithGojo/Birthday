@@ -1,0 +1,214 @@
+/* A celestial keepsake: her photographs are the planets, her letter is the centre. */
+:root {
+  --bg-base:#091422; --bg-mid:#091422; --bg-deep:#0b1b2c;
+  --surface:#0e1e30; --surface-2:#13263a;
+  --text:#f2ecdf; --text-soft:#acbbcb;
+  --silver:#b0bdcd; --silver-deep:#cfb991;
+  --rose:#d6bd94; --rose-deep:#e0c7a0; --blush:#203449;
+  --glass-border:#344458; --glass-fill:#0e1e30; --shadow-c:transparent;
+}
+body.dark,body.space-mode.dark,body.landing-mode.dark {
+  --bg-base:#e3e9ef; --bg-mid:#e3e9ef; --bg-deep:#d3dde7;
+  --surface:#e3e9ef; --surface-2:#d3dde7;
+  --text:#26374b; --text-soft:#54677c;
+  --silver:#8194a9; --silver-deep:#806447;
+  --rose:#806447; --rose-deep:#705235; --blush:#cbd7e3;
+  --glass-border:#9dabb9; --glass-fill:#e3e9ef;
+}
+body,body.space-mode,body.landing-mode { background:var(--bg-base)!important; }
+#universeSky { position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:.85; }
+.edition-nav,.main-wrap { position:relative;z-index:2; }
+.edition-nav { max-width:1240px;border-color:var(--glass-border);padding-block:18px; }
+.edition-nav > span { font-size:.75rem;letter-spacing:.13em;color:var(--text-soft); }
+#editionHome { color:var(--text);font-size:1.8rem;white-space:nowrap; }
+#editionIndex { border-bottom:0;font-size:.875rem;color:var(--rose-deep); }
+.tool-pill { white-space:nowrap; }
+.tool-pill,body.landing-mode .tool-pill,body.landing-mode.dark .tool-pill,body:not(.space-mode) .tool-pill { background:transparent;border:0;font-size:.875rem; }
+.theme-btn,body.landing-mode .theme-btn,body.landing-mode.dark .theme-btn,
+.sp-player,body.landing-mode .sp-player,body.landing-mode.dark .sp-player { background:transparent;border:1px solid var(--glass-border);border-radius:50%!important; }
+.sp-player,body.landing-mode .sp-player { width:46px!important;max-width:46px!important;height:46px!important;padding:3px!important; }
+.sp-player .sp-art,.sp-player .sp-meta,.sp-player .sp-eq { display:none!important; }
+.sp-player .sp-btn,body.landing-mode .sp-player .sp-btn { width:38px!important;height:38px!important;background:transparent; }
+.sp-player .sp-btn svg,body.landing-mode .sp-btn svg { fill:var(--rose-deep); }
+.theme-btn svg,body.landing-mode .theme-btn svg { fill:var(--rose-deep); }
+.main-wrap,body.landing-mode .main-wrap,body.space-mode .main-wrap { max-width:1180px;padding:40px clamp(20px,5vw,60px) 90px; }
+.screen:focus { outline:none; }
+#screenIntro.active { display:grid!important;grid-template-columns:1.05fr .95fr;gap:32px 70px;grid-template-areas:'eyebrow eyebrow' 'copy photo' 'foot foot';min-height:calc(100svh - 245px); }
+.opening-eyebrow { font-size:.75rem;letter-spacing:.12em;color:var(--rose-deep); }
+#screenIntro .hero-photo-wrap { position:relative;width:100%;max-width:450px;aspect-ratio:1;height:auto!important;justify-self:center;overflow:visible; }
+#screenIntro .hero-photo-frame { position:absolute;inset:12%;width:76%;height:76%;border:1px solid var(--rose-deep);border-radius:50%!important;overflow:hidden;background:var(--bg-base); }
+#screenIntro .hero-photo-frame img { width:100%;height:100%;object-fit:cover;object-position:50% 35%;filter:saturate(.8);border-radius:50%; }
+#screenIntro .hero-photo-ring { display:block!important;position:absolute;inset:5%;width:90%;height:90%;border:1px solid var(--glass-border);border-radius:50%;background:none;filter:none;opacity:1;animation:celestial-turn 65s linear infinite; }
+#screenIntro .hero-photo-ring::before { content:'';position:absolute;top:14%;left:13%;width:7px;height:7px;border-radius:50%;background:var(--rose-deep); }
+#screenIntro .hero-photo-wrap::before { content:'';position:absolute;left:-4%;top:25%;width:108%;height:50%;border:1px solid var(--glass-border);border-radius:50%;transform:rotate(-24deg); }
+#screenIntro .hero-photo-wrap::after { content:'20';position:absolute;bottom:5%;right:12%;font:400 2rem Georgia,serif;color:var(--rose-deep);background:var(--bg-base);padding:8px; }
+#screenIntro .made-something { color:var(--rose-deep);font-size:1rem;font-weight:400;margin-bottom:25px; }
+#screenIntro .hero-title { font-size:clamp(3.6rem,7vw,6.1rem);line-height:1.02;color:var(--text); }
+#screenIntro .victory-glow { color:var(--text); }
+#screenIntro .hero-subtitle { color:var(--text-soft);font-size:1.1rem;line-height:1.7;max-width:38ch;margin:26px 0 30px; }
+#screenIntro .open-btn,body.landing-mode.dark #screenIntro .open-btn { border-radius:999px;background:var(--rose-deep);color:var(--bg-base);border:1px solid var(--rose-deep);font-size:1rem;padding:17px 27px;min-height:56px; }
+.gift-pass-btn { color:var(--text-soft);font-size:.875rem;border:0;gap:12px; }
+.gift-pass-btn img { width:28px;height:28px;padding:2px; }
+.opening-footnote { font-size:.75rem;letter-spacing:.06em;line-height:1.5;margin-top:16px; }
+/* The orbit map is navigation, rather than a decorative background. */
+#screenUniverse { text-align:center;padding-top:6px; }
+.universe-kicker { color:var(--rose-deep);font-size:.75rem;letter-spacing:.14em;margin:0 0 16px; }
+.universe-title { font-size:clamp(2.8rem,5.5vw,4.5rem);color:var(--text);max-width:14ch;margin:0 auto 14px;line-height:1.08; }
+.time-greeting,.time-greeting span { text-shadow:none!important; }
+.time-greeting { font-size:.875rem!important;line-height:1.5;margin:0 auto 14px;max-width:50ch; }
+.time-greeting span { font-size:inherit!important; }
+.universe-subtitle { text-align:center;max-width:51ch;margin:0 auto 12px;font-size:1rem;line-height:1.65; }
+.drag-hint { color:var(--rose-deep);font-size:.875rem;letter-spacing:0;margin:0;opacity:1; }
+.universe-map-scene { position:relative!important;width:100%!important;max-width:1000px!important;height:670px!important;min-height:670px!important;isolation:isolate;margin:20px auto 0!important;overflow:visible!important; }
+.planet-field { position:relative!important;display:block!important;min-height:670px!important;height:670px!important;width:100%!important; }
+.celestial-orbit { position:absolute;pointer-events:none;border:1px solid var(--glass-border);border-radius:50%;opacity:.63; }
+.orbit-outer { width:88%;height:68%;left:6%;top:13%;transform:rotate(-16deg); }
+.orbit-inner { width:58%;height:49%;left:21%;top:24%;transform:rotate(21deg); }
+.orbit-tilted { width:72%;height:80%;left:14%;top:7%;transform:rotate(37deg);opacity:.28; }
+.planet.chapter-link {
+  position:absolute!important;display:flex!important;flex-direction:column!important;align-items:center!important;
+  width:172px!important;max-width:172px!important;height:auto!important;min-height:0!important;gap:0!important;
+  padding:0 5px!important;margin:0!important;border:0!important;background:none!important;overflow:visible;
+  transform:translate(-50%,-50%)!important;translate:none!important;animation:celestial-breathe 7s ease-in-out infinite!important;
+  text-align:center!important;cursor:pointer;z-index:2;
+}
+.planet.chapter-link:hover,.planet.chapter-link:focus-visible { transform:translate(-50%,-50%)!important; }
+.planet.chapter-link.celestial-1 { left:17%;top:20%;animation-delay:-1s!important; }
+.planet.chapter-link.celestial-2 { left:82%;top:17%;animation-delay:-3s!important; }
+.planet.chapter-link.celestial-3 { left:86%;top:63%;animation-delay:-5s!important; }
+.planet.chapter-link.celestial-4 { left:16%;top:70%;animation-delay:-2s!important; }
+.planet.chapter-link.celestial-5 { left:52%;top:87%;animation-delay:-4s!important; }
+.planet-portrait { position:relative;display:block;width:94px;height:94px;border-radius:50%;padding:5px;border:1px solid var(--rose-deep);background:var(--bg-base); }
+.planet-portrait::before { content:'';position:absolute;inset:-10px;border:1px solid var(--glass-border);border-radius:50%; }
+.chapter-image { width:100%!important;height:100%!important;border-radius:50%!important;object-fit:cover;filter:saturate(.8); }
+.celestial-2 .chapter-image { object-position:center 14%; }
+.celestial-3 .planet-portrait { width:104px;height:104px; }
+.celestial-4 .planet-portrait::before { inset:23px -18px;border-color:var(--rose-deep);transform:rotate(-23deg);z-index:3; }
+.chapter-number { position:absolute;z-index:4;left:calc(50% + 28px);top:0;display:grid;place-items:center;width:27px;height:27px;background:var(--bg-base);border:1px solid var(--glass-border);border-radius:50%;font-size:.75rem;color:var(--rose-deep); }
+.chapter-copy { margin-top:18px;gap:0;align-items:center; }
+.planet .planet-label { text-align:center!important;color:var(--text)!important;font-size:1.3rem!important;line-height:1.14!important;max-width:160px;background:var(--bg-base);padding:2px 4px; }
+.planet .planet-hint { display:none!important; }
+.universe-letter-btn.universe-core {
+  position:absolute!important;left:50%;top:45%;transform:translate(-50%,-50%)!important;translate:none!important;
+  display:flex!important;flex-direction:column;align-items:center;gap:0;width:240px;min-height:0;padding:0;margin:0;
+  border:0;background:transparent!important;color:var(--text);text-align:center;z-index:3;border-radius:50%;
+}
+.universe-core { box-sizing:border-box;max-width:none;letter-spacing:0!important; }
+.universe-core:hover,.universe-core:focus-visible { transform:translate(-50%,-50%)!important; }
+.core-photo { position:relative;width:170px;height:170px;display:block;padding:8px;border:1px solid var(--rose-deep);border-radius:50%;background:var(--bg-base); }
+.core-photo::before { content:'';position:absolute;inset:-14px;border:1px solid var(--glass-border);border-radius:50%; }
+.core-photo img { width:100%;height:100%;object-fit:cover;object-position:50% 35%;border-radius:50%;filter:saturate(.8); }
+.core-stamp { position:absolute;right:3px;bottom:2px;display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--rose-deep);border-radius:50%;font:400 1.6rem Georgia,serif;color:var(--rose-deep);background:var(--bg-base); }
+.core-title { display:block;width:100%;box-sizing:border-box;font:400 1.9rem/1.2 Georgia,serif;color:var(--rose-deep);margin:24px 0 6px;padding:0 6px;background:var(--bg-base); }
+.core-hint { display:block;width:100%;box-sizing:border-box;font:400 .875rem/1.4 'Source Sans 3',sans-serif;color:var(--text-soft);padding:0 5px;background:var(--bg-base); }
+.orbit-footer { display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid var(--glass-border);padding:22px 0;margin-top:10px;text-align:left; }
+.orbit-footer > p { font:400 .875rem/1.5 'Source Sans 3',sans-serif;color:var(--text-soft);margin:0; }
+.orbit-footer .universe-progress { display:block!important;position:static!important;inset:auto;transform:none;width:160px;background:none;border:0;padding:0;opacity:1; }
+.progress-copy { color:var(--text-soft);font-size:.75rem;letter-spacing:0; }
+.progress-track { background:var(--glass-border);height:2px;margin-top:7px; }.progress-fill { background:var(--rose-deep); }
+/* The individual worlds share the night sky but keep the content easy to read. */
+.realm-kicker { font-size:.75rem;letter-spacing:.13em;color:var(--rose-deep);margin:15px 0 20px; }
+.section-title { color:var(--text);font-size:clamp(2.6rem,5vw,4rem); }
+.back-to-universe,.back-btn,.explore-again-btn { color:var(--rose-deep);font-size:1rem; }
+.story-media { border-radius:16px;border:1px solid var(--glass-border); }
+.story-media img,.story-media video { border-radius:0!important; }
+.story-media figcaption { font-size:1rem;line-height:1.6; }
+.story-media figcaption span,.feature-kicker,.substory-kicker,.panel-kicker { font-size:.75rem; }
+.reason-reveal { border-radius:18px;background:var(--surface);padding:32px; }
+.reason-number { font-size:3.5rem; }.reason-text { font-size:1.4rem; }
+.envelope { border-radius:10px; }.envelope-grid { gap:12px; }
+.open-when-letter { border-radius:12px; }
+.wyr-option,.wyr-next,.hug-btn,.fortune-btn,.reader-toggle,.letter-continue-btn,.final-action-btn,.quiz-choice,.quiz-next,.after-credits-btn,.install-btn,.credits-jump,.banter-reveal,.banter-invite,.unlock-btn,.last-frame-return { border-radius:999px; }
+.quality-text b { color:var(--rose-deep);font-size:1.125rem; }
+.quality-text span { font-size:1rem; }
+.newspaper { background:#e5dfd1;color:#263039;--text:#263039;--text-soft:#555f66;--glass-border:#a9aaa0;border-radius:3px;padding:clamp(22px,4vw,40px); }
+.victory-constellation { background:var(--surface);border:1px solid var(--glass-border);border-radius:18px; }
+.movie-credits { background:#060d17!important;border:1px solid #26364b;border-radius:18px; }
+.last-frame { border-radius:14px; }.banter-card { background:transparent; }
+/* The letter is a real paper keepsake suspended in the universe. */
+#screenLetter .letter-card,body.dark #screenLetter .letter-card {
+  --text:#283342;--text-soft:#596372;--rose-deep:#8a6744;--bg-base:#eee9df;--surface:#eee9df;--surface-2:#e0d8ca;--glass-border:#b8b1a5;
+  padding:42px clamp(24px,6vw,70px) 46px;background:#eee9df;border-radius:5px;border:1px solid #c4b49b;
+}
+.letter-small-photo { border-radius:50%;width:76px;height:76px; }
+.letter-date { font-size:.75rem;line-height:1.5; }
+.letter-title { color:#283342!important; }.signature { color:#8a6744!important; }
+.reader-toggle { color:#596372;background:transparent;border-color:#b8b1a5;font-size:.875rem; }
+#screenLetter .letter-body { color:#283342; }
+#screenLetter .letter-body p { color:#283342!important; }
+.wish-label { color:#283342; }.come-back { color:#596372; }
+body.reader-mode { background:#eee9df!important;--bg-base:#eee9df;--surface:#eee9df;--surface-2:#e0d8ca;--text:#283342;--text-soft:#596372;--rose-deep:#8a6744;--glass-border:#b8b1a5; }
+body.reader-mode #universeSky { display:none; }
+body.reader-mode #screenLetter .letter-card { padding:20px 0;border:0;background:transparent; }
+body.reader-mode .letter-body p { color:#283342!important; }
+.gift-pass-card,.install-guide-sheet { border-radius:18px; }
+@keyframes celestial-turn { to { transform:rotate(360deg); } }
+@keyframes celestial-breathe { 0%,100% { translate:0 0; } 50% { translate:0 -5px; } }
+@media(min-width:1000px) {
+  #screenUniverse .universe-title { max-width:none;font-size:4rem; }
+  .universe-map-scene { margin-top:4px!important; }
+}
+@media(max-width:640px) {
+  .edition-nav { padding:16px 22px;grid-template-columns:75px 1fr 72px;gap:7px 8px; }
+  .edition-nav > span { font-size:.75rem!important;letter-spacing:.075em;line-height:1.4; }
+  #editionHome { font-size:1.6rem; }
+  .edition-nav .controls { gap:10px; }
+  .main-wrap,body.landing-mode .main-wrap,body.space-mode .main-wrap { padding:28px 20px 50px; }
+  #screenIntro.active { grid-template-columns:1fr;grid-template-areas:'eyebrow' 'photo' 'copy' 'foot';gap:22px; }
+  #screenIntro .hero-photo-wrap { width:min(100%,330px);height:auto!important; }
+  .opening-eyebrow { text-align:center;font-size:.75rem;letter-spacing:.06em; }
+  .opening-copy { text-align:center; }
+  #screenIntro .made-something { margin:0 0 16px;font-size:1rem; }
+  #screenIntro .hero-title { font-size:3.85rem; }
+  #screenIntro .hero-subtitle { font-size:1rem;line-height:1.7;margin:22px auto 26px;max-width:35ch; }
+  #screenIntro .open-btn { width:auto;max-width:100%;min-height:54px;padding:15px 25px; }
+  .gift-pass-btn { justify-content:center;font-size:.875rem;margin:20px auto 0; }
+  .opening-footnote { flex-direction:column;align-items:center;text-align:center;gap:8px;font-size:.75rem; }
+  .universe-kicker { font-size:.75rem;letter-spacing:.08em;line-height:1.5; }
+  .universe-title { font-size:2.9rem;max-width:11ch;margin-bottom:16px; }
+  .time-greeting { font-size:.875rem!important;line-height:1.6;margin-bottom:14px; }
+  .universe-subtitle { font-size:1rem;max-width:33ch;line-height:1.6;margin-bottom:16px; }
+  .universe-map-scene,.planet-field { height:740px!important;min-height:740px!important; }
+  .universe-map-scene { margin-top:34px!important; }
+  .orbit-outer { width:83%;height:70%;left:9%;top:10%;transform:rotate(-15deg); }
+  .orbit-inner { width:64%;height:44%;left:18%;top:26%;transform:rotate(24deg); }
+  .orbit-tilted { width:82%;height:83%;left:9%;top:7%;transform:rotate(12deg); }
+  .planet.chapter-link { width:112px!important;max-width:112px!important;padding:0 2px!important; }
+  .planet.chapter-link.celestial-1 { left:17%;top:16%; }
+  .planet.chapter-link.celestial-2 { left:82%;top:12%; }
+  .planet.chapter-link.celestial-3 { left:83%;top:69%; }
+  .planet.chapter-link.celestial-4 { left:18%;top:74%; }
+  .planet.chapter-link.celestial-5 { left:59%;top:92%; }
+  .planet-portrait { width:76px;height:76px;padding:4px; }.celestial-3 .planet-portrait { width:80px;height:80px; }
+  .planet-portrait::before { inset:-7px; }.celestial-4 .planet-portrait::before { inset:21px -13px; }
+  .chapter-number { left:calc(50% + 19px);font-size:.75rem;width:24px;height:24px;top:-3px; }
+  .chapter-copy { margin-top:14px; }.planet .planet-label { font-size:1.08rem!important;max-width:108px;line-height:1.18!important; }
+  .universe-letter-btn.universe-core { top:42%;width:180px;padding:0;margin:0; }
+  .core-photo { width:130px;height:130px;padding:6px; }.core-photo::before { inset:-10px; }
+  .core-stamp { width:36px;height:36px;font-size:1.3rem;right:0;bottom:0; }
+  .core-title { font-size:1.55rem;margin-top:19px; }.core-hint { font-size:.875rem; }
+  .orbit-footer { flex-direction:column;gap:17px;text-align:center;margin-top:25px; }
+  .orbit-footer .universe-progress { width:180px; }.progress-copy { font-size:.75rem; }
+  .realm-kicker { font-size:.75rem;line-height:1.5; }.section-title { font-size:2.75rem; }
+  .quality-list { grid-template-columns:1fr; }
+  .reason-reveal { padding:26px 22px; }.reason-text { font-size:1.25rem; }
+  .story-media figcaption { font-size:1rem; }
+  .chapter-next > span { font-size:.75rem; }.chapter-next button { font-size:1rem; }
+  #screenLetter .letter-card,body.dark #screenLetter .letter-card { padding:28px 22px 34px; }
+  .letter-title { font-size:2.4rem; }.letter-date { font-size:.75rem;letter-spacing:.025em; }
+  .letter-body { font-size:1.05rem;line-height:1.85; }
+  .letter-header { clear:both;padding-top:18px;margin-top:0; }.reader-toggle { float:none;display:block;margin:0 0 15px auto; }
+  .credits-roll p span { font-size:.875rem; }.credits-roll p strong { font-size:1rem; }
+}
+@media(max-width:360px) {
+  .main-wrap,body.landing-mode .main-wrap,body.space-mode .main-wrap { padding-inline:16px; }
+  #screenIntro .hero-title { font-size:3.4rem; }.universe-title { font-size:2.6rem; }
+  .planet.chapter-link { width:96px!important;max-width:96px!important; }
+  .planet .planet-label { max-width:92px;font-size:1rem!important; }
+  .universe-letter-btn.universe-core { width:152px; }.core-photo { width:112px;height:112px; }
+  .core-title { font-size:1.35rem; }.core-hint { font-size:.8rem; }
+  .edition-nav { padding-inline:16px; }.edition-nav > span { font-size:.7rem!important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .planet.chapter-link,#screenIntro .hero-photo-ring { animation:none!important; }
+}
