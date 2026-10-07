@@ -1588,7 +1588,7 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=15" rel="stylesheet"/><link href="birthday-universe.css?v=15" rel="stylesheet"/></head>
+<link href="birthday-editorial.css?v=16" rel="stylesheet"/><link href="birthday-universe.css?v=16" rel="stylesheet"/></head>
 <body class="landing-mode" data-active-screen="screenIntro"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
@@ -1659,7 +1659,7 @@
 <p class="made-something">A little universe, just for you.</p>
 <h1 class="hero-title"><span class="birthday-copy">Happy birthday,</span><br/><span class="victory-glow">Victory.</span></h1>
 <p class="hero-subtitle">You mean a lot to me, Amarachi. So I made you a little universe: our memories, your ridiculous faces, and a birthday letter from me.</p>
-<button class="open-btn" id="openBtn">Step into your universe</button>
+<button class="open-btn" id="openBtn">Step into your universe</button><section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section>
 <button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>Your birthday QR card</button>
 </div>
 <div class="opening-footnote"><span>FROM FAVOUR, IN ASABA</span><span>FOR VICTORY, WHEREVER YOU ARE</span></div>
@@ -1670,7 +1670,7 @@
 <p class="time-greeting" id="timeGreeting"><span>Good day, Victory.</span> Your universe has been waiting.</p>
 <p class="universe-subtitle">A few memories, a little nonsense, and your letter at the centre.</p>
 <p class="drag-hint">Tap a planet to explore.</p>
-<div aria-label="Universe controls" class="orbit-tools"><button aria-pressed="false" id="arrangeToggle" type="button">Move planets</button><button aria-pressed="false" id="motionToggle" type="button">Pause motion</button><button hidden="" id="resetPlanets" type="button">Reset positions</button></div><p class="arrange-hint" hidden="" id="arrangeHint" role="status">Drag one planet onto another to swap places. You can also tap two planets.</p><div class="universe-map-scene" id="universeMapScene">
+<section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section><div aria-label="Universe controls" class="orbit-tools"><button aria-pressed="false" id="arrangeToggle" type="button">Move planets</button><button aria-pressed="false" id="motionToggle" type="button">Pause motion</button><button hidden="" id="resetPlanets" type="button">Reset positions</button></div><p class="arrange-hint" hidden="" id="arrangeHint" role="status">Drag one planet onto another to swap places. You can also tap two planets.</p><div class="universe-map-scene" id="universeMapScene">
 <div aria-hidden="true" class="aurora-layer"><i class="aurora-ribbon one"></i><i class="aurora-ribbon two"></i></div>
 <canvas aria-hidden="true" class="sky-canvas" id="skyCanvas"></canvas>
 <div aria-hidden="true" class="map-stars" id="mapStars"></div>
@@ -2048,7 +2048,7 @@
 <button aria-pressed="false" class="reader-toggle" id="readerToggle" type="button">reader mode</button>
 <button class="skip-typing-btn" hidden="" id="skipTypingBtn" type="button">show full letter</button>
 <div class="letter-header">
-<img alt="Portrait of Victory" class="letter-small-photo" id="letterPhoto" src="victory.jpg"/>
+<img alt="Portrait of Victory" class="letter-small-photo" id="letterPhoto" role="button" tabindex="0" aria-label="Hold for a little secret" draggable="false" src="victory.jpg"/>
 <div class="letter-title">A note from me</div>
 <div class="letter-date">13 OCTOBER 2026 / FOR YOUR TWENTIETH</div>
 </div>
@@ -2299,6 +2299,7 @@
 </div>
 </div>
 <div id="yt-player"></div>
+<script src="birthday-controls.js?v=16"></script>
 <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
@@ -2449,21 +2450,26 @@
       progressPercent.textContent = percent + '%';
       universeProgress.classList.toggle('visible', id !== 'screenIntro');
     }
-    function showScreen(id) {
+    const routeScroll = new Map();
+    let routeJobs=[];
+    function afterRoute(callback, delay) { const activeId=document.body.dataset.activeScreen;routeJobs.push(setTimeout(()=>{if(document.body.dataset.activeScreen===activeId)callback();},delay)); }
+    history.scrollRestoration='manual';
+    history.replaceState({...history.state,birthdayScreen:'screenIntro'},'');
+    function showScreen(id, options={}) {
+      const target = document.getElementById(id);
+      if(!target || !target.classList.contains('screen'))return;
+      const previous=document.querySelector('.screen.active');
+      if(previous===target)return;
+      if(previous)routeScroll.set(previous.id,window.scrollY);
+      routeJobs.forEach(clearTimeout);routeJobs=[];
+      if(previous?.id==='screenLetter')resetLetter();
+      if(id==='screenLetter')prepareLetter();
+      if(options.history!==false)history.pushState({...history.state,birthdayScreen:id},'');
       if (id !== 'screenLetter' && document.body.classList.contains('reader-mode')) setReaderMode(false);
       document.querySelectorAll('.story-video').forEach(video => { if (!video.paused) video.pause(); });
       screens.forEach(s => s.classList.remove('active'));
-      const target = document.getElementById(id);
       target.classList.add('active');
-      const resetPageScroll = () => {
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        window.scrollTo(0, 0);
-      };
-      resetPageScroll();
-      requestAnimationFrame(resetPageScroll);
-      setTimeout(resetPageScroll, 60);
-      const isSpace = spaceScreenIds.includes(id);document.getElementById('editionIndex').hidden=id==='screenIntro'||id==='screenUniverse';document.body.dataset.activeScreen=id;target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
+      const isSpace = spaceScreenIds.includes(id);document.getElementById('editionIndex').hidden=id==='screenIntro'||id==='screenUniverse';document.body.dataset.activeScreen=id;target.setAttribute('tabindex','-1');
       document.body.classList.toggle('space-mode', isSpace);
       document.body.classList.toggle('landing-mode', id === 'screenIntro');
       if (roomNames[id]) document.body.dataset.room = roomNames[id];
@@ -2478,20 +2484,22 @@
       if (id === 'screenMemories') revealList('memoryList', 'p');
       if (id === 'screenQualities') revealList('qualityList', '.quality-item');
       if (id === 'screenMoments') revealList('momentsTimeline', '.moment-entry');
-      if (id === 'screenFuture') setTimeout(() => document.getElementById('futureText').classList.add('show'), 200);
+      if (id === 'screenFuture') afterRoute(() => document.getElementById('futureText').classList.add('show'), 200);
       if (id === 'screenUniverse') requestAnimationFrame(() => renderActualSky(currentSkyPlace));
+      target.focus({preventScroll:true});
+      window.scrollTo({top:options.restoreScroll ? routeScroll.get(id)||0 : 0,left:0,behavior:'instant'});
       updateUniverseProgress(id);
       document.dispatchEvent(new CustomEvent('victory:screenchange', { detail: { id } }));
       if (id === 'screenFinal' && !finalCelebrated) {
-        finalCelebrated = true;
-        setTimeout(launchFinalCelebration, 260);
-        setTimeout(() => document.getElementById('closingCredit').classList.add('show'), 1450);
+        afterRoute(()=>{finalCelebrated=true;launchFinalCelebration();}, 260);
       }
+      if(id==='screenFinal')afterRoute(() => document.getElementById('closingCredit').classList.add('show'), 1450);
     }
+    window.addEventListener('popstate',event=>showScreen(event.state?.birthdayScreen||'screenIntro',{history:false,restoreScroll:true}));
     function revealList(containerId, selector) {
       const items = document.querySelectorAll('#' + containerId + ' ' + selector);
       items.forEach(el => el.classList.remove('show'));
-      items.forEach((el, i) => setTimeout(() => el.classList.add('show'), 150 + i * 200));
+      items.forEach((el, i) => afterRoute(() => el.classList.add('show'), 150 + i * 100));
     }
     function launchFinalCelebration() {
       if (window.confetti && !prefersReducedMotion) {
@@ -2808,18 +2816,20 @@
       voiceStatus.textContent = 'tap to record your wish';
       voiceBars.classList.remove('active');
       barEls.forEach(b => b.style.height = '4px');
-      document.getElementById('secretMsg').classList.remove('show');
+      document.getElementById('secretMsg').classList.remove('show');document.getElementById('secretMsg').hidden=true;
       heartContainer.innerHTML = '';
       loveSlider.value = 0; sliderFill.style.width = '0%'; sliderFill.classList.remove('snapping');
       sliderValue.textContent = '0'; sliderValue.classList.remove('maxed'); sliderHeart.classList.remove('pop');
       letterOpenedOnce = false;
     }
 
-    async function openLetterExperience(originEl) {
-      resetLetter();showScreen('screenLetter');letterOpenedOnce=true;skipTyping=true;
+    function prepareLetter() {
+      resetLetter();letterOpenedOnce=true;skipTyping=true;
       letterParas.forEach(p=>{p.textContent=p.getAttribute('data-text')||p.textContent;p.classList.add('typing');});
       signature.classList.add('show');wishZone.classList.add('show');document.getElementById('letterContinueBtn').classList.add('show');skipTypingBtn.hidden=true;
     }
+
+    function openLetterExperience(originEl) {showScreen('screenLetter');}
 
     document.getElementById('openBtn').addEventListener('click', () => {
       starsActive = false;
@@ -2841,7 +2851,6 @@
     });
 
     function leaveLetter() {
-      resetLetter();
       showScreen('screenUniverse');
     }
     document.getElementById('backBtn').addEventListener('click', leaveLetter);
@@ -2869,7 +2878,7 @@
     const hiddenFinalMsg = document.getElementById('hiddenFinalMsg');
     const finalExtras = document.getElementById('finalExtras');
     const victoryConstellation = document.getElementById('victoryConstellation');
-    let unlockTimer = null, unlockDone = false;
+    let unlockDone = false;
     const UNLOCK_HOLD_MS = 1100;
 
     function completeUnlock() {
@@ -2881,25 +2890,7 @@
       victoryConstellation.classList.add('show');
       if (navigator.vibrate) navigator.vibrate(35);
     }
-    function beginUnlock() {
-      if (unlockDone) return;
-      unlockFill.style.transition = `width ${UNLOCK_HOLD_MS}ms linear`;
-      unlockFill.style.width = '100%';
-      unlockTimer = setTimeout(completeUnlock, UNLOCK_HOLD_MS);
-    }
-    function cancelUnlock() {
-      if (unlockDone) return;
-      clearTimeout(unlockTimer);
-      unlockFill.style.transition = 'width 0.3s ease';
-      unlockFill.style.width = '0%';
-    }
-    unlockBtn.addEventListener('pointerdown', beginUnlock);
-    unlockBtn.addEventListener('pointerup', cancelUnlock);
-    unlockBtn.addEventListener('pointerleave', cancelUnlock);
-    unlockBtn.addEventListener('pointercancel', cancelUnlock);
-    unlockBtn.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); completeUnlock(); }
-    });
+    bindBirthdayHold(unlockBtn, {duration:UNLOCK_HOLD_MS, available:()=>!unlockDone, complete:completeUnlock});
 
     // Victory guesses the answers Favour already gave in the rest of this universe.
     const quizQuestions = [
@@ -3018,15 +3009,10 @@
 
     const letterPhoto = document.getElementById('letterPhoto');
     const secretMsg = document.getElementById('secretMsg');
-    let pressTimer = null;
-    letterPhoto.addEventListener('pointerdown', () => {
-      pressTimer = setTimeout(() => {
-        letterPhoto.classList.add('secret-active'); secretMsg.classList.add('show');
-        if (navigator.vibrate) navigator.vibrate(30);
-      }, 650);
-    });
-    letterPhoto.addEventListener('pointerup', () => { clearTimeout(pressTimer); setTimeout(() => letterPhoto.classList.remove('secret-active'), 400); });
-    letterPhoto.addEventListener('pointerleave', () => { clearTimeout(pressTimer); letterPhoto.classList.remove('secret-active'); });
+    bindBirthdayHold(letterPhoto, {duration:650, complete:()=>{
+      letterPhoto.classList.add('secret-active'); secretMsg.hidden=false; secretMsg.classList.add('show');
+      if(navigator.vibrate)navigator.vibrate(30);
+    },cancel:()=>letterPhoto.classList.remove('secret-active')});
 
     const diceWrap = document.getElementById('diceWrap');
     const wheelSvg = document.getElementById('wheelSvg');
@@ -3733,28 +3719,17 @@
     // Hold-to-hug with a warm visual and gentle phone haptics where supported.
     const hugBtn = document.getElementById('hugBtn');
     const hugOverlay = document.getElementById('hugOverlay');
-    let hugTimer = null, hugDone = false;
+
+    let hugOverlayTimer=0;
+    document.addEventListener('victory:screenchange',()=>{clearTimeout(hugOverlayTimer);hugOverlay.classList.remove('show');});
     function completeHug() {
-      hugDone = true; hugBtn.classList.remove('holding'); hugOverlay.classList.add('show');
+      clearTimeout(hugOverlayTimer);
+      hugOverlay.classList.add('show');
       hugBtn.querySelector('span:last-child').textContent = currentLanguage === 'ru' ? 'обнимаю тебя через всё расстояние 🤍' : 'hug sent across every kilometre 🤍';
       if (navigator.vibrate) navigator.vibrate([55,45,90,55,140]);
-      setTimeout(() => hugOverlay.classList.remove('show'), 2300);
+      hugOverlayTimer=setTimeout(() => hugOverlay.classList.remove('show'), 2300);
     }
-    function beginHug() {
-      clearTimeout(hugTimer); hugDone = false; hugBtn.classList.add('holding');
-      hugTimer = setTimeout(completeHug, 1150);
-    }
-    function cancelHug() {
-      clearTimeout(hugTimer);
-      if (!hugDone) hugBtn.classList.remove('holding');
-    }
-    hugBtn.addEventListener('pointerdown', beginHug);
-    hugBtn.addEventListener('pointerup', cancelHug);
-    hugBtn.addEventListener('pointerleave', cancelHug);
-    hugBtn.addEventListener('pointercancel', cancelHug);
-    hugBtn.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); completeHug(); }
-    });
+    bindBirthdayHold(hugBtn, {duration:1150, complete:completeHug});
 
     // Real map tiles with city-level pins only. Exact private addresses are never used.
     const JOURNEY_PLACES = [
@@ -4146,6 +4121,6 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=15"></script>
-<script src="universe-sky.js?v=15"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=15"></script></body>
+<script src="translations-ru.js?v=16"></script>
+<script src="universe-sky.js?v=16"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=16"></script></body>
 </html>

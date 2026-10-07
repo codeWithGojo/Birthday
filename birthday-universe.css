@@ -2,17 +2,17 @@
 :root {
   --bg-base:#091422; --bg-mid:#091422; --bg-deep:#0b1b2c;
   --surface:#0e1e30; --surface-2:#13263a;
-  --text:#f2ecdf; --text-soft:#acbbcb;
-  --silver:#b0bdcd; --silver-deep:#cfb991;
-  --rose:#d6bd94; --rose-deep:#e0c7a0; --blush:#203449;
+  --text:#f1f3f6; --text-soft:#acbbcb;
+  --silver:#d3d8e0; --silver-deep:#e1e5eb;
+  --rose:#c4cbd5; --rose-deep:#dce1e8; --blush:#203449;
   --glass-border:#344458; --glass-fill:#0e1e30; --shadow-c:transparent;
 }
 body.dark,body.space-mode.dark,body.landing-mode.dark {
   --bg-base:#e3e9ef; --bg-mid:#e3e9ef; --bg-deep:#d3dde7;
   --surface:#e3e9ef; --surface-2:#d3dde7;
   --text:#26374b; --text-soft:#54677c;
-  --silver:#8194a9; --silver-deep:#806447;
-  --rose:#806447; --rose-deep:#705235; --blush:#cbd7e3;
+  --silver:#697789; --silver-deep:#455366;
+  --rose:#657386; --rose-deep:#425165; --blush:#cbd7e3;
   --glass-border:#9dabb9; --glass-fill:#e3e9ef;
 }
 body,body.space-mode,body.landing-mode { background:var(--bg-base)!important;transition:none!important; }
@@ -339,3 +339,38 @@ body[data-motion="paused"] .name-meteor { display:none!important; }
 @media(prefers-reduced-motion:reduce) {
   .planet-float,.celestial-orbit { animation:none!important; }
 }
+
+/* Her favourite colour: brushed silver against the night sky. */
+.planet-portrait,.core-photo,#screenIntro .hero-photo-frame { border-color:var(--silver); }
+.core-stamp { background:linear-gradient(125deg,#f3f4f6,#adb6c4 55%,#dde2e9);color:#162235;border:1px solid #e8ecf2; }
+#screenIntro .open-btn { background:linear-gradient(115deg,#f1f3f5,#bdc6d2 60%,#e2e6ec)!important;color:#152235!important;border-color:#e1e5eb!important; }
+.planet-portrait::before,.core-photo::before { border-color:var(--silver);opacity:.45; }
+.birthday-countdown { display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 0;margin:0 0 24px;border-block:1px solid var(--glass-border); }
+.countdown-heading p { font:600 .86rem/1.35 'Source Sans 3',sans-serif;margin:0 0 5px;color:var(--silver-deep); }
+.countdown-heading small { font:.72rem/1.4 'Source Sans 3',sans-serif;color:var(--text-soft);display:block; }
+.countdown-numbers { display:grid;grid-template-columns:repeat(4,1fr);gap:15px;flex-shrink:0;text-align:center; }
+.countdown-numbers strong { display:block;font:400 clamp(1.4rem,3vw,2rem)/1.1 Georgia,serif;font-variant-numeric:tabular-nums;color:var(--silver-deep);min-width:2ch; }
+.countdown-numbers span { display:block;font:.68rem/1.5 'Source Sans 3',sans-serif;color:var(--text-soft);margin-top:5px; }
+#screenIntro .birthday-countdown { flex-wrap:wrap;justify-content:flex-start;gap:14px; }
+#screenUniverse .birthday-countdown { max-width:600px;margin:18px auto 22px; }
+.hug-btn,.unlock-btn,#letterPhoto { touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none; }
+.hug-btn .hug-fill,.unlock-btn .unlock-fill { width:var(--hold-progress,0%)!important;transition:none!important;background:var(--silver)!important;opacity:.25;z-index:0; }
+.hug-btn > span:last-child,.unlock-btn > span { position:relative;z-index:1; }
+.hug-btn.holding,.unlock-btn.holding,#letterPhoto.holding { border-color:var(--silver);outline:2px solid var(--silver);outline-offset:4px; }
+.hug-overlay { background:rgba(8,18,32,.35); }
+.hug-message { background:#d4dbe5;color:#152235;backdrop-filter:none;box-shadow:none;font:600 1rem/1.4 'Source Sans 3',sans-serif;border:1px solid #f1f3f6; }
+#letterPhoto { cursor:pointer; }
+#screenLetter .letter-card,body.dark #screenLetter .letter-card { --rose-deep:#536171;--silver-deep:#536171;border-color:#a4aeb9; }
+.signature { color:#536171!important; }
+@media(max-width:640px){
+ .birthday-countdown { gap:10px; }
+ #screenIntro .birthday-countdown { justify-content:center;text-align:center;margin-bottom:20px; }
+ #screenUniverse .birthday-countdown { flex-wrap:wrap;justify-content:center;text-align:center; }
+ .countdown-numbers { gap:18px; }
+ .countdown-heading { width:100%; }
+ .hug-message { max-width:calc(100vw - 40px);box-sizing:border-box;text-align:center; }
+}
+
+.screen:focus { outline:none; }
+
+#screenIntro .birthday-countdown { margin-top:24px; }

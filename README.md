@@ -11,3 +11,5 @@ Mobile interaction update:
 - Compact phone header, larger touch controls and a single-column photo/video layout. The opening film plays once per browser visit.
 
 https://codewithgojo.github.io/Birthday/
+
+The silver palette now includes a countdown to 13 October 2026 at midnight UTC+5 (matching Victory’s site clock). Touch holds share captured-pointer handling, visible progress and keyboard access. Browser back/forward restores the previous room and scroll position; leaving the letter clears its temporary state.

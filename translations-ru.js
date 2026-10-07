@@ -642,3 +642,6 @@ RU_ATTRIBUTE_TRANSLATIONS.set('Close wish','Закрыть желание');
 RU_VALUES.clear();
 RU_TRANSLATIONS.forEach(value=>RU_VALUES.add(normalizeLanguageText(value)));
 applyLanguage(currentLanguage,false);
+
+RU_ATTRIBUTE_TRANSLATIONS.set('Hold for a little secret','Удерживай, чтобы открыть маленький секрет');
+RU_ATTRIBUTE_TRANSLATIONS.set('Birthday countdown','Отсчёт до дня рождения');
