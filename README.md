@@ -1,3 +1,5 @@
-Birthday site for Victory (Amarachi).
+Birthday edition for Victory Amarachi, turning twenty on 13 October 2026.
 
-The `feature/birthday-encore` branch adds a spoken-style "if you were here" ending, playful news briefs to the existing Victory Times article, movie credits, and a downloadable one-page letter in `letter-to-victory.pdf`. The letter and new copy are drafts for Favour to review before publishing.
+Editorial minimalism with photos, numbered chapters, optional notes and quieter motion. A friend with a soft spot for her: birthday-focused wording, no relationship apology or shared-future promises. The downloadable letter matches the revised page. Photos, clips, English/Russian support, QR gift card, wish, quiz, credits and final banter scene remain. Missing voice memo controls are hidden.
+
+https://codewithgojo.github.io/Birthday/
