@@ -2444,6 +2444,7 @@
       universeProgress.classList.toggle('visible', id !== 'screenIntro');
     }
     function showScreen(id) {
+      if (id !== 'screenLetter' && document.body.classList.contains('reader-mode')) setReaderMode(false);
       document.querySelectorAll('.story-video').forEach(video => { if (!video.paused) video.pause(); });
       screens.forEach(s => s.classList.remove('active'));
       const target = document.getElementById(id);
