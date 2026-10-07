@@ -77,61 +77,6 @@
     }
 
     /* ===== OPENING TITLE CARD ===== */
-    #netflix-intro {
-      position: fixed; inset: 0; background: #151713; color: #ede9df; z-index: 9999;
-      display: flex; align-items: flex-start; justify-content: center; flex-direction: column;
-      padding: clamp(28px, 8vw, 100px);
-      transition: opacity .7s ease, visibility .7s;
-    }
-    #netflix-intro::before {
-      content:''; position:absolute; inset:0; pointer-events:none;
-      background:linear-gradient(90deg,#151713 35%,rgba(21,23,19,.9) 55%,rgba(21,23,19,.25) 100%),
-        url('assets/media/victory-vhs.jpg') right 24% center / auto 115% no-repeat;
-      opacity:.88;
-    }
-    #netflix-intro::after {
-      content:''; position:absolute; inset:0; pointer-events:none; opacity:.14;
-      background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.32) 4px 5px);
-    }
-    #netflix-intro > * { position:relative; z-index:1; }
-    .intro-tape-status,.intro-tape-counter {
-      position:absolute!important; color:#d6c8ad; font:700 .67rem 'Quicksand',sans-serif;
-      letter-spacing:.17em; text-transform:uppercase;
-    }
-    .intro-tape-status { top:max(28px,env(safe-area-inset-top)); right:clamp(28px,8vw,100px); }
-    .intro-tape-counter { bottom:max(38px,env(safe-area-inset-bottom)); right:clamp(28px,8vw,100px); }
-    #netflix-intro.done { opacity: 0; visibility: hidden; pointer-events: none; }
-    .intro-overline { font: 700 .65rem 'Quicksand', sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #b8aa8c; margin-bottom: 22px; }
-    .netflix-text {
-      font: 400 clamp(2.7rem, 9vw, 6.5rem)/.98 Georgia, serif;
-      letter-spacing: -.055em; max-width: 14ch;
-      opacity: 0; transform: translateY(16px);
-      animation: introReveal .9s cubic-bezier(.2,.7,.2,1) forwards;
-    }
-    @keyframes introReveal {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .netflix-bar {
-      width: min(280px, 68vw); height: 1px; background: #77796a;
-      margin-top: 32px; position: relative;
-    }
-    .netflix-bar::after { content: ''; display: block; height: 1px; width: 0; background: #d0a570; animation: introBar 1.3s ease forwards; }
-    @keyframes introBar { to { width: 100%; } }
-    .netflix-sub {
-      font-size: .72rem; font-weight: 600; letter-spacing: .08em;
-      color: #a4a397; margin-top: 16px;
-    }
-    @media (max-width:700px) {
-      #netflix-intro::before { background:linear-gradient(90deg,#151713 8%,rgba(21,23,19,.8) 70%,rgba(21,23,19,.45)),url('assets/media/victory-vhs.jpg') right center / auto 100% no-repeat; opacity:.6; }
-      .intro-tape-status,.intro-tape-counter { font-size:.55rem; }
-    }
-    .intro-skip {
-      position: absolute; bottom: max(28px, env(safe-area-inset-bottom)); border: 0; background: transparent;
-      color: #d3c8b8; font: 600 .72rem 'Quicksand', sans-serif; letter-spacing: .09em;
-      text-transform: uppercase; padding: 14px 0; cursor: pointer;
-    }
-    .intro-skip:focus-visible { outline: 1px solid #fff; outline-offset: 2px; border-radius: 30px; }
-
     /* ===== AMBIENT ===== */
     .ambient-bg {
       position: fixed; inset: 0;
@@ -1588,7 +1533,7 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=16" rel="stylesheet"/><link href="birthday-universe.css?v=16" rel="stylesheet"/></head>
+<link href="birthday-editorial.css?v=17" rel="stylesheet"/><link href="birthday-universe.css?v=17" rel="stylesheet"/><link href="birthday-opening.css?v=17" rel="stylesheet"/></head>
 <body class="landing-mode" data-active-screen="screenIntro"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
@@ -1615,14 +1560,18 @@
 <div class="flying-envelope"></div>
 <div class="envelope-route-copy">ASABA, NIGERIA   ✦   RUSSIA</div>
 </div>
-<div id="netflix-intro">
-<div aria-hidden="true" class="intro-tape-status">SP   PLAY ▷</div>
-<div class="intro-overline">Favour presents / 13 October 2026</div>
-<div class="netflix-text">Victory,<br/>at twenty.</div>
-<div class="netflix-bar"></div>
-<div class="netflix-sub">A birthday film from Asaba.</div>
-<div aria-hidden="true" class="intro-tape-counter">00:00:01</div>
-<button aria-label="Skip introduction" class="intro-skip" type="button">tap to skip</button>
+<div id="netflix-intro" role="dialog" aria-label="Victory’s birthday opening" aria-modal="true" tabindex="-1" data-phase="leader">
+<div class="opening-film-top"><span>Favour presents</span><span>13 October 2026</span></div>
+<div class="opening-film-stage">
+<div aria-hidden="true" class="opening-orbit"></div>
+<img class="film-photo film-photo-one" src="assets/media/victory-vhs.jpg" alt="" aria-hidden="true" decoding="async" width="140" height="187"/>
+<img class="film-photo film-photo-two" src="assets/media/victory-cat-faces.jpg" alt="" aria-hidden="true" decoding="async" width="140" height="187"/>
+<img class="film-photo film-photo-three" src="victory.jpg" alt="" aria-hidden="true" decoding="async" width="140" height="187"/>
+<div class="opening-leader" aria-hidden="true"><span class="opening-count">3</span></div>
+<div class="opening-title"><p class="opening-dedication">For Amarachi</p><h2 class="opening-name">Victory.</h2><p class="opening-age">at twenty.</p><p class="opening-line">A little universe, just for you.</p></div>
+</div>
+<div class="opening-film-bottom"><span class="opening-timecode" aria-hidden="true">00:00:00</span><button class="intro-skip" type="button">Skip opening</button></div>
+<div class="opening-progress" aria-hidden="true"><span></span></div>
 </div>
 <div aria-labelledby="giftPassTitle" aria-modal="true" class="gift-pass" hidden="" id="giftPass" role="dialog">
 <div class="gift-pass-card">
@@ -1660,7 +1609,7 @@
 <h1 class="hero-title"><span class="birthday-copy">Happy birthday,</span><br/><span class="victory-glow">Victory.</span></h1>
 <p class="hero-subtitle">You mean a lot to me, Amarachi. So I made you a little universe: our memories, your ridiculous faces, and a birthday letter from me.</p>
 <button class="open-btn" id="openBtn">Step into your universe</button><section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section>
-<button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>Your birthday QR card</button>
+<button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>Your birthday QR card</button><button class="replay-opening" id="replayOpening" type="button">Replay opening</button>
 </div>
 <div class="opening-footnote"><span>FROM FAVOUR, IN ASABA</span><span>FOR VICTORY, WHEREVER YOU ARE</span></div>
 </div>
@@ -2299,7 +2248,7 @@
 </div>
 </div>
 <div id="yt-player"></div>
-<script src="birthday-controls.js?v=16"></script>
+<script src="birthday-controls.js?v=17"></script>
 <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
@@ -2309,27 +2258,6 @@
     const dragHint = document.querySelector('.drag-hint');
     if(dragHint)dragHint.hidden=true;
 
-    const netflixIntro = document.getElementById('netflix-intro');
-    let introAlreadySeen = false;
-    try { introAlreadySeen = sessionStorage.getItem('victory-intro-seen') === 'yes'; } catch (err) {}
-    if (introAlreadySeen) netflixIntro.classList.add('done');
-    const heroImg = document.querySelector('.hero-photo-frame img');
-    let introMinTimeDone = false, heroImgReady = false;
-    function maybeDismissIntro() {
-      if (introMinTimeDone && heroImgReady) {
-        netflixIntro.classList.add('done');
-        try { sessionStorage.setItem('victory-intro-seen','yes'); } catch (err) {}
-      }
-    }
-    setTimeout(() => { introMinTimeDone = true; maybeDismissIntro(); }, prefersReducedMotion ? 0 : 1650);
-    if (heroImg.complete && heroImg.naturalWidth > 0) {
-      heroImgReady = true;
-    } else {
-      heroImg.addEventListener('load', () => { heroImgReady = true; maybeDismissIntro(); });
-      heroImg.addEventListener('error', () => { heroImgReady = true; maybeDismissIntro(); });
-    }
-    setTimeout(() => { heroImgReady = true; maybeDismissIntro(); }, 3000);
-    netflixIntro.querySelector('.intro-skip').addEventListener('click', () => { netflixIntro.classList.add('done'); try { sessionStorage.setItem('victory-intro-seen','yes'); } catch (err) {} });
     const giftPass = document.getElementById('giftPass');
     const giftPassOpen = document.getElementById('giftPassOpen');
     const giftPassClose = document.getElementById('giftPassClose');
@@ -4121,6 +4049,6 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=16"></script>
-<script src="universe-sky.js?v=16"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=16"></script></body>
+<script src="translations-ru.js?v=17"></script>
+<script src="universe-sky.js?v=17"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=17"></script><script src="birthday-opening.js?v=17"></script></body>
 </html>

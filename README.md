@@ -13,3 +13,5 @@ Mobile interaction update:
 https://codewithgojo.github.io/Birthday/
 
 The silver palette now includes a countdown to 13 October 2026 at midnight UTC+5 (matching Victory’s site clock). Touch holds share captured-pointer handling, visible progress and keyboard access. Browser back/forward restores the previous room and scroll position; leaving the letter clears its temporary state.
+
+The cinematic opening now has a 3–2–1 film leader, a silver title reveal and Victory’s photo montage. It lasts under five seconds, supports Skip/Escape and replay, plays once per browser session, and switches to a short still title when reduced motion is enabled.

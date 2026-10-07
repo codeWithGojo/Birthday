@@ -1,0 +1,61 @@
+/* A short birthday film, built from her own photographs and brushed silver. */
+#netflix-intro {
+  --film-silver:#dce2eb;position:fixed;inset:0;z-index:9999;box-sizing:border-box;
+  display:block;padding:0;background:#040910;color:var(--film-silver);overflow:hidden;
+  opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s;
+}
+#netflix-intro::before { background:radial-gradient(ellipse at 50% 48%,#142032 0%,#040910 68%);opacity:1; }
+#netflix-intro::after { background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.02) 3px 4px);opacity:.4; }
+#netflix-intro.done { display:none!important; }
+#netflix-intro.is-leaving { opacity:0;visibility:hidden;pointer-events:none; }
+#netflix-intro:focus { outline:none; }
+body.intro-playing { overflow:hidden; }
+#netflix-intro .opening-film-top,#netflix-intro .opening-film-bottom {
+  position:absolute;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);z-index:4;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  font:500 .7rem/1.5 'Source Sans 3',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#a8b5c7;
+}
+.opening-film-top { top:max(25px,env(safe-area-inset-top));padding-bottom:14px;border-bottom:1px solid #273344; }
+.opening-film-bottom { bottom:max(22px,env(safe-area-inset-bottom)); }
+#netflix-intro .intro-skip { position:static;min-height:44px;padding:10px 16px;border:1px solid #536175;border-radius:999px;background:transparent;color:#dce2eb;font:500 .85rem/1.3 'Source Sans 3',sans-serif;letter-spacing:0;text-transform:none;cursor:pointer; }
+#netflix-intro .intro-skip:focus-visible { outline:2px solid #e4e8ee!important;outline-offset:5px; }
+.opening-timecode { font-variant-numeric:tabular-nums;white-space:nowrap; }
+#netflix-intro .opening-film-stage { position:absolute;inset:0;display:grid;place-items:center;z-index:2; }
+.opening-orbit { position:absolute;width:min(70vw,480px);aspect-ratio:1;border:1px solid #3d4a5c;border-radius:50%;opacity:.55;transform:rotate(-27deg) scaleY(.7); }
+.opening-orbit::after { content:'';position:absolute;inset:-28px;border:1px solid #263244;border-radius:50%; }
+.opening-leader { position:absolute;inset:0;display:grid;place-items:center;transition:opacity .4s ease; }
+.opening-leader::before,.opening-leader::after { content:'';position:absolute;background:#384456;opacity:.7; }
+.opening-leader::before { height:1px;width:min(85vw,680px); }
+.opening-leader::after { width:1px;height:min(65vh,480px); }
+.opening-count { position:relative;font:400 clamp(5rem,18vw,9rem)/1 Georgia,serif;background:#09111d;padding:10px 25px;z-index:1; }
+.opening-title { position:relative;text-align:center;width:calc(100% - 36px);opacity:0;transform:translateY(18px);filter:blur(5px);transition:opacity .9s ease,transform .9s ease,filter .9s ease; }
+.opening-dedication { font:500 .7rem/1.4 'Source Sans 3',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#9eafc5;margin:0 0 17px; }
+.opening-name { margin:0;font:400 clamp(4.5rem,14vw,10rem)/.95 Georgia,serif;letter-spacing:-.06em;background:linear-gradient(115deg,#7e8b9c,#eef2f7 38%,#bbc4d1 64%,#e6ebf2);background-clip:text;-webkit-background-clip:text;color:transparent; }
+.opening-age { margin:18px 0 0;font:400 clamp(1.5rem,4vw,2.6rem)/1.2 Georgia,serif;color:#c4cedc; }
+.opening-line { margin:28px 0 0;font:400 .95rem/1.6 'Source Sans 3',sans-serif;color:#9cacc2; }
+.film-photo { position:absolute;height:auto;width:clamp(72px,11vw,140px);aspect-ratio:3/4;object-fit:cover;border:1px solid #8a97a9;box-shadow:0 15px 36px #0006;filter:saturate(.65);opacity:0;transform:translateY(15px) rotate(var(--photo-angle));transition:opacity .9s ease,transform 1.2s ease; }
+.film-photo-one { left:10%;top:21%;--photo-angle:-10deg; }
+.film-photo-two { right:12%;top:27%;--photo-angle:8deg;transition-delay:.15s; }
+.film-photo-three { left:23%;bottom:16%;--photo-angle:-5deg;transition-delay:.3s; }
+#netflix-intro[data-phase="title"] .opening-leader { opacity:0; }
+#netflix-intro[data-phase="title"] .opening-title { opacity:1;transform:none;filter:none; }
+#netflix-intro[data-phase="title"] .film-photo { opacity:.75;transform:translateY(0) rotate(var(--photo-angle)); }
+.opening-progress { position:absolute!important;left:0;bottom:0;width:100%;height:2px;background:#253145;z-index:5!important; }
+.opening-progress span { display:block;height:100%;background:#d4dce8;transform:scaleX(0);transform-origin:left; }
+#netflix-intro.is-playing .opening-progress span { animation:opening-play 3.85s linear forwards; }
+@keyframes opening-play { to{transform:scaleX(1);} }
+.replay-opening { display:inline-flex;align-items:center;gap:8px;min-height:44px;border:0;background:transparent;color:var(--text-soft);font:500 .875rem/1.4 'Source Sans 3',sans-serif;padding:8px 0;margin:16px 0 0;cursor:pointer; }
+.replay-opening::before { content:'↻';font-size:1.2rem; }
+@media(max-width:640px){
+ .opening-film-top { font-size:.6rem;letter-spacing:.08em; }.opening-film-bottom { font-size:.6rem;letter-spacing:.05em; }
+ .film-photo { width:76px; }.film-photo-one { left:12%;top:18%; }.film-photo-two { right:13%;top:20%; }.film-photo-three { left:calc(50% - 38px);bottom:16%; }
+ .opening-orbit { width:85vw; }.opening-name { font-size:clamp(3.9rem,17vw,5.9rem); }.opening-dedication { font-size:.65rem; }.opening-line { font-size:.85rem;margin-top:20px; }
+ .replay-opening { justify-content:center; }
+}
+@media(max-height:600px){ .film-photo-one,.film-photo-two { top:20%; }.film-photo-three { display:none; }.opening-name { font-size:clamp(3rem,12vh,6rem); }.opening-dedication { margin-bottom:8px; }.opening-age { margin-top:10px; }.opening-line { margin-top:12px; }.film-photo { width:65px; } }
+#netflix-intro[data-reduced="true"] .opening-leader { display:none; }
+#netflix-intro[data-reduced="true"] .opening-title { opacity:1;transform:none;filter:none;transition:none; }
+#netflix-intro[data-reduced="true"] .film-photo { opacity:.65;transform:rotate(var(--photo-angle));transition:none; }
+#netflix-intro[data-reduced="true"] .opening-progress { display:none; }
+#netflix-intro[data-reduced="true"] { transition:none; }
+@media(prefers-reduced-motion:reduce){ #netflix-intro *,#netflix-intro { animation:none!important;transition:none!important; } }

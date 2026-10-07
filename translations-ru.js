@@ -645,3 +645,5 @@ applyLanguage(currentLanguage,false);
 
 RU_ATTRIBUTE_TRANSLATIONS.set('Hold for a little secret','Удерживай, чтобы открыть маленький секрет');
 RU_ATTRIBUTE_TRANSLATIONS.set('Birthday countdown','Отсчёт до дня рождения');
+
+[['Favour presents','Фавор представляет'],['For Amarachi','Для Амарачи'],['at twenty.','в двадцать.'],['Skip opening','Пропустить вступление'],['Replay opening','Посмотреть вступление ещё раз']].forEach(([en,ru])=>addRu(en,ru));
