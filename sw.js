@@ -1,17 +1,17 @@
-const CACHE_NAME = 'victory-twenty-v19';
+const CACHE_NAME = 'victory-twenty-v20';
 const CORE_FILES = [
   './',
   './index.html',
-  './birthday-editorial.css?v=19',
-  './birthday-universe.css?v=19',
-  './universe-sky.js?v=19',
-  './universe-interactions.js?v=19',
-  './birthday-controls.js?v=19',
-  './birthday-opening.js?v=19',
-  './birthday-opening.css?v=19',
-  './birthday-phone.css?v=19',
-  './birthday-reaction.js?v=19',
-  './translations-ru.js?v=19',
+  './birthday-editorial.css?v=20',
+  './birthday-universe.css?v=20',
+  './universe-sky.js?v=20',
+  './universe-interactions.js?v=20',
+  './birthday-controls.js?v=20',
+  './birthday-opening.js?v=20',
+  './birthday-opening.css?v=20',
+  './birthday-phone.css?v=20',
+  './birthday-reaction.js?v=20',
+  './translations-ru.js?v=20',
   './assets/victory-qr.svg',
   './assets/victory-gift-card.png',
   './manifest.webmanifest',
@@ -19,8 +19,8 @@ const CORE_FILES = [
   './icon-192.png',
   './icon-512.png',
   './victory.webp',
+  './assets/media/amarachi-cake.webp',
   './assets/media/victory-vhs.webp',
-  './assets/media/victory-cat-faces.webp',
 ];
 
 self.addEventListener('install', event => {

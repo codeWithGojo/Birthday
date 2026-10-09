@@ -5,6 +5,7 @@
   const note=$('reactionNote'), start=$('reactionRecord'), share=$('reactionShare');
   let stream=null, recorder=null, chunks=[], clip=null, url='', timer=0, started=0;
   let requesting=false, finishing=false, requestToken=0, opener=null, visits=[], statusKey='';
+  window.getVictoryReactionStream=()=>stream;
   const LIMIT=5*60*1000, MAX_BYTES=60*1024*1024;
   const messages={
     ready:['Your camera starts only when you choose. Preview everything before sharing.','Камера включится только по твоему желанию. Перед отправкой всё можно посмотреть.'],
@@ -12,7 +13,7 @@
     unsupported:['Recording is unavailable here. You can choose a video from your phone instead.','Запись здесь недоступна. Можно выбрать видео с телефона.'],
     denied:['Camera access was unavailable. Try again, choose a video, or just leave a note.','Нет доступа к камере. Попробуй ещё раз, выбери видео или напиши сообщение.'],
     preview:['Take a look. Keep it, record again, or just send your words.','Посмотри. Оставь запись, запиши заново или отправь только слова.'],
-    empty:['A video, a few words, or both. It’s up to you.','Видео, несколько слов или и то и другое. Решать тебе.'],
+    empty:['A video, a few words, or your bucket-list picks. It’s up to you.','Видео, несколько слов или твой выбор из списка желаний. Решать тебе.'],
     saved:['Your note is saved on this phone. Nothing was sent.','Сообщение сохранено на этом телефоне. Ничего не отправлено.'],
     blocked:['This browser couldn’t save the note. You can still share it.','Браузер не смог сохранить сообщение. Его всё ещё можно отправить.'],
     cancelled:['Nothing was shared. Your preview is still here.','Ничего не отправлено. Запись всё ещё здесь.'],
@@ -33,12 +34,13 @@
       if(el.hasAttribute('data-reaction-label'))el.setAttribute('aria-label',value);else el.textContent=value;
     });
     if(statusKey)say(statusKey);
+    paintPicks();
   }
   $('languageToggle').addEventListener('click',paint);paint();say('ready');
   try{note.value=localStorage.getItem('victory-universe-private-reply')||'';}catch{}
   note.addEventListener('input',()=>{$('victoryReply').value=note.value;});
   $('victoryReply').addEventListener('input',()=>{note.value=$('victoryReply').value;});
-  function open(trigger){opener=trigger||document.activeElement;if(!sheet.open){sheet.showModal();sheet.scrollTop=0;}}
+  function open(trigger){opener=trigger||document.activeElement;paintPicks();if(!sheet.open){sheet.showModal();sheet.scrollTop=0;}}
   function close(){requestToken++;requesting=false;start.disabled=false;sheet.close();opener?.focus({preventScroll:true});}
   document.querySelectorAll('[data-open-reaction]').forEach(button=>button.addEventListener('click',()=>open(button)));
   $('reactionClose').addEventListener('click',close);
@@ -89,21 +91,39 @@
     keepClip(file);visits=[];say('preview');
   });
   $('reactionSave').addEventListener('click',()=>{try{localStorage.setItem('victory-universe-private-reply',note.value);say('saved');}catch{say('blocked');}});
-  const roomNames={screenIntro:'The birthday cover',screenUniverse:'The universe',screenMemories:'The camera roll',screenLove:'Very Amarachi',screenQualities:'Look how far you’ve come',screenMoments:'From here to there',screenFuture:'Here’s to twenty',screenLetter:'Your letter',screenFinal:'The ending',screenBanter:'The surprise'};
-  const message=()=>`A birthday reply from Victory${note.value.trim()?'\n\n'+note.value.trim():''}${clip&&visits.length?'\n\nWhile opening: '+visits.map(id=>roomNames[id]||id).join(' → '):''}`;
+  const roomNames={screenIntro:'Amarachi @ 20',screenUniverse:'The universe',screenMemories:'Pics of the celebrant',screenLove:'Very Amarachi',screenQualities:'You’ve really come a long way',screenMoments:'From here to there',screenFuture:'Here’s to twenty',screenLetter:'Your letter',screenFinal:'The ending',screenBanter:'The surprise'};
+  function selectedPicks(localized=false){return window.victoryBucketSelection?.(localized)||[];}
+  function paintPicks(){
+    const picks=selectedPicks(true);$('reactionBucket').hidden=!picks.length;
+    const list=$('reactionPicks');list.replaceChildren();
+    picks.forEach(text=>{const li=document.createElement('li');li.textContent=text;list.appendChild(li);});
+  }
+  document.addEventListener('victory:bucketchange',paintPicks);
+  $('bucketShare').addEventListener('click',()=>{
+    if(!selectedPicks().length){$('bucketProgress').textContent=ru()?'Сначала выбери что-нибудь.':'Pick something first, then send it to me.';return;}
+    $('reactionIncludePicks').checked=true;open($('bucketShare'));
+  });
+  const chosenPicks=()=>$('reactionIncludePicks').checked?selectedPicks():[];
+  const hasMessage=()=>note.value.trim()||chosenPicks().length;
+  const message=()=>`A birthday reply from Victory${note.value.trim()?'\n\n'+note.value.trim():''}${chosenPicks().length?'\n\nMy bucket-list picks:\n'+chosenPicks().map((pick,i)=>`${i+1}. ${pick}`).join('\n'):''}${clip&&visits.length?'\n\nWhile opening: '+visits.map(id=>roomNames[id]||id).join(' → '):''}`;
+  function manualCopy(){
+    let output=$('reactionCopyText');
+    if(!output){output=document.createElement('textarea');output.id='reactionCopyText';output.readOnly=true;output.setAttribute('aria-label',ru()?'Сообщение для копирования':'Your message to copy');sheet.append(output);}
+    output.value=message();output.focus();output.select();say('select');
+  }
   function file(){return clip instanceof File?clip:new File([clip],`Victory-reaction.${clip.type.includes('mp4')?'mp4':clip.type.includes('quicktime')?'mov':'webm'}`,{type:clip.type||'video/webm'});}
   share.addEventListener('click',async()=>{
-    if(!clip&&!note.value.trim()){say('empty');return;}
+    if(!clip&&!hasMessage()){say('empty');return;}
     const payload={title:'A birthday reply from Victory',text:message()};
     try{
       if(clip){const video=file();if(!navigator.share||!navigator.canShare?.({files:[video]})){say('download');return;}payload.files=[video];}
       if(navigator.share){await navigator.share(payload);say('shared');}
       else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(payload.text);say('copied');}
-      else{note.focus();note.select();say('select');}
+      else{manualCopy();}
     }catch(error){say(error.name==='AbortError'?'cancelled':'failed');}
   });
   $('reactionDownload').addEventListener('click',()=>{if(!clip)return;const a=document.createElement('a');a.href=url;a.download=file().name;a.click();say('download');});
-  $('reactionCopy').addEventListener('click',async()=>{if(!note.value.trim()){say('empty');return;}try{await navigator.clipboard.writeText(message());say('copied');}catch{note.focus();note.select();say('select');}});
+  $('reactionCopy').addEventListener('click',async()=>{if(!hasMessage()){say('empty');return;}try{await navigator.clipboard.writeText(message());say('copied');}catch{manualCopy();}});
   const navButtons=document.querySelectorAll('[data-pocket-screen]');
   navButtons.forEach(button=>button.addEventListener('click',()=>{if(button.dataset.pocketScreen==='screenLetter')openLetterExperience();else showScreen(button.dataset.pocketScreen);}));
   function nav(id){navButtons.forEach(button=>{if(button.dataset.pocketScreen===id)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});}
