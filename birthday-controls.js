@@ -72,5 +72,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   function syncClock(){clearInterval(clockTimer);if(!document.hidden){update();clockTimer=setInterval(update,1000);}}
   syncClock();document.addEventListener('visibilitychange',syncClock);
   document.addEventListener('victory:screenchange',update);
-  document.getElementById('languageToggle').addEventListener('click',update);
+  document.addEventListener('victory:languagechange',update);
 });
+

@@ -157,7 +157,7 @@
     if(event.detail.id!=='screenUniverse' && arranging)setArranging(false);
     paintPlanets(); paintResume();
   });
-  document.getElementById('languageToggle').addEventListener('click',()=>{
+  document.addEventListener('victory:languagechange',()=>{
     arrangeButton.textContent=arranging?text('Done arranging','Готово'):text('Move planets','Двигать планеты');
     hint.textContent=text('Drag a planet anywhere in the sky. Or tap two planets to swap them.','Перетащи планету в любое место. Или нажми на две планеты, чтобы поменять их местами.');paintMotion();paintPlanets();
   });
@@ -167,3 +167,4 @@
   applyLanguage(currentLanguage,false);
   paintPlanets();paintResume();paintMotion();updateUniverseProgress('screenIntro');
 })();
+

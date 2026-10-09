@@ -1,6 +1,11 @@
 /* Complete English ↔ Russian reading layer for Victory's Universe. */
 const RU_TRANSLATIONS = new Map();
-const addRu = (english, russian) => RU_TRANSLATIONS.set(String(english).replace(/—/g,'; ').replace(/\s+/g,' ').trim(), russian);
+const addRu = (english, russian) => {
+  const key=String(english).replace(/\s+/g,' ').trim();
+  RU_TRANSLATIONS.set(key,russian);
+  RU_TRANSLATIONS.set(key.replace(/—/g,'; ').replace(/\s+/g,' ').trim(),russian);
+};
+const languageToggle = document.getElementById('languageToggle');
 
 [
   ['For Victory — Happy Birthday','Для Виктори — С днём рождения'],
@@ -275,15 +280,18 @@ function translateTextNode(node) {
   const parent=node.parentElement;
   if (!parent || parent.closest('script,style,.leaflet-control-attribution')) return;
   if (currentLanguage==='en') {
-    if (node.__victoryEnglish) node.nodeValue=node.__victoryEnglish;
+    if (node.__victoryEnglish && node.nodeValue===node.__victoryRussian) node.nodeValue=node.__victoryEnglish;
     return;
   }
   const normalized=normalizeLanguageText(node.nodeValue);
   if (RU_VALUES.has(normalized)) return;
   const translated=RU_TRANSLATIONS.get(normalized);
   if (!translated) return;
+  const replacement=preserveNodeSpacing(node.nodeValue,translated);
+  if(replacement===node.nodeValue)return;
   node.__victoryEnglish=node.nodeValue;
-  node.nodeValue=preserveNodeSpacing(node.nodeValue,translated);
+  node.__victoryRussian=replacement;
+  node.nodeValue=replacement;
 }
 
 function walkLanguage(root=document.body) {
@@ -326,9 +334,10 @@ function refreshLanguageDependentContent() {
   });
   if(letterCard.classList.contains('opening')){skipTyping=true;skipTypingBtn.hidden=true;}
   updateBucketProgress();
-  if(journeyMapInstance){journeyMapInstance.remove();journeyMapInstance=null;document.getElementById('journeyMap').innerHTML='';ensureJourneyMap();}
-  if(dreamMapInstance){dreamMapInstance.remove();dreamMapInstance=null;document.getElementById('dreamMap').innerHTML='';ensureDreamMap();}
-  loadBothSkies(currentSkyPlace);
+  // Update existing pins in place so language changes preserve the map and zoom.
+  [journeyMapInstance,dreamMapInstance].forEach(map=>map?.eachLayer(layer=>{
+    if(layer.victoryPlace){const place=layer.victoryPlace;layer.setPopupContent(`<strong>${mapLanguageCopy(place.label)}</strong><br>${mapLanguageCopy(place.note)}`);}
+  }));
   const isExact=currentSkyPlace.label==='your current sky';
   const km=Math.round(haversineKm(ASABA,currentSkyPlace)).toLocaleString();
   distanceValue.textContent=km+(currentLanguage==='ru'?' км':' km');
@@ -349,15 +358,18 @@ function applyLanguage(language,persist=true) {
   if(persist){try{localStorage.setItem('victory-language',currentLanguage);}catch(err){}}
   languageObserver=new MutationObserver(mutations=>{
     if(currentLanguage!=='ru')return;
-    mutations.forEach(mutation=>{
+    // Do not observe our own translations; they otherwise queue more work.
+    languageObserver.disconnect();
+    try{mutations.forEach(mutation=>{
       if(mutation.type==='characterData')translateTextNode(mutation.target);
       mutation.addedNodes.forEach(added=>{
         if(added.nodeType===Node.TEXT_NODE)translateTextNode(added);
         else if(added.nodeType===Node.ELEMENT_NODE)walkLanguage(added);
       });
-    });
+    });}finally{languageObserver.observe(document.body,{subtree:true,childList:true,characterData:true});}
   });
   languageObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
+  document.dispatchEvent(new CustomEvent('victory:languagechange'));
 }
 
 languageToggle.addEventListener('click',()=>applyLanguage(currentLanguage==='en'?'ru':'en'));
@@ -649,9 +661,14 @@ RU_TRANSLATIONS.forEach(value=>RU_VALUES.add(normalizeLanguageText(value)));
 /* Birthday newspaper reference, version 22. */
 [["The Birthday Post", "Именинная газета"], ["Yekaterinburg, Russia", "Екатеринбург, Россия"], ["13 October 2026 · No. 20", "13 октября 2026 · № 20"], ["Happy Birthday", "С днём рождения"], ["To you, Amarachi", "Для тебя, Амарачи"], ["On this day, a very special person was born.", "В этот день родился очень особенный человек."], ["I’m really glad our paths crossed. I liked how caring you were before I even knew you properly, and getting to know you gave me so much more to like: your jokes, your accent, and the way even an ordinary call can leave me smiling.", "Я очень рад, что наши пути пересеклись. Твоя заботливость понравилась мне ещё до того, как я узнал тебя по-настоящему. А потом я полюбил ещё больше: твои шутки, твой акцент и то, как даже обычный звонок с тобой оставляет улыбку на моём лице."], ["You’re nice (ish), you’re funny, and you’ve made me say “I love you” enough times to last a lifetime. I don suffer for your hands sha 🤣😭", "Ты добрая (почти), ты смешная и заставила меня сказать «я тебя люблю» столько раз, что хватит на всю жизнь. Я от тебя натерпелся 🤣😭"], ["Your", "Твой"], ["Birthday ♥", "День рождения ♥"], ["Twenty looks good on you, amarachiii. You’ve personally come a long way, and I hope you’re proud of yourself. I see how determined you are, even with a new country, a new language, and admission still ahead of you.", "Двадцать тебе к лицу, амарачиии. Ты прошла большой путь, и я надеюсь, что ты гордишься собой. Я вижу твою целеустремлённость, несмотря на новую страну, новый язык и поступление, которое ещё впереди."], ["I hope this year brings the admission you want, your first white coat, peace, good health, and people who make you feel at home. I’m rooting for you through all of it.", "Надеюсь, этот год принесёт тебе долгожданное поступление, первый белый халат, спокойствие, крепкое здоровье и людей, с которыми ты чувствуешь себя как дома. Я поддерживаю тебя во всём этом."], ["Your cake. Your wish. Your day.", "Твой торт. Твоё желание. Твой день."], ["Happy 20th birthday", "С двадцатилетием"], ["With love, Favour", "С любовью, Фавор"]].forEach(([en,ru])=>addRu(en,ru));
 RU_ATTRIBUTE_TRANSLATIONS.set('A red velvet birthday cake with silver 20 candles, printed in black and white','Торт «Красный бархат» с серебряными свечами 20, чёрно-белая фотография');
-applyLanguage(currentLanguage,false);
 
 RU_ATTRIBUTE_TRANSLATIONS.set('Hold for a little secret','Удерживай, чтобы открыть маленький секрет');
 RU_ATTRIBUTE_TRANSLATIONS.set('Birthday countdown','Отсчёт до дня рождения');
 
 [['Favour presents','Фавор представляет'],['For Amarachi','Для Амарачи'],['at twenty.','в двадцать.'],['Skip opening','Пропустить вступление'],['Replay opening','Посмотреть вступление ещё раз']].forEach(([en,ru])=>addRu(en,ru));
+
+// Complete the dictionary before translating or subscribing to DOM changes.
+RU_VALUES.clear();
+RU_TRANSLATIONS.forEach(value=>RU_VALUES.add(normalizeLanguageText(value)));
+applyLanguage(currentLanguage,false);
+

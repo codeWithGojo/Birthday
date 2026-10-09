@@ -18,7 +18,7 @@
     document.getElementById('replayOpening').textContent=ru()?'Ещё раз задуть свечи':'Blow out the candles again';
     cake.setAttribute('aria-label',ru()?(blown?'Торт «Красный бархат» с погасшими серебряными свечами':'Торт «Красный бархат» с двумя горящими серебряными свечами'):(blown?'A red velvet birthday cake with extinguished silver candles':'A red velvet birthday cake with two lit silver candles'));say(state);
   }
-  function stopMic(){token++;cancelAnimationFrame(frame);frame=0;if(stream&&!borrowed)stream.getTracks().forEach(track=>track.stop());stream=null;borrowed=false;if(context){context.close().catch(()=>{});context=null;}meter.hidden=true;mic.disabled=false;}
+  function stopMic(){token++;cancelAnimationFrame(frame);frame=0;if(stream&&!borrowed)stream.getTracks().forEach(track=>track.stop());stream=null;borrowed=false;if(context){context.close().catch(()=>{});context=null;}meter.hidden=true;mic.disabled=false;window.resumeBirthdayMusicAfterMic?.();}
   function extinguish(){if(blown)return;blown=true;stopMic();cake.classList.add('blown');mic.hidden=tap.hidden=true;enter.hidden=false;document.getElementById('cakeMicNote').hidden=true;paint();say('blown');birthdayHaptic([45,30,75]);enter.focus();}
   function finish(){if(!playing)return;stopMic();playing=false;intro.classList.add('done');intro.removeAttribute('aria-modal');surfaces.forEach(surface=>surface.inert=false);document.body.classList.remove('intro-playing');try{sessionStorage.setItem(seenKey,'yes');}catch{}showScreen('screenUniverse');}
   function play(){stopMic();playing=true;blown=false;state='ready';cake.classList.remove('blown');mic.hidden=tap.hidden=false;enter.hidden=true;document.getElementById('cakeMicNote').hidden=false;intro.classList.remove('done');intro.setAttribute('aria-modal','true');surfaces.forEach(surface=>surface.inert=true);document.body.classList.add('intro-playing');intro.scrollTop=0;paint();mic.focus({preventScroll:true});}
@@ -26,22 +26,29 @@
     if(blown||!playing)return;
     stopMic();if(!window.isSecureContext){say('secure');return;}if(!navigator.mediaDevices?.getUserMedia||!(window.AudioContext||window.webkitAudioContext)){say('unavailable');return;}
     mic.disabled=true;say('asking');const request=token;
+    window.pauseBirthdayMusicForMic?.();
     try{
+      const audioContext=new (window.AudioContext||window.webkitAudioContext)();context=audioContext;
+      // Resume during the tap, before the permission prompt, for iPhone Safari.
+      await audioContext.resume();
+      if(request!==token||!playing||blown||document.hidden)return;
       const reactionStream=window.getVictoryReactionStream?.();
       const useReaction=!!reactionStream?.getAudioTracks().some(track=>track.readyState==='live');
-      const granted=useReaction?new MediaStream(reactionStream.getAudioTracks()):await navigator.mediaDevices.getUserMedia({audio:true});
+      const granted=useReaction?new MediaStream(reactionStream.getAudioTracks()):await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
       if(request!==token||!playing||blown||document.hidden){if(!useReaction)granted.getTracks().forEach(track=>track.stop());return;}
       stream=granted;borrowed=useReaction;
-      context=new (window.AudioContext||window.webkitAudioContext)();await context.resume();
-      if(request!==token||!playing||blown||document.hidden){stopMic();return;}
-      const source=context.createMediaStreamSource(stream),analyser=context.createAnalyser();analyser.fftSize=1024;source.connect(analyser);
-      const samples=new Uint8Array(analyser.fftSize);const began=performance.now();let loudSince=0;
+      const source=audioContext.createMediaStreamSource(stream),analyser=audioContext.createAnalyser();analyser.fftSize=1024;source.connect(analyser);
+      const samples=new Uint8Array(analyser.fftSize);const began=performance.now();let baseline=Infinity,breathMs=0,last=began;
       meter.hidden=false;say('listening');
       function listen(now){
         if(!playing||blown)return;
         analyser.getByteTimeDomainData(samples);let sum=0;for(const sample of samples){const value=(sample-128)/128;sum+=value*value;}const volume=Math.sqrt(sum/samples.length);
-        meter.style.setProperty('--mic-level',Math.min(100,volume*650)+'%');
-        if(volume>.065){if(!loudSince)loudSince=now;if(now-loudSince>280){extinguish();return;}}else loudSince=0;
+        const elapsed=Math.min(50,Math.max(0,now-last));last=now;
+        // A short ambient sample makes a soft breath enough without firing on silence.
+        if(now-began<350){baseline=Math.min(baseline,volume);}
+        const threshold=Math.max(.014,(Number.isFinite(baseline)?baseline:0)*1.5+.006);
+        meter.style.setProperty('--mic-level',Math.min(100,volume/threshold*70)+'%');
+        if(now-began>=350){breathMs=volume>threshold?breathMs+elapsed:Math.max(0,breathMs-elapsed*.5);if(breathMs>=140){extinguish();return;}}
         if(now-began>12000){stopMic();say('retry');return;}frame=requestAnimationFrame(listen);
       }
       frame=requestAnimationFrame(listen);
@@ -56,7 +63,8 @@
     }
   });
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&(stream||mic.disabled)){stopMic();if(!blown)say('paused');}});
-  window.addEventListener('pagehide',stopMic);document.getElementById('languageToggle').addEventListener('click',paint);
+  window.addEventListener('pagehide',stopMic);document.addEventListener('victory:languagechange',paint);
   let seen=false;try{seen=sessionStorage.getItem(seenKey)==='yes';}catch{}
   paint();if(seen){intro.classList.add('done');intro.removeAttribute('aria-modal');}else play();
 })();
+
