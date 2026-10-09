@@ -29,13 +29,14 @@
   }
   function sync() {
     cancelAnimationFrame(frame);
-    if (!motion.matches && !document.hidden && document.body.dataset.motion !== 'paused') frame=requestAnimationFrame(animate);
+    if (!motion.matches && !document.hidden && !document.body.classList.contains('reader-mode') && !document.body.classList.contains('intro-playing') && document.body.dataset.motion !== 'paused') frame=requestAnimationFrame(animate);
     else draw(0);
   }
-  addEventListener('resize',resize,{passive:true});
+  let resizeFrame=0;
+  addEventListener('resize',()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(resize);},{passive:true});
   document.addEventListener('visibilitychange',sync);
   document.addEventListener('victory:motionchange',sync);
   motion.addEventListener('change',sync);
-  new MutationObserver(()=>draw(last)).observe(document.body,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['class']});
   resize();sync();
 })();

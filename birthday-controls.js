@@ -46,8 +46,10 @@ window.birthdayCountdownState = function(now=Date.now()) {
 document.addEventListener('DOMContentLoaded',()=>{
   const clocks=[...document.querySelectorAll('[data-birthday-countdown]')];
   function update(){
+    if(document.hidden)return;
     const state=birthdayCountdownState(); const ru=document.documentElement.lang==='ru';
     clocks.forEach(clock=>{
+      if(!clock.closest('.screen').classList.contains('active'))return;
       clock.dataset.phase=state.phase;
       clock.querySelector('[data-countdown-title]').textContent=state.phase==='waiting'?(ru?'До твоих двадцати':'Until your twentieth'):state.phase==='birthday'?(ru?'С днём рождения, Амарачи.':'Happy birthday, Amarachi.'):(ru?'Твои двадцать. Твоя вселенная.':'Your twentieth. Your universe.');
       clock.querySelector('[data-countdown-timezone]').textContent=ru?'13 октября · время России (UTC+5)':'13 October · Russia time (UTC+5)';
@@ -56,6 +58,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       clock.querySelector('.countdown-numbers').hidden=state.phase!=='waiting';
     });
   }
-  update();setInterval(update,1000);document.addEventListener('visibilitychange',update);
+  let clockTimer=0;
+  function syncClock(){clearInterval(clockTimer);if(!document.hidden){update();clockTimer=setInterval(update,1000);}}
+  syncClock();document.addEventListener('visibilitychange',syncClock);
+  document.addEventListener('victory:screenchange',update);
   document.getElementById('languageToggle').addEventListener('click',update);
 });

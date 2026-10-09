@@ -31,6 +31,7 @@
     jobs.push(setTimeout(finish,3850));
   }
   skip.addEventListener('click',finish);replay.addEventListener('click',play);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing)finish();});
   intro.addEventListener('keydown',event=>{
     if(event.key==='Escape'){event.preventDefault();finish();}
     if(event.key==='Tab'){event.preventDefault();skip.focus();}

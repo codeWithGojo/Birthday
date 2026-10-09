@@ -241,6 +241,24 @@ body[data-arranging="true"] .orbital-slot.is-dragging .planet { cursor:grabbing;
 body[data-motion="paused"] .planet-float,body[data-motion="paused"] .celestial-orbit,
 body[data-motion="paused"] #screenIntro .hero-photo-ring { animation-play-state:paused!important; }
 body[data-motion="paused"] .name-meteor { display:none!important; }
+/* Keep the silver setting calm when reading or when the page is in the background. */
+body[data-page-hidden="true"] *,body[data-motion="paused"] .credits-roll {
+  animation-play-state:paused!important;
+}
+.story-media img,.story-media video { max-width:100%; }
+.screen .feature-copy,.screen .substory-copy,.screen .panel-copy { text-wrap:pretty; }
+.edition-nav button:focus-visible,.screen button:focus-visible,.screen a:focus-visible,
+.birthday-fold summary:focus-visible { outline:2px solid var(--silver-deep);outline-offset:4px; }
+.birthday-fold summary { min-height:44px;display:flex;align-items:center; }
+.planet.chapter-link,.open-btn,.tool-pill,.theme-btn,.sp-btn { -webkit-tap-highlight-color:transparent; }
+body:not(.space-mode):not(.landing-mode) .name-meteor,
+body.reader-mode .name-meteor { visibility:hidden; }
+@media(min-width:641px) {
+  .edition-nav { grid-template-columns:80px minmax(0,1fr) auto 80px 106px;gap:16px; }
+  .edition-nav #editionIndex { grid-column:3;grid-row:1;justify-self:end; }
+  .edition-nav .experience-tools { grid-column:4;grid-row:1;justify-self:end; }
+  .edition-nav .controls { grid-column:5;grid-row:1; }
+}
 .orbit-outer { animation:outerOrbit 100s linear infinite; }
 .orbit-inner { animation:innerOrbit 130s linear infinite; }
 @keyframes orbitalFloat { 0%,100% { transform:translate(0,-5px); } 25% { transform:translate(5px,0); } 50% { transform:translate(0,5px); } 75% { transform:translate(-5px,0); } }

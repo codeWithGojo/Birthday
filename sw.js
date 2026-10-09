@@ -1,29 +1,24 @@
-const CACHE_NAME = 'victory-twenty-v17';
+const CACHE_NAME = 'victory-twenty-v18';
 const CORE_FILES = [
   './',
   './index.html',
-  './birthday-editorial.css?v=17',
-  './birthday-universe.css?v=17',
-  './universe-sky.js?v=17',
-  './universe-interactions.js?v=17',
-  './birthday-controls.js?v=17',
-  './birthday-opening.js?v=17',
-  './birthday-opening.css?v=17',
-  './translations-ru.js?v=17',
+  './birthday-editorial.css?v=18',
+  './birthday-universe.css?v=18',
+  './universe-sky.js?v=18',
+  './universe-interactions.js?v=18',
+  './birthday-controls.js?v=18',
+  './birthday-opening.js?v=18',
+  './birthday-opening.css?v=18',
+  './translations-ru.js?v=18',
   './assets/victory-qr.svg',
   './assets/victory-gift-card.png',
   './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
-  './victory.jpg',
-  './assets/media/victory-vhs.jpg',
-  './assets/media/victory-closeup.jpg',
-  './assets/media/victory-cat-faces.jpg',
-  './assets/media/victory-green-filter.jpg',
-  './assets/media/victory-silly-face.jpg',
-  './assets/favour-handwriting.jpeg',
-  './letter-to-victory.pdf'
+  './victory.webp',
+  './assets/media/victory-vhs.webp',
+  './assets/media/victory-cat-faces.webp',
 ];
 
 self.addEventListener('install', event => {
@@ -37,7 +32,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(keys => Promise.all(keys.filter(key => key.startsWith('victory-twenty-') && key !== CACHE_NAME).map(key => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
@@ -52,6 +47,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       fetch(event.request)
         .then(response => {
+          if(!response.ok)return response;
           const copy = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
           return response;
