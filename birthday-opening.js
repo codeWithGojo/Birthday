@@ -3,7 +3,7 @@
   const intro=document.getElementById('netflix-intro');
   const replay=document.getElementById('replayOpening');
   const skip=intro.querySelector('.intro-skip');
-  const surfaces=[document.querySelector('.edition-nav'),document.querySelector('.main-wrap')];
+  const surfaces=[document.querySelector('.edition-nav'),document.querySelector('.main-wrap'),document.querySelector('.pocket-nav')];
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const seenKey='victory-intro-seen-v17';
   let jobs=[], playing=false, returnFocus=null, startTime=0, counter=0;

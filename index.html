@@ -1533,7 +1533,7 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=18" rel="stylesheet"/><link href="birthday-universe.css?v=18" rel="stylesheet"/><link href="birthday-opening.css?v=18" rel="stylesheet"/></head>
+<link href="birthday-editorial.css?v=19" rel="stylesheet"/><link href="birthday-universe.css?v=19" rel="stylesheet"/><link href="birthday-opening.css?v=19" rel="stylesheet"/><link href="birthday-phone.css?v=19" rel="stylesheet"/></head>
 <body class="landing-mode" data-active-screen="screenIntro"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
@@ -1602,13 +1602,13 @@
 <div class="hero-photo-frame" id="photoFrame">
 <img alt="Victory" decoding="async" fetchpriority="high" src="victory.webp" width="506" height="900"/>
 </div>
-<div class="hero-tap-hint" hidden="">tap me</div>
+<div class="portrait-caption"><span>AMARACHI<br/>13 OCTOBER, 2026</span><strong>20</strong></div><div class="hero-tap-hint" hidden="">tap me</div>
 </div>
 <div class="opening-copy">
 <p class="made-something">I made you something.</p>
 <h1 class="hero-title"><span class="birthday-copy">Happy birthday,</span><br/><span class="victory-glow">Victory.</span></h1>
 <p class="hero-subtitle">You mean a lot to me, Amarachi. There are photos here I still laugh at, things I wanted to say, and a letter with your name on it.</p>
-<button class="open-btn" id="openBtn">Step into your universe</button><section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section>
+<button class="open-btn" id="openBtn">Step into your universe</button><button class="reaction-invite" data-open-reaction type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="12" height="12" rx="3"/><path d="m15 10 6-3v10l-6-3"/></svg><span data-reaction-en="Want to show me your reaction?" data-reaction-ru="Хочешь показать мне свою реакцию?">Want to show me your reaction?</span></button><section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section>
 <button aria-controls="giftPass" aria-haspopup="dialog" class="gift-pass-btn" id="giftPassOpen" type="button"><img alt="" height="40" src="assets/victory-qr.svg" width="40"/>Your birthday QR card</button><button class="replay-opening" id="replayOpening" type="button">Replay opening</button>
 </div>
 <div class="opening-footnote"><span>FROM FAVOUR, IN ASABA</span><span>FOR VICTORY, WHEREVER YOU ARE</span></div>
@@ -2248,7 +2248,7 @@
 </div>
 </div>
 <div id="yt-player"></div>
-<script src="birthday-controls.js?v=18"></script>
+<script src="birthday-controls.js?v=19"></script>
 <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
@@ -2261,8 +2261,8 @@
     const giftPass = document.getElementById('giftPass');
     const giftPassOpen = document.getElementById('giftPassOpen');
     const giftPassClose = document.getElementById('giftPassClose');
-    function closeGiftPass() { giftPass.hidden = true; document.body.style.overflow = ''; document.querySelectorAll('.edition-nav,.main-wrap').forEach(el=>el.inert=false);giftPassOpen.focus(); }
-    giftPassOpen.addEventListener('click', () => { giftPass.hidden = false; document.body.style.overflow = 'hidden';document.querySelectorAll('.edition-nav,.main-wrap').forEach(el=>el.inert=true);giftPassClose.focus(); });
+    function closeGiftPass() { giftPass.hidden = true; document.body.style.overflow = ''; document.querySelectorAll('.edition-nav,.main-wrap,.pocket-nav').forEach(el=>el.inert=false);giftPassOpen.focus(); }
+    giftPassOpen.addEventListener('click', () => { giftPass.hidden = false; document.body.style.overflow = 'hidden';document.querySelectorAll('.edition-nav,.main-wrap,.pocket-nav').forEach(el=>el.inert=true);giftPassClose.focus(); });
     giftPassClose.addEventListener('click', closeGiftPass);
     giftPass.addEventListener('click', event => { if (event.target === giftPass) closeGiftPass(); });
     giftPass.addEventListener('keydown', event => {
@@ -4078,6 +4078,29 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#nigeriaWeather'))loadBothSkies(currentSkyPlace);if(d.querySelector('#asabaSkyCanvas'))renderTwinSkies();if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=18"></script>
-<script src="universe-sky.js?v=18"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=18"></script><script src="birthday-opening.js?v=18"></script></body>
+<script src="translations-ru.js?v=19"></script>
+<script src="universe-sky.js?v=19"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=19"></script>
+<nav class="pocket-nav" aria-label="Birthday navigation">
+<button data-pocket-screen="screenIntro" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span data-reaction-en="Home" data-reaction-ru="Главная">Home</span></button>
+<button data-pocket-screen="screenUniverse" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-35 12 12)"/><circle cx="12" cy="12" r="6"/><circle cx="20" cy="7" r="1.5"/></svg><span data-reaction-en="Universe" data-reaction-ru="Вселенная">Universe</span></button>
+<button data-pocket-screen="screenLetter" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 6 9 7 9-7"/></svg><span data-reaction-en="Letter" data-reaction-ru="Письмо">Letter</span></button>
+<button id="pocketReaction" data-open-reaction type="button" aria-haspopup="dialog" aria-controls="reactionSheet"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="3"/><path d="m15 10 6-3v10l-6-3"/></svg><span data-reaction-en="For Favour" data-reaction-ru="Фавору">For Favour</span></button>
+</nav>
+<dialog class="reaction-sheet" id="reactionSheet" aria-labelledby="reactionTitle" aria-describedby="reactionPrivacy">
+<button class="reaction-close" id="reactionClose" type="button" aria-label="Close reaction" data-reaction-label data-reaction-en="Close reaction" data-reaction-ru="Закрыть реакцию">×</button>
+<p class="reaction-kicker" data-reaction-en="YOUR SIDE OF THIS BIRTHDAY" data-reaction-ru="ТВОЯ СТОРОНА ЭТОГО ДНЯ РОЖДЕНИЯ">YOUR SIDE OF THIS BIRTHDAY</p>
+<h2 id="reactionTitle" data-reaction-en="I’d love to see your smile." data-reaction-ru="Я бы хотел увидеть твою улыбку.">I’d love to see your smile.</h2>
+<p data-reaction-en="If you feel like it, record your face while you explore. Or leave me a few words. No pressure, Amarachi." data-reaction-ru="Если хочешь, запиши свою реакцию, пока изучаешь подарок. Или напиши несколько слов. Без давления, Амарачи.">If you feel like it, record your face while you explore. Or leave me a few words. No pressure, Amarachi.</p>
+<video id="reactionPreview" controls playsinline preload="metadata" hidden aria-label="Preview your reaction" tabindex="0"></video>
+<div class="reaction-buttons" id="reactionClipActions" hidden><button id="reactionDiscard" type="button" data-reaction-en="Delete this video" data-reaction-ru="Удалить это видео">Delete this video</button><button id="reactionAgain" type="button" data-reaction-en="Record again" data-reaction-ru="Записать заново">Record again</button><button id="reactionDownload" type="button" data-reaction-en="Save video" data-reaction-ru="Сохранить видео">Save video</button></div>
+<div class="reaction-buttons"><button id="reactionStopInSheet" class="reaction-primary" hidden type="button" data-reaction-en="Stop &amp; preview" data-reaction-ru="Стоп и просмотр">Stop &amp; preview</button><button class="reaction-primary" id="reactionRecord" type="button" data-reaction-en="Record my reaction" data-reaction-ru="Записать мою реакцию">Record my reaction</button></div>
+<label class="reaction-upload" for="reactionFile"><span data-reaction-en="Or choose a video" data-reaction-ru="Или выбери видео">Or choose a video</span><input id="reactionFile" type="file" accept="video/*" aria-label="Choose a reaction video"/></label>
+<p class="reaction-small" id="reactionPrivacy" data-reaction-en="Your camera and mic start when you tap Record. You’ll see a preview while exploring. It stops after 5 minutes or when you leave this page." data-reaction-ru="Камера и микрофон включатся после нажатия «Записать». Во время просмотра ты будешь видеть запись. Через 5 минут или при уходе со страницы запись остановится.">Your camera and mic start when you tap Record. You’ll see a preview while exploring. It stops after 5 minutes or when you leave this page.</p>
+<label for="reactionNote" data-reaction-en="A note for Favour" data-reaction-ru="Сообщение Фавору">A note for Favour</label><textarea id="reactionNote" rows="3" maxlength="700"></textarea>
+<div class="reaction-buttons"><button class="reaction-primary" id="reactionShare" type="button" data-reaction-en="Share with Favour" data-reaction-ru="Отправить Фавору">Share with Favour</button><button id="reactionSave" type="button" data-reaction-en="Save note" data-reaction-ru="Сохранить текст">Save note</button><button id="reactionCopy" type="button" data-reaction-en="Copy note" data-reaction-ru="Копировать текст">Copy note</button></div>
+<p class="reaction-small" data-reaction-en="Choose Favour in your phone’s share menu. Nothing sends automatically. Save your video before reloading this page." data-reaction-ru="Выбери Фавора в меню отправки телефона. Ничего не отправляется автоматически. Сохрани видео перед перезагрузкой страницы.">Choose Favour in your phone’s share menu. Nothing sends automatically. Save your video before reloading this page.</p>
+<p id="reactionStatus" role="status" aria-live="polite"></p>
+</dialog>
+<aside class="reaction-live" id="reactionLive" hidden aria-label="Your reaction is recording"><video id="reactionCamera" autoplay muted playsinline></video><span id="reactionTimer" role="timer">00:00</span><button id="reactionStop" type="button" data-reaction-en="Stop & preview" data-reaction-ru="Стоп и просмотр">Stop &amp; preview</button></aside>
+<script src="birthday-opening.js?v=19"></script><script src="birthday-reaction.js?v=19"></script></body>
 </html>
