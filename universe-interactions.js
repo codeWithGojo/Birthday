@@ -15,6 +15,9 @@
   let arranging = false, picked = null, drag = null, suppressClickUntil = 0;
   let paused = read(motionKey, false) === true;
   let order = read(orderKey, planets);
+  const positionKey='victory-orbit-positions-v1';
+  let positions=read(positionKey,{});
+  if(!positions||typeof positions!=='object'||Array.isArray(positions))positions={};
   if (!Array.isArray(order) || order.length !== planets.length || new Set(order).size !== planets.length || order.some(id => !planets.includes(id))) order = [...planets];
   function read(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
   function write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } }
@@ -31,6 +34,8 @@
   function paintPlanets() {
     slots.forEach(slot => {
       slot.dataset.slot = String(order.indexOf(slot.dataset.planet) + 1);
+      const pos=positions[slot.dataset.planet];
+      if(pos&&Number.isFinite(pos.x)&&Number.isFinite(pos.y)){const bounds=field.getBoundingClientRect(),rect=slot.getBoundingClientRect();const padX=Math.min(.49,(rect.width/2+4)/Math.max(1,bounds.width)),padY=Math.min(.49,(rect.height/2+4)/Math.max(1,bounds.height));slot.style.setProperty('--slot-x',Math.max(padX,Math.min(1-padX,pos.x))*100+'%');slot.style.setProperty('--slot-y',Math.max(padY,Math.min(1-padY,pos.y))*100+'%');}else{slot.style.removeProperty('--slot-x');slot.style.removeProperty('--slot-y');}
       slot.classList.toggle('is-picked', slot === picked);
       const button = slot.querySelector('button');
       const visited = exploredScreens.has(slot.dataset.planet);
@@ -51,6 +56,7 @@
   }
   function swap(a, b) {
     if (a === b) return;
+    const ap=positions[a.dataset.planet],bp=positions[b.dataset.planet];delete positions[a.dataset.planet];delete positions[b.dataset.planet];if(bp)positions[a.dataset.planet]=bp;if(ap)positions[b.dataset.planet]=ap;write(positionKey,positions);
     const ai = order.indexOf(a.dataset.planet), bi = order.indexOf(b.dataset.planet);
     [order[ai], order[bi]] = [order[bi], order[ai]];
     const saved=write(orderKey, order); picked = null; paintPlanets();
@@ -65,7 +71,7 @@
   }
   arrangeButton.addEventListener('click', () => setArranging(!arranging));
   motionButton.addEventListener('click', () => { paused = !paused; write(motionKey, paused); paintMotion(); });
-  resetButton.addEventListener('click', () => { cancelDrag(); order = [...planets]; picked = null; write(orderKey, order); paintPlanets(); announce('Everyone back in their orbit.','Все вернулись на свои орбиты.'); });
+  resetButton.addEventListener('click', () => { cancelDrag(); positions={};write(positionKey,positions);order = [...planets]; picked = null; write(orderKey, order); paintPlanets(); announce('Everyone back in their orbit.','Все вернулись на свои орбиты.'); });
   slots.forEach(slot => {
     const button = slot.querySelector('button');
     button.addEventListener('click', event => {
@@ -90,23 +96,21 @@
       const bounds = field.getBoundingClientRect();
       const x = Math.max(bounds.left+drag.width/2+4,Math.min(bounds.right-drag.width/2-4,drag.cx+dx));
       const y = Math.max(bounds.top+drag.height/2+4,Math.min(bounds.bottom-drag.height/2-4,drag.cy+dy));
+      drag.finalX=x;drag.finalY=y;
       slot.style.setProperty('--drag-x',`${x-drag.cx}px`); slot.style.setProperty('--drag-y',`${y-drag.cy}px`);
       event.preventDefault();
     });
     button.addEventListener('pointerup', event => {
       if (!drag || drag.slot !== slot || drag.pointer !== event.pointerId) return;
       const moved = drag.moved;
-      const destination = slots.reduce((best,other) => {
-        if (other === slot) return best;
-        const rect = other.getBoundingClientRect();
-        const distance = Math.hypot(event.clientX-(rect.x+rect.width/2),event.clientY-(rect.y+rect.height/2));
-        return !best || distance<best.distance ? { slot:other,distance } : best;
-      },null);
+      const placement=drag.moved?{x:drag.finalX,y:drag.finalY}:null;
       cancelDrag();
-      if (moved) {
-        suppressClickUntil = performance.now()+500;
-        if (destination && destination.distance<130) swap(slot,destination.slot);
-        else announce('Drop onto another planet to swap places.','Перетащи на другую планету, чтобы поменять их местами.');
+      if(moved&&placement){
+        suppressClickUntil=performance.now()+500;
+        const bounds=field.getBoundingClientRect();
+        positions[slot.dataset.planet]={x:(placement.x-bounds.left)/bounds.width,y:(placement.y-bounds.top)/bounds.height};
+        const saved=write(positionKey,positions);picked=null;paintPlanets();
+        announce(saved?'Right there. Your layout is saved.':'Right there, for this visit.','Твоя планета на новом месте.');
       }
     });
     button.addEventListener('pointercancel',cancelDrag);
@@ -155,9 +159,10 @@
   });
   document.getElementById('languageToggle').addEventListener('click',()=>{
     arrangeButton.textContent=arranging?text('Done arranging','Готово'):text('Move planets','Двигать планеты');
-    paintMotion();paintPlanets();
+    hint.textContent=text('Drag a planet anywhere in the sky. Or tap two planets to swap them.','Перетащи планету в любое место. Или нажми на две планеты, чтобы поменять их местами.');paintMotion();paintPlanets();
   });
   media.addEventListener('change',paintMotion);
+  window.addEventListener('resize',()=>{cancelDrag();paintPlanets();},{passive:true});
   addEventListener('resize',cancelDrag,{passive:true});
   applyLanguage(currentLanguage,false);
   paintPlanets();paintResume();paintMotion();updateUniverseProgress('screenIntro');

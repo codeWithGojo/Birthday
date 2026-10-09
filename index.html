@@ -1533,7 +1533,7 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=22" rel="stylesheet"/><link href="birthday-universe.css?v=22" rel="stylesheet"/><link href="birthday-opening.css?v=22" rel="stylesheet"/><link href="birthday-phone.css?v=22" rel="stylesheet"/><link href="birthday-newspaper.css?v=22" rel="stylesheet"/></head>
+<link href="birthday-editorial.css?v=23" rel="stylesheet"/><link href="birthday-universe.css?v=23" rel="stylesheet"/><link href="birthday-opening.css?v=23" rel="stylesheet"/><link href="birthday-phone.css?v=23" rel="stylesheet"/><link href="birthday-newspaper.css?v=23" rel="stylesheet"/></head>
 <body class="landing-mode" data-active-screen="screenIntro"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
@@ -1617,7 +1617,7 @@
 <p class="time-greeting" id="timeGreeting"><span>Good day, Victory.</span> Your universe has been waiting.</p>
 <p class="universe-subtitle">Start anywhere. I’d probably start with the letter.</p>
 <p class="drag-hint">Tap a planet to explore.</p>
-<section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section><div aria-label="Universe controls" class="orbit-tools"><button aria-pressed="false" id="arrangeToggle" type="button">Move planets</button><button aria-pressed="false" id="motionToggle" type="button">Pause motion</button><button hidden="" id="resetPlanets" type="button">Reset positions</button></div><p class="arrange-hint" hidden="" id="arrangeHint" role="status">Drag one planet onto another to swap places. You can also tap two planets.</p><div class="universe-map-scene" id="universeMapScene">
+<section class="birthday-countdown" data-birthday-countdown aria-label="Birthday countdown"><div class="countdown-heading"><p data-countdown-title>Until your twentieth</p><small data-countdown-timezone>13 October · Russia time (UTC+5)</small></div><div class="countdown-numbers"><div><strong data-count="days">00</strong><span data-label="days">days</span></div><div><strong data-count="hours">00</strong><span data-label="hours">hours</span></div><div><strong data-count="minutes">00</strong><span data-label="minutes">minutes</span></div><div><strong data-count="seconds">00</strong><span data-label="seconds">seconds</span></div></div></section><div aria-label="Universe controls" class="orbit-tools"><button aria-pressed="false" id="arrangeToggle" type="button">Move planets</button><button aria-pressed="false" id="motionToggle" type="button">Pause motion</button><button hidden="" id="resetPlanets" type="button">Reset positions</button></div><p class="arrange-hint" hidden="" id="arrangeHint" role="status">Drag a planet anywhere in the sky. Or tap two planets to swap them.</p><div class="universe-map-scene" id="universeMapScene">
 <div aria-hidden="true" class="aurora-layer"><i class="aurora-ribbon one"></i><i class="aurora-ribbon two"></i></div>
 <canvas aria-hidden="true" class="sky-canvas" id="skyCanvas"></canvas>
 <div aria-hidden="true" class="map-stars" id="mapStars"></div>
@@ -2093,7 +2093,7 @@
 <span class="panel-kicker">for when the screen is closed</span>
 <h2 class="panel-title" id="keepLetterTitle">A letter you can keep</h2>
 <p class="panel-copy">The words are yours to read again whenever you want. Save the letter to your phone or print it.</p>
-<a class="final-action-btn primary" download="A-letter-for-Victory.pdf" href="letter-to-victory.pdf?v=22">save my letter</a>
+<a class="final-action-btn primary" download="A-letter-for-Victory.pdf" href="letter-to-victory.pdf?v=23">save my letter</a>
 </section>
 <details class="birthday-fold"><summary>Something for next year</summary><section aria-labelledby="returnTitle" class="final-panel return-capsule">
 <span class="panel-kicker">the universe remembers</span>
@@ -2166,7 +2166,7 @@
 </div>
 </div>
 <div id="yt-player"></div>
-<script src="birthday-controls.js?v=22"></script>
+<script src="birthday-controls.js?v=23"></script>
 <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
@@ -4015,8 +4015,8 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#nigeriaWeather'))loadBothSkies(currentSkyPlace);if(d.querySelector('#asabaSkyCanvas'))renderTwinSkies();if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=22"></script>
-<script src="universe-sky.js?v=22"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=22"></script>
+<script src="translations-ru.js?v=23"></script>
+<script src="universe-sky.js?v=23"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=23"></script>
 <nav class="pocket-nav" aria-label="Birthday navigation">
 <button data-pocket-screen="screenIntro" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span data-reaction-en="Home" data-reaction-ru="Главная">Home</span></button>
 <button data-pocket-screen="screenUniverse" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-35 12 12)"/><circle cx="12" cy="12" r="6"/><circle cx="20" cy="7" r="1.5"/></svg><span data-reaction-en="Universe" data-reaction-ru="Вселенная">Universe</span></button>
@@ -4034,10 +4034,13 @@
 <label class="reaction-upload" for="reactionFile"><span data-reaction-en="Or choose a video" data-reaction-ru="Или выбери видео">Or choose a video</span><input id="reactionFile" type="file" accept="video/*" aria-label="Choose a reaction video"/></label>
 <p class="reaction-small" id="reactionPrivacy" data-reaction-en="Your camera and mic start when you tap Record. You’ll see a preview while exploring. It stops after 5 minutes or when you leave this page." data-reaction-ru="Камера и микрофон включатся после нажатия «Записать». Во время просмотра ты будешь видеть запись. Через 5 минут или при уходе со страницы запись остановится.">Your camera and mic start when you tap Record. You’ll see a preview while exploring. It stops after 5 minutes or when you leave this page.</p>
 <label for="reactionNote" data-reaction-en="A note for Favour" data-reaction-ru="Сообщение Фавору">A note for Favour</label><textarea id="reactionNote" rows="3" maxlength="700"></textarea>
-<div class="bucket-preview" id="reactionBucket" hidden><label for="reactionIncludePicks"><input id="reactionIncludePicks" type="checkbox"/><span data-reaction-en="Include my bucket-list picks" data-reaction-ru="Добавить мой выбор из списка желаний">Include my bucket-list picks</span></label><ul id="reactionPicks"></ul></div><div class="reaction-buttons"><button class="reaction-primary" id="reactionShare" type="button" data-reaction-en="Share with Favour" data-reaction-ru="Отправить Фавору">Share with Favour</button><button id="reactionSave" type="button" data-reaction-en="Save note" data-reaction-ru="Сохранить текст">Save note</button><button id="reactionCopy" type="button" data-reaction-en="Copy note" data-reaction-ru="Копировать текст">Copy note</button></div>
-<p class="reaction-small" data-reaction-en="Choose WhatsApp, then Favour’s chat. Your video, note and selected picks only send when you share. Save your video before reloading this page." data-reaction-ru="Выбери WhatsApp, затем чат Фавора. Видео, текст и выбранные желания отправятся только после твоего действия. Сохрани видео перед перезагрузкой страницы.">Choose WhatsApp, then Favour’s chat. Your video, note and selected picks only send when you share. Save your video before reloading this page.</p>
 <p id="reactionStatus" role="status" aria-live="polite"></p>
+<a class="reaction-secure" id="reactionSecure" hidden href="https://amarachi.world" data-reaction-en="Open the secure site to use the camera" data-reaction-ru="Открыть безопасный сайт для камеры">Open the secure site to use the camera</a>
+<div class="bucket-preview" id="reactionBucket" hidden><label for="reactionIncludePicks"><input id="reactionIncludePicks" type="checkbox"/><span data-reaction-en="Include my bucket-list picks" data-reaction-ru="Добавить мой выбор из списка желаний">Include my bucket-list picks</span></label><ul id="reactionPicks"></ul></div><div class="reaction-buttons"><button class="reaction-primary" id="reactionShare" type="button" data-reaction-en="Share with Favour" data-reaction-ru="Отправить Фавору">Share with Favour</button><button id="reactionSave" type="button" data-reaction-en="Save note" data-reaction-ru="Сохранить текст">Save note</button><button id="reactionCopy" type="button" data-reaction-en="Copy note" data-reaction-ru="Копировать текст">Copy note</button></div>
+<a class="reaction-whatsapp" id="reactionWhatsApp" hidden target="_blank" rel="noopener" data-reaction-en="Open WhatsApp with my note" data-reaction-ru="Открыть WhatsApp с сообщением">Open WhatsApp with my note</a>
+<p class="reaction-small" data-reaction-en="Choose WhatsApp, then Favour’s chat. Your video, note and selected picks only send when you share. Save your video before reloading this page." data-reaction-ru="Выбери WhatsApp, затем чат Фавора. Видео, текст и выбранные желания отправятся только после твоего действия. Сохрани видео перед перезагрузкой страницы.">Choose WhatsApp, then Favour’s chat. Your video, note and selected picks only send when you share. Save your video before reloading this page.</p>
+
 </dialog>
 <aside class="reaction-live" id="reactionLive" hidden aria-label="Your reaction is recording"><video id="reactionCamera" autoplay muted playsinline></video><span id="reactionTimer" role="timer">00:00</span><button id="reactionStop" type="button" data-reaction-en="Stop & preview" data-reaction-ru="Стоп и просмотр">Stop &amp; preview</button></aside>
-<script src="birthday-opening.js?v=22"></script><script src="birthday-reaction.js?v=22"></script></body>
+<script src="birthday-opening.js?v=23"></script><script src="birthday-reaction.js?v=23"></script></body>
 </html>

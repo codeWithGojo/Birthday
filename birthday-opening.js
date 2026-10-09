@@ -7,7 +7,7 @@
   const seenKey='victory-cake-opening-v21';
   let playing=false,blown=false,token=0,stream=null,borrowed=false,context=null,frame=0,state='ready';
   const ru=()=>document.documentElement.lang==='ru';
-  const copy={ready:['Make a wish first. I won’t ask what it is.','Сначала загадай желание. Я не буду спрашивать какое.'],asking:['Your phone will ask for microphone access.','Телефон попросит доступ к микрофону.'],listening:['Blow gently towards your mic. The candles are waiting.','Тихонько подуй в микрофон. Свечи ждут.'],retry:['Let’s try again. Or tap below to blow them out.','Давай ещё раз. Или нажми ниже, чтобы погасить свечи.'],unavailable:['The mic isn’t available here. You can still tap to blow them out.','Микрофон недоступен. Ты можешь погасить свечи нажатием.'],paused:['The mic paused when you left. Tap to try again.','Микрофон остановился, когда ты ушла. Нажми, чтобы попробовать ещё раз.'],blown:['Happy twentieth, amarachiii. Your wish is safe with you.','С двадцатилетием, амарачиии. Твоё желание остаётся с тобой.']};
+  const copy={secure:['Open https://amarachi.world to use the mic. You can still tap to blow out the candles here.','Открой https://amarachi.world для микрофона. Здесь можно погасить свечи нажатием.'],ready:['Make a wish first. I won’t ask what it is.','Сначала загадай желание. Я не буду спрашивать какое.'],asking:['Your phone will ask for microphone access.','Телефон попросит доступ к микрофону.'],listening:['Blow gently towards your mic. The candles are waiting.','Тихонько подуй в микрофон. Свечи ждут.'],retry:['Let’s try again. Or tap below to blow them out.','Давай ещё раз. Или нажми ниже, чтобы погасить свечи.'],unavailable:['The mic isn’t available here. You can still tap to blow them out.','Микрофон недоступен. Ты можешь погасить свечи нажатием.'],paused:['The mic paused when you left. Tap to try again.','Микрофон остановился, когда ты ушла. Нажми, чтобы попробовать ещё раз.'],blown:['Happy twentieth, amarachiii. Your wish is safe with you.','С двадцатилетием, амарачиии. Твоё желание остаётся с тобой.']};
   const say=key=>{state=key;status.textContent=copy[key][ru()?1:0];};
   function paint(){
     intro.setAttribute('aria-label',ru()?'Амарачи в двадцать лет':'Amarachi at twenty');
@@ -24,7 +24,7 @@
   function play(){stopMic();playing=true;blown=false;state='ready';cake.classList.remove('blown');mic.hidden=tap.hidden=false;enter.hidden=true;document.getElementById('cakeMicNote').hidden=false;intro.classList.remove('done');intro.setAttribute('aria-modal','true');surfaces.forEach(surface=>surface.inert=true);document.body.classList.add('intro-playing');intro.scrollTop=0;paint();mic.focus({preventScroll:true});}
   mic.addEventListener('click',async()=>{
     if(blown||!playing)return;
-    stopMic();if(!navigator.mediaDevices?.getUserMedia||!(window.AudioContext||window.webkitAudioContext)){say('unavailable');return;}
+    stopMic();if(!window.isSecureContext){say('secure');return;}if(!navigator.mediaDevices?.getUserMedia||!(window.AudioContext||window.webkitAudioContext)){say('unavailable');return;}
     mic.disabled=true;say('asking');const request=token;
     try{
       const reactionStream=window.getVictoryReactionStream?.();

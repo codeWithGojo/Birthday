@@ -50,3 +50,7 @@ Cake update (version 21):
 
 Newspaper reference update (version 22):
 - Rebuilt the birthday newspaper as a monochrome front page: blackletter masthead, location/date rule, birthday headline, script dedication, portrait and personal copy in two columns, black-and-white cake photo, and ruled birthday sign-off. Keeps real text readable and selectable on phones; Russian uses Cyrillic-capable serif fallbacks. Local fonts are bundled with their OFL licenses.
+
+
+### Phone fixes (v23)
+Native touch scrolling over hold controls, slim page scrollbars and concealed sheet scrollbars, unframed room layouts, freely placed planets saved on the device with a reset, visible reaction status, HTTPS camera guidance and an explicit WhatsApp text fallback. Videos still require her to share the file or save and attach it manually.

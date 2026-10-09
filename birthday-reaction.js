@@ -8,6 +8,7 @@
   window.getVictoryReactionStream=()=>stream;
   const LIMIT=5*60*1000, MAX_BYTES=60*1024*1024;
   const messages={
+    secure:['Camera recording needs the secure HTTPS site. Open the link below, or choose a video from your phone.','Для записи нужен безопасный сайт HTTPS. Открой ссылку ниже или выбери видео с телефона.'],
     ready:['Your camera starts only when you choose. Preview everything before sharing.','Камера включится только по твоему желанию. Перед отправкой всё можно посмотреть.'],
     asking:['Your phone will ask for camera and microphone access.','Телефон попросит доступ к камере и микрофону.'],
     unsupported:['Recording is unavailable here. You can choose a video from your phone instead.','Запись здесь недоступна. Можно выбрать видео с телефона.'],
@@ -17,7 +18,7 @@
     saved:['Your note is saved on this phone. Nothing was sent.','Сообщение сохранено на этом телефоне. Ничего не отправлено.'],
     blocked:['This browser couldn’t save the note. You can still share it.','Браузер не смог сохранить сообщение. Его всё ещё можно отправить.'],
     cancelled:['Nothing was shared. Your preview is still here.','Ничего не отправлено. Запись всё ещё здесь.'],
-    shared:['Shared through your chosen app.','Передано через выбранное приложение.'],
+    shared:['Opened your chosen app. Finish sending to Favour there.','Открыто выбранное приложение. Заверши отправку Фавору там.'],
     download:['Save the video below, then attach it in your message to Favour. You can copy your words too.','Сохрани видео ниже и прикрепи его к сообщению Фавору. Текст тоже можно скопировать.'],
     copied:['Copied. Paste it into your message to Favour.','Скопировано. Вставь текст в сообщение Фавору.'],
     select:['Select and copy your words below, then message Favour.','Выдели и скопируй текст ниже, затем отправь Фавору.'],
@@ -27,7 +28,7 @@
     lost:['The camera stopped. Preview your recording below.','Камера остановилась. Посмотри запись ниже.']
   };
   const ru=()=>document.documentElement.lang==='ru';
-  const say=key=>{statusKey=key;$('reactionStatus').textContent=messages[key][ru()?1:0];};
+  const say=key=>{statusKey=key;const status=$('reactionStatus');status.textContent=messages[key][ru()?1:0];if(sheet.open&&key!=='ready')status.scrollIntoView({block:'nearest',behavior:'instant'});};
   function paint(){
     document.querySelectorAll('[data-reaction-en]').forEach(el=>{
       const value=el.dataset[ru()?'reactionRu':'reactionEn'];
@@ -38,9 +39,9 @@
   }
   $('languageToggle').addEventListener('click',paint);paint();say('ready');
   try{note.value=localStorage.getItem('victory-universe-private-reply')||'';}catch{}
-  note.addEventListener('input',()=>{$('victoryReply').value=note.value;});
-  $('victoryReply').addEventListener('input',()=>{note.value=$('victoryReply').value;});
-  function open(trigger){opener=trigger||document.activeElement;paintPicks();if(!sheet.open){sheet.showModal();sheet.scrollTop=0;}}
+  note.addEventListener('input',()=>{$('victoryReply').value=note.value;updateWhatsApp();});
+  $('victoryReply').addEventListener('input',()=>{note.value=$('victoryReply').value;updateWhatsApp();});
+  function open(trigger){$('reactionSecure').hidden=window.isSecureContext;updateWhatsApp();opener=trigger||document.activeElement;paintPicks();if(!sheet.open){sheet.showModal();sheet.scrollTop=0;}}
   function close(){requestToken++;requesting=false;start.disabled=false;sheet.close();opener?.focus({preventScroll:true});}
   document.querySelectorAll('[data-open-reaction]').forEach(button=>button.addEventListener('click',()=>open(button)));
   $('reactionClose').addEventListener('click',close);
@@ -54,6 +55,7 @@
   }
   start.addEventListener('click',async()=>{
     if(requesting||finishing||recorder?.state==='recording')return;
+    if(!window.isSecureContext){say('secure');$('reactionSecure').hidden=false;return;}
     if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){say('unsupported');return;}
     if(clip){say('preview');preview.focus();return;}
     requesting=true;start.disabled=true;say('asking');const token=++requestToken;
@@ -98,7 +100,7 @@
     const list=$('reactionPicks');list.replaceChildren();
     picks.forEach(text=>{const li=document.createElement('li');li.textContent=text;list.appendChild(li);});
   }
-  document.addEventListener('victory:bucketchange',paintPicks);
+  document.addEventListener('victory:bucketchange',()=>{paintPicks();updateWhatsApp();});
   $('bucketShare').addEventListener('click',()=>{
     if(!selectedPicks().length){$('bucketProgress').textContent=ru()?'Сначала выбери что-нибудь.':'Pick something first, then send it to me.';return;}
     $('reactionIncludePicks').checked=true;open($('bucketShare'));
@@ -106,6 +108,8 @@
   const chosenPicks=()=>$('reactionIncludePicks').checked?selectedPicks():[];
   const hasMessage=()=>note.value.trim()||chosenPicks().length;
   const message=()=>`A birthday reply from Victory${note.value.trim()?'\n\n'+note.value.trim():''}${chosenPicks().length?'\n\nMy bucket-list picks:\n'+chosenPicks().map((pick,i)=>`${i+1}. ${pick}`).join('\n'):''}${clip&&visits.length?'\n\nWhile opening: '+visits.map(id=>roomNames[id]||id).join(' → '):''}`;
+  function updateWhatsApp(){const link=$('reactionWhatsApp');link.hidden=!hasMessage();link.href='https://api.whatsapp.com/send?text='+encodeURIComponent(message());}
+  $('reactionIncludePicks').addEventListener('change',updateWhatsApp);
   function manualCopy(){
     let output=$('reactionCopyText');
     if(!output){output=document.createElement('textarea');output.id='reactionCopyText';output.readOnly=true;output.setAttribute('aria-label',ru()?'Сообщение для копирования':'Your message to copy');sheet.append(output);}
@@ -114,13 +118,14 @@
   function file(){return clip instanceof File?clip:new File([clip],`Victory-reaction.${clip.type.includes('mp4')?'mp4':clip.type.includes('quicktime')?'mov':'webm'}`,{type:clip.type||'video/webm'});}
   share.addEventListener('click',async()=>{
     if(!clip&&!hasMessage()){say('empty');return;}
+    updateWhatsApp();
     const payload={title:'A birthday reply from Victory',text:message()};
     try{
       if(clip){const video=file();if(!navigator.share||!navigator.canShare?.({files:[video]})){say('download');return;}payload.files=[video];}
       if(navigator.share){await navigator.share(payload);say('shared');}
       else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(payload.text);say('copied');}
       else{manualCopy();}
-    }catch(error){say(error.name==='AbortError'?'cancelled':'failed');}
+    }catch(error){if(error.name==='AbortError')say('cancelled');else{if(clip)say('download');else manualCopy();}}
   });
   $('reactionDownload').addEventListener('click',()=>{if(!clip)return;const a=document.createElement('a');a.href=url;a.download=file().name;a.click();say('download');});
   $('reactionCopy').addEventListener('click',async()=>{if(!hasMessage()){say('empty');return;}try{await navigator.clipboard.writeText(message());say('copied');}catch{manualCopy();}});
