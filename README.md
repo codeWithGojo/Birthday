@@ -35,7 +35,7 @@ Phone album and reaction update (version 19):
 - Reaction controls and statuses support English and Russian. The version 19 offline shell includes the new stylesheet and script.
 
 Amarachi's personal edit (version 20):
-- The opening is now AMARACHI @ 20 with a silver birthday cake. She may grant mic access and blow, or tap to extinguish the candles, then enter the universe. The mic is used for a short in-browser volume check, with no audio recording/upload by the cake step. The greeting can be replayed.
+- The opening is now AMARACHI @ 20 with a red velvet birthday cake and silver candles. She may grant mic access and blow, or tap to extinguish the candles, then enter the universe. The mic is used for a short in-browser volume check, with no audio recording/upload by the cake step. The greeting can be replayed.
 - An optional reaction can start before the cake; the mic detector reuses the reaction audio track without stopping her recording. Camera recording remains explicit and visible.
 - Replaced the memory-room title with Pics of the celebrant and removed its video and the recreated first conversation. The food/call jokes, first-meeting note, determination description, twenty wishes, doctor joke, Yekaterinburg joke, letter opening and handwriting explanation use Favour's requested wording.
 - Removed the cat comparison, would-you-rather, named-wins panel, extra media in the distance room, story-beginning timeline entry, hypothetical birthday-date panels, and movie/end credits. The banter remains accessible directly.
@@ -43,4 +43,7 @@ Amarachi's personal edit (version 20):
 - Bucket-list checkboxes are picks, not completion claims. They are saved locally; Send my picks to Favour opens a preview with an explicit include-picks checkbox. Picks may be shared with a video/note through the phone's native share menu: select WhatsApp and Favour's chat. There is no automatic notification or server inbox.
 - Touch holds show continuous silver progress, cancel on an early release/movement and work with keyboard/assistive clicks. Haptic API requests run on touch start, completion and release; actual hardware vibration depends on browser/device support and settings. Phone feedback includes a Try a buzz control. Text is immediately readable rather than waiting for an entrance animation.
 - The downloadable letter matches the new emotional opening; the offline cache and asset versions are updated.
-- Cake asset: assets/media/amarachi-cake.webp (115 KB). Created with the built-in image generator and optimized for the site. Prompt: two identical transparent white buttercream cakes with silver 20 candles, matching lit and extinguished states, silver boards/ribbon/pearls, soft studio light and no extra text.
+- Cake asset: assets/media/amarachi-cake.webp. Edited with the built-in image generator and optimized for the site. Prompt: matching transparent red velvet cakes with exposed deep-red sponge and ivory cream-cheese layers, silver boards/ribbon/pearls and silver 20 candles, lit on the left and extinguished on the right. Preserve the original two-cell layout, scale and lighting.
+
+Cake update (version 21):
+- Changed the opening cake to red velvet, retaining its silver decorations and the mic/tap blow-out flow. Updated English/Russian accessible labels and offline cache version.

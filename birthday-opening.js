@@ -4,7 +4,7 @@
   const mic=document.getElementById('cakeMicBtn'),tap=document.getElementById('cakeTapBtn'),enter=document.getElementById('cakeEnterBtn');
   const status=document.getElementById('cakeStatus'),meter=document.getElementById('cakeMicMeter');
   const surfaces=[document.querySelector('.edition-nav'),document.querySelector('.main-wrap'),document.querySelector('.pocket-nav')];
-  const seenKey='victory-cake-opening-v20';
+  const seenKey='victory-cake-opening-v21';
   let playing=false,blown=false,token=0,stream=null,borrowed=false,context=null,frame=0,state='ready';
   const ru=()=>document.documentElement.lang==='ru';
   const copy={ready:['Make a wish first. I won’t ask what it is.','Сначала загадай желание. Я не буду спрашивать какое.'],asking:['Your phone will ask for microphone access.','Телефон попросит доступ к микрофону.'],listening:['Blow gently towards your mic. The candles are waiting.','Тихонько подуй в микрофон. Свечи ждут.'],retry:['Let’s try again. Or tap below to blow them out.','Давай ещё раз. Или нажми ниже, чтобы погасить свечи.'],unavailable:['The mic isn’t available here. You can still tap to blow them out.','Микрофон недоступен. Ты можешь погасить свечи нажатием.'],paused:['The mic paused when you left. Tap to try again.','Микрофон остановился, когда ты ушла. Нажми, чтобы попробовать ещё раз.'],blown:['Happy twentieth, amarachiii. Your wish is safe with you.','С двадцатилетием, амарачиии. Твоё желание остаётся с тобой.']};
@@ -16,7 +16,7 @@
     mic.textContent=ru()?'Включить микрофон и подуть':'Use my mic & blow';tap.textContent=ru()?'Нажать, чтобы погасить свечи':'Tap to blow them out';enter.textContent=ru()?'Войти в свою вселенную ↗':'Enter your universe ↗';
     document.getElementById('cakeMicNote').textContent=ru()?'Микрофон нужен только, чтобы заметить твой выдох. Этот шаг не сохраняет и не отправляет звук.':'The mic is only used to notice your blow. This step doesn’t save or send audio.';
     document.getElementById('replayOpening').textContent=ru()?'Ещё раз задуть свечи':'Blow out the candles again';
-    cake.setAttribute('aria-label',ru()?(blown?'Серебряный торт с погасшими свечами':'Серебряный торт с двумя горящими свечами'):(blown?'A silver birthday cake with extinguished candles':'A silver birthday cake with two lit candles'));say(state);
+    cake.setAttribute('aria-label',ru()?(blown?'Торт «Красный бархат» с погасшими серебряными свечами':'Торт «Красный бархат» с двумя горящими серебряными свечами'):(blown?'A red velvet birthday cake with extinguished silver candles':'A red velvet birthday cake with two lit silver candles'));say(state);
   }
   function stopMic(){token++;cancelAnimationFrame(frame);frame=0;if(stream&&!borrowed)stream.getTracks().forEach(track=>track.stop());stream=null;borrowed=false;if(context){context.close().catch(()=>{});context=null;}meter.hidden=true;mic.disabled=false;}
   function extinguish(){if(blown)return;blown=true;stopMic();cake.classList.add('blown');mic.hidden=tap.hidden=true;enter.hidden=false;document.getElementById('cakeMicNote').hidden=true;paint();say('blown');birthdayHaptic([45,30,75]);enter.focus();}
