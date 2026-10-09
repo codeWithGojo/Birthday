@@ -47,3 +47,6 @@ Amarachi's personal edit (version 20):
 
 Cake update (version 21):
 - Changed the opening cake to red velvet, retaining its silver decorations and the mic/tap blow-out flow. Updated English/Russian accessible labels and offline cache version.
+
+Newspaper reference update (version 22):
+- Rebuilt the birthday newspaper as a monochrome front page: blackletter masthead, location/date rule, birthday headline, script dedication, portrait and personal copy in two columns, black-and-white cake photo, and ruled birthday sign-off. Keeps real text readable and selectable on phones; Russian uses Cyrillic-capable serif fallbacks. Local fonts are bundled with their OFL licenses.

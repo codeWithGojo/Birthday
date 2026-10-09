@@ -1533,7 +1533,7 @@
     }
 
   </style>
-<link href="birthday-editorial.css?v=21" rel="stylesheet"/><link href="birthday-universe.css?v=21" rel="stylesheet"/><link href="birthday-opening.css?v=21" rel="stylesheet"/><link href="birthday-phone.css?v=21" rel="stylesheet"/></head>
+<link href="birthday-editorial.css?v=22" rel="stylesheet"/><link href="birthday-universe.css?v=22" rel="stylesheet"/><link href="birthday-opening.css?v=22" rel="stylesheet"/><link href="birthday-phone.css?v=22" rel="stylesheet"/><link href="birthday-newspaper.css?v=22" rel="stylesheet"/></head>
 <body class="landing-mode" data-active-screen="screenIntro"><canvas aria-hidden="true" id="universeSky"></canvas><header class="edition-nav"><button id="editionHome" type="button">V / 20</button><span>AMARACHI’S UNIVERSE</span><button id="editionIndex" type="button">Universe</button><div aria-label="Experience options" class="experience-tools">
 <button aria-label="Switch between English and Russian" aria-pressed="false" class="tool-pill" id="languageToggle" type="button">EN · RU</button>
 </div><div class="controls">
@@ -2067,28 +2067,33 @@
 </section>
 <section aria-labelledby="newspaperTitle" class="final-panel newspaper">
 <header class="newspaper-masthead">
-<div class="newspaper-date"><span>13 October 2026</span><span>Special birthday edition</span><span>Price: one smile</span></div>
-<h2 class="newspaper-name" id="newspaperTitle">THE VICTORY TIMES</h2>
-<div class="newspaper-tag">All the news worth celebrating</div>
+<h2 class="newspaper-name" id="newspaperTitle">The Birthday Post</h2>
+<div class="newspaper-date"><span>Yekaterinburg, Russia</span><span>13 October 2026 · No. 20</span></div>
 </header>
 <div class="newspaper-body">
-<h3 class="newspaper-headline">Amarachi turns twenty. Very much still herself.</h3>
-<p class="newspaper-deck">The birthday edition reports good photos, ambitious plans and a continuing refusal to make normal faces at the camera.</p>
-<img alt="Victory, the subject of the special birthday edition" class="newspaper-hero" src="victory.webp" width="506" height="900" decoding="async" loading="lazy"/>
-<p class="newspaper-caption">Victory Amarachi. Birthday girl. Future doctor.</p>
-<div class="newspaper-columns"><p>Today’s main story: Victory turns twenty. Since she and Favour met, she has moved to Russia, taken on a new language and kept working towards medicine.</p><p>The birthday desk wishes her good news about admission, some proper rest and plenty of reasons to laugh this year.</p><p>Asked for comment, Favour said: “I’m proud of you. Also, I’m still waiting for an explanation of the bread, Bama and Milo.”</p></div>
-<blockquote class="newspaper-quote">BREAKING: the birthday girl gets the last word.</blockquote>
-<div class="newspaper-briefs">
-<p><strong>International desk</strong>Nigeria and Russia remain four hours apart. Favour continues to object.</p>
-<p><strong>Correction</strong>An earlier report suggested you must have life figured out by twenty. That was nonsense.</p>
+<h3 class="newspaper-headline">Happy Birthday</h3>
+<p class="newspaper-deck">To you, Amarachi</p>
+<div class="newspaper-grid">
+<div class="newspaper-column">
+<figure class="newspaper-portrait"><img alt="Amarachi in her birthday newspaper" class="newspaper-hero" src="victory.webp" width="506" height="900" decoding="async" loading="lazy"/><figcaption class="newspaper-caption">On this day, a very special person was born.</figcaption></figure>
+<p>I’m really glad our paths crossed. I liked how caring you were before I even knew you properly, and getting to know you gave me so much more to like: your jokes, your accent, and the way even an ordinary call can leave me smiling.</p>
+<p>You’re nice (ish), you’re funny, and you’ve made me say “I love you” enough times to last a lifetime. I don suffer for your hands sha 🤣😭</p>
 </div>
+<div class="newspaper-column">
+<h4><span>Your</span><span>Birthday ♥</span></h4>
+<p>Twenty looks good on you, amarachiii. You’ve personally come a long way, and I hope you’re proud of yourself. I see how determined you are, even with a new country, a new language, and admission still ahead of you.</p>
+<p>I hope this year brings the admission you want, your first white coat, peace, good health, and people who make you feel at home. I’m rooting for you through all of it.</p>
+<figure class="newspaper-cake"><div class="newspaper-cake-photo" role="img" aria-label="A red velvet birthday cake with silver 20 candles, printed in black and white"></div><figcaption>Your cake. Your wish. Your day.</figcaption></figure>
+</div>
+</div>
+<footer class="newspaper-footer"><strong>Happy 20th birthday</strong><span>With love, Favour</span></footer>
 </div>
 </section>
 <section aria-labelledby="keepLetterTitle" class="final-panel letter-keep">
 <span class="panel-kicker">for when the screen is closed</span>
 <h2 class="panel-title" id="keepLetterTitle">A letter you can keep</h2>
 <p class="panel-copy">The words are yours to read again whenever you want. Save the letter to your phone or print it.</p>
-<a class="final-action-btn primary" download="A-letter-for-Victory.pdf" href="letter-to-victory.pdf?v=21">save my letter</a>
+<a class="final-action-btn primary" download="A-letter-for-Victory.pdf" href="letter-to-victory.pdf?v=22">save my letter</a>
 </section>
 <details class="birthday-fold"><summary>Something for next year</summary><section aria-labelledby="returnTitle" class="final-panel return-capsule">
 <span class="panel-kicker">the universe remembers</span>
@@ -2161,7 +2166,7 @@
 </div>
 </div>
 <div id="yt-player"></div>
-<script src="birthday-controls.js?v=21"></script>
+<script src="birthday-controls.js?v=22"></script>
 <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
@@ -4010,8 +4015,8 @@
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>b.dataset.next==='screenLetter'?openLetterExperience(b):showScreen(b.dataset.next)));
     document.querySelectorAll('.birthday-fold').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;if(d.querySelector('#nigeriaWeather'))loadBothSkies(currentSkyPlace);if(d.querySelector('#asabaSkyCanvas'))renderTwinSkies();if(d.querySelector('#journeyMap'))ensureJourneyMap();if(d.querySelector('#dreamMap'))ensureDreamMap();setTimeout(()=>{journeyMapInstance?.invalidateSize();dreamMapInstance?.invalidateSize();},100);}));
   </script>
-<script src="translations-ru.js?v=21"></script>
-<script src="universe-sky.js?v=21"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=21"></script>
+<script src="translations-ru.js?v=22"></script>
+<script src="universe-sky.js?v=22"></script><dialog aria-labelledby="starWishTitle" class="star-wish-dialog" id="starWishDialog"><form id="starWishForm"><button aria-label="Close wish" class="wish-close" id="wishClose" type="button">×</button><p class="feature-kicker">A LITTLE SOMETHING FOR YOUR TWENTIETH</p><h2 id="starWishTitle">Make a little wish.</h2><label for="starWishText">One thing you want for this year</label><textarea id="starWishText" maxlength="180" placeholder="It can be big. It can be small." required="" rows="4"></textarea><p class="wish-privacy">Your wish stays on this device. Only you can see it.</p><button class="wish-submit" type="submit">Let it fly</button></form></dialog><script src="universe-interactions.js?v=22"></script>
 <nav class="pocket-nav" aria-label="Birthday navigation">
 <button data-pocket-screen="screenIntro" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span data-reaction-en="Home" data-reaction-ru="Главная">Home</span></button>
 <button data-pocket-screen="screenUniverse" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-35 12 12)"/><circle cx="12" cy="12" r="6"/><circle cx="20" cy="7" r="1.5"/></svg><span data-reaction-en="Universe" data-reaction-ru="Вселенная">Universe</span></button>
@@ -4034,5 +4039,5 @@
 <p id="reactionStatus" role="status" aria-live="polite"></p>
 </dialog>
 <aside class="reaction-live" id="reactionLive" hidden aria-label="Your reaction is recording"><video id="reactionCamera" autoplay muted playsinline></video><span id="reactionTimer" role="timer">00:00</span><button id="reactionStop" type="button" data-reaction-en="Stop & preview" data-reaction-ru="Стоп и просмотр">Stop &amp; preview</button></aside>
-<script src="birthday-opening.js?v=21"></script><script src="birthday-reaction.js?v=21"></script></body>
+<script src="birthday-opening.js?v=22"></script><script src="birthday-reaction.js?v=22"></script></body>
 </html>
