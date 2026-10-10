@@ -54,3 +54,7 @@ Newspaper reference update (version 22):
 
 ### Phone fixes (v23)
 Native touch scrolling over hold controls, slim page scrollbars and concealed sheet scrollbars, unframed room layouts, freely placed planets saved on the device with a reset, visible reaction status, HTTPS camera guidance and an explicit WhatsApp text fallback. Videos still require her to share the file or save and attach it manually.
+
+
+### Newspaper downloads and reading polish (v27)
+The final room has a full-resolution JPG download and image preview in English and Russian. Both exports are 1560 px wide and match the newspaper content. Re-export both images whenever the newspaper text or artwork changes. The preview link provides a Save to Photos route on iPhone. Secondary headings are smaller, narrative line spacing is consistent, and the constellation caption is personal. Canonical and share metadata now use https://amarachi.world/.

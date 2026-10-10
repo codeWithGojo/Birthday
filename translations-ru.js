@@ -670,5 +670,6 @@ RU_ATTRIBUTE_TRANSLATIONS.set('Birthday countdown','Отсчёт до дня р�
 // Complete the dictionary before translating or subscribing to DOM changes.
 RU_VALUES.clear();
 RU_TRANSLATIONS.forEach(value=>RU_VALUES.add(normalizeLanguageText(value)));
+addRu('Amarachi. Twenty. A whole lot ahead.','Амарачи. Двадцать. Ещё столько всего впереди.');
 applyLanguage(currentLanguage,false);
 
