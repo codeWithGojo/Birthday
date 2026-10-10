@@ -1,20 +1,20 @@
-const CACHE_NAME = 'victory-twenty-v25';
+const CACHE_NAME = 'victory-twenty-v26';
 const CORE_FILES = [
   './',
   './index.html',
-  './birthday-editorial.css?v=25',
-  './birthday-universe.css?v=25',
-  './universe-sky.js?v=25',
-  './universe-interactions.js?v=25',
-  './birthday-controls.js?v=25',
-  './birthday-opening.js?v=25',
-  './birthday-opening.css?v=25',
-  './birthday-phone.css?v=25',
-  './birthday-newspaper.css?v=25',
+  './birthday-editorial.css?v=26',
+  './birthday-universe.css?v=26',
+  './universe-sky.js?v=26',
+  './universe-interactions.js?v=26',
+  './birthday-controls.js?v=26',
+  './birthday-opening.js?v=26',
+  './birthday-opening.css?v=26',
+  './birthday-phone.css?v=26',
+  './birthday-newspaper.css?v=26',
   './assets/fonts/birthday-blackletter.woff',
   './assets/fonts/birthday-script.woff',
-  './birthday-reaction.js?v=25',
-  './translations-ru.js?v=25',
+  './birthday-reaction.js?v=26',
+  './translations-ru.js?v=26',
   './assets/victory-qr.svg',
   './assets/victory-gift-card.png',
   './manifest.webmanifest',
@@ -72,4 +72,5 @@ self.addEventListener('fetch', event => {
     }))
   );
 });
+
 
