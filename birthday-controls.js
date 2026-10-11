@@ -75,3 +75,45 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('victory:languagechange',update);
 });
 
+/* Start a room's photos as it opens; recover once from a failed request. */
+(() => {
+  const originals = new WeakMap();
+  const fallbacks = new Map([
+    ['victory.webp', 'victory.jpg'],
+    ...['closeup', 'vhs', 'green-filter', 'silly-face'].map(name => [
+      `assets/media/victory-${name}.webp`, `assets/media/victory-${name}.jpg`
+    ])
+  ]);
+  function photoState(img) {
+    let state = originals.get(img);
+    if (!state) {
+      const path = img.getAttribute('src');
+      if (!fallbacks.has(path)) return null;
+      state = {path, attempts: 0};
+      originals.set(img, state);
+    }
+    return state;
+  }
+  function recover(img) {
+    if (!(img instanceof HTMLImageElement)) return;
+    const state = photoState(img);
+    if (!state || state.attempts >= 2 || !navigator.onLine) return;
+    state.attempts++;
+    img.src = state.attempts === 1
+      ? `${state.path}?photo-retry=1`
+      : fallbacks.get(state.path);
+  }
+  document.addEventListener('error', event => recover(event.target), true);
+  function loadRoomPhotos() {
+    document.querySelectorAll('.screen.active img').forEach(img => {
+      photoState(img);
+      img.loading = 'eager';
+      if (img.complete && !img.naturalWidth) recover(img);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', loadRoomPhotos);
+  document.addEventListener('victory:screenchange', loadRoomPhotos);
+  window.addEventListener('online', loadRoomPhotos);
+  window.addEventListener('pageshow', loadRoomPhotos);
+})();
+

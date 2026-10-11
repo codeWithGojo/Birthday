@@ -58,3 +58,6 @@ Native touch scrolling over hold controls, slim page scrollbars and concealed sh
 
 ### Newspaper downloads and reading polish (v27)
 The final room has a full-resolution JPG download and image preview in English and Russian. Both exports are 1560 px wide and match the newspaper content. Re-export both images whenever the newspaper text or artwork changes. The preview link provides a Save to Photos route on iPhone. Secondary headings are smaller, narrative line spacing is consistent, and the constellation caption is personal. Canonical and share metadata now use https://amarachi.world/.
+
+### Photo loading (v28)
+Room photos start loading when that room opens instead of waiting for lazy-load visibility checks. A failed personal-photo request retries once with a fresh URL, then uses its original JPEG if needed; retries are bounded. The offline shell preloads all five photos used in the universe, and refreshes core files without reusing stale HTTP-cache responses during an update.

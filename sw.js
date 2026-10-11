@@ -1,23 +1,23 @@
-const CACHE_NAME = 'victory-twenty-v27';
+const CACHE_NAME = 'victory-twenty-v28';
 const CORE_FILES = [
   './',
   './index.html',
-  './birthday-editorial.css?v=27',
-  './birthday-universe.css?v=27',
-  './universe-sky.js?v=27',
-  './universe-interactions.js?v=27',
-  './birthday-controls.js?v=27',
-  './birthday-opening.js?v=27',
-  './birthday-opening.css?v=27',
-  './birthday-phone.css?v=27',
-  './birthday-newspaper.css?v=27',
-  './birthday-newspaper.js?v=27',
+  './birthday-editorial.css?v=28',
+  './birthday-universe.css?v=28',
+  './universe-sky.js?v=28',
+  './universe-interactions.js?v=28',
+  './birthday-controls.js?v=28',
+  './birthday-opening.js?v=28',
+  './birthday-opening.css?v=28',
+  './birthday-phone.css?v=28',
+  './birthday-newspaper.css?v=28',
+  './birthday-newspaper.js?v=28',
   './assets/media/amarachi-birthday-post-en.jpg',
   './assets/media/amarachi-birthday-post-ru.jpg',
   './assets/fonts/birthday-blackletter.woff',
   './assets/fonts/birthday-script.woff',
-  './birthday-reaction.js?v=27',
-  './translations-ru.js?v=27',
+  './birthday-reaction.js?v=28',
+  './translations-ru.js?v=28',
   './assets/victory-qr.svg',
   './assets/victory-gift-card.png',
   './manifest.webmanifest',
@@ -27,12 +27,15 @@ const CORE_FILES = [
   './victory.webp',
   './assets/media/amarachi-cake.webp',
   './assets/media/victory-vhs.webp',
+  './assets/media/victory-closeup.webp',
+  './assets/media/victory-green-filter.webp',
+  './assets/media/victory-silly-face.webp',
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => Promise.allSettled(CORE_FILES.map(file => cache.add(file))))
+      .then(cache => Promise.allSettled(CORE_FILES.map(file => cache.add(new Request(file, {cache: 'reload'})))))
       .then(() => self.skipWaiting())
   );
 });
