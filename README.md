@@ -61,3 +61,6 @@ The final room has a full-resolution JPG download and image preview in English a
 
 ### Photo loading (v28)
 Room photos start loading when that room opens instead of waiting for lazy-load visibility checks. A failed personal-photo request retries once with a fresh URL, then uses its original JPEG if needed; retries are bounded. The offline shell preloads all five photos used in the universe, and refreshes core files without reusing stale HTTP-cache responses during an update.
+
+### Portrait favicon (v29)
+A face-focused crop of Amarachi’s existing portrait with a silver ring replaces the detailed icon. Includes a multi-size ICO, 32 px browser icon, 180 px Apple touch icon and 192/512 px app icons. The SVG embeds the photo so it has no external image dependency; versioned links refresh cached icons.
